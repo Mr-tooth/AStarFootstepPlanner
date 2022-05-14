@@ -1,0 +1,12 @@
+{
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "files.associations": {
+        "ios": "cpp",
+        "streambuf": "cpp",
+        "type_traits": "cpp",
+        "xhash": "cpp",
+        "xlocale": "cpp",
+        "xutility": "cpp",
+        "vector": "cpp"
+    }
+}

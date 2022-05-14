@@ -1,0 +1,14 @@
+# - Config file for the Heuclid package
+# It defines the following variables
+#  FOOTSTEPPLANNER_INCLUDE_DIRS - include directory
+#  FOOTSTEPPLANNER_LINK_DIRS    - link library
+
+
+# compute paths
+set(FOOTSTEPPLANNER_INCLUDE_DIRS    "@FootstepPlanner_include_dirs@")  
+set(FOOTSTEPPLANNER_LINK_DIRS       "@FootstepPlanner_link_dirs@"   )
+
+# include paths
+include_directories(${FOOTSTEPPLANNER_INCLUDE_DIRS})
+link_directories(${FOOTSTEPPLANNER_LINK_DIRS})
+message("--[FootstepPlannerLJH]: Package found! Include ${FOOTSTEPPLANNER_INCLUDE_DIRS} and ${FOOTSTEPPLANNER_LINK_DIRS}" )
