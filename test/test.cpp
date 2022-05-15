@@ -1,8 +1,31 @@
 #include <FootstepPlannerLJH\AStarFootstepPlanner.h>
-//#include <FootstepPlannerLJH\parameters.h>
+#include <FootstepPlannerLJH\parameters.h>
 #include <iostream>
 int main()
 {
+    //set parameters!
+    ljh::path::footstep_planner::LatticePoint latticepoint;
+    ljh::path::footstep_planner::parameters param;
+
+    latticepoint.setGridSizeXY(latticepoint,0.01);
+    latticepoint.setYawDivision(latticepoint, 72);
+
+    param.SetEdgeCostDistance(param,4.0);
+    param.SetEdgeCostYaw(param, 4.0);
+    param.SetEdgeCostStaticPerStep(param,1.5);
+    param.SetDebugFlag(param,false);
+    param.SetMaxStepYaw(param,pi/6);
+    param.SetMinStepYaw(param,-pi/6);        
+
+    param.SetFinalTurnProximity(param,0.3);
+    param.SetGoalDistanceProximity(param,0.02);
+    param.SetGoalYawProximity(param,2.0/180.0 * pi);
+
+    std:: cout<< "gridSizeXY is "<<latticepoint.getGridSizeXY(latticepoint)<<std::endl;
+    std:: cout<< "gridSizeYaw is "<<latticepoint.getGridSizeYaw(latticepoint)<<std::endl;
+
+    std:: cout<< "EdgeCost Weight Distance is "<<param.getEdgeCostDistance(param)<<std::endl;
+    std:: cout<< "EdgeCost Weight Yaw is "<<param.getEdgeCostYaw(param)<<std::endl; 
     // define the initial and final pose
 
     // test 1
@@ -28,15 +51,27 @@ int main()
     // double goalZ = 0.0;
     // double goalYaw = 140.0/180.0 * 3.1415926535;
 
+    //test 3
+    // double startX = 0.0;
+    // double startY = 0.0;
+    // double startZ = 0.0;
+    // double startYaw = 45.0/180.0 * 3.1415926535;
+
+    // double goalX = 4;
+    // double goalY = -2.8;
+    // double goalZ = 0.0;
+    // double goalYaw = -140.0/180.0 * 3.1415926535;
+
+    //test 4
     double startX = 0.0;
     double startY = 0.0;
     double startZ = 0.0;
-    double startYaw = 45.0/180.0 * 3.1415926535;
+    double startYaw = 0.0/180.0 * pi;
 
-    double goalX = 4;
-    double goalY = -2.8;
+    double goalX = 0.8;
+    double goalY = -0.25;
     double goalZ = 0.0;
-    double goalYaw = -140.0/180.0 * 3.1415926535;
+    double goalYaw = 40.0/180.0 * pi;
 
     ljh::mathlib::Pose2D<double> goalPose2D(goalX,goalY,goalYaw);
     ljh::mathlib::Pose3D<double> goalPose(goalX,goalY,goalZ,goalYaw,0.0,0.0);

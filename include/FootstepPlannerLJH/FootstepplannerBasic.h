@@ -29,9 +29,12 @@ private:
     int yawIndex;
 
 public:
-    const double gridSizeXY = 0.02;
-    const int yawDivision = 72;
-    const double gridSizeYaw = 2.0*pi_f/yawDivision;
+    // const double gridSizeXY = 0.02;
+    // const int yawDivision = 72;
+    // const double gridSizeYaw = 2.0*pi_f/yawDivision;
+    static double gridSizeXY;
+    static int yawDivision;
+    static double gridSizeYaw;
     LatticePoint():xIndex(0),yIndex(0),yawIndex(0){};
     LatticePoint(double x, double y, double yaw);
     LatticePoint(int _x, int _y, int _yaw);
@@ -44,6 +47,11 @@ public:
     inline double getYaw() const {return this->gridSizeYaw * this->yawIndex;};
     bool operator==(const LatticePoint& cmp_point) const;
     void operator=(const LatticePoint& cmp_point);
+
+    double getGridSizeXY(const LatticePoint& other);
+    double getGridSizeYaw(const LatticePoint& other);
+    void setGridSizeXY(LatticePoint& other, double sizeXY);
+    void setYawDivision(LatticePoint& other, int yawDivision);
 };
 
 

@@ -7,6 +7,7 @@
         "xhash": "cpp",
         "xlocale": "cpp",
         "xutility": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "cmath": "cpp"
     }
 }

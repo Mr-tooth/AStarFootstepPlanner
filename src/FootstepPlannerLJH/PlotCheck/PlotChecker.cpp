@@ -49,6 +49,20 @@ void PlotChecker::plotSearchOutcome(std::vector<Location> _outcome,ljh::mathlib:
     std::vector<double> vertexY(4);
     double x_num = 0.0;
     double y_num = 0.0;
+    double x_start = 0.0;
+    double y_start = 0.0;
+    double x_goal = 0.0;
+    double y_goal = 0.0;
+    double s_yaw = 0.0;
+    double g_yaw = 0.0;
+    const double arrowLength = 0.05;
+
+    x_start = _startPose.getPosition().getX();
+    y_start = _startPose.getPosition().getY();
+    x_goal  = _goalPose.getPosition().getX();
+    y_goal  = _goalPose.getPosition().getY();
+    s_yaw = _startPose.getOrientation().getYaw();
+    g_yaw = _goalPose.getOrientation().getYaw();
     
     plt::close();
     plt::pause(0.01);
@@ -66,10 +80,10 @@ void PlotChecker::plotSearchOutcome(std::vector<Location> _outcome,ljh::mathlib:
     vertexX.clear();
     vertexY.clear();
 
-    vertexX.push_back(_startPose.getPosition().getX());
-    vertexX.push_back(_goalPose.getPosition().getX());
-    vertexY.push_back(_startPose.getPosition().getY());
-    vertexY.push_back(_goalPose.getPosition().getY());
+    vertexX.push_back(x_start);
+    vertexX.push_back(x_goal);
+    vertexY.push_back(y_start);
+    vertexY.push_back(y_goal);
     plt::plot(vertexX,vertexY,"g");
 
     vertexX.clear();
@@ -84,9 +98,13 @@ void PlotChecker::plotSearchOutcome(std::vector<Location> _outcome,ljh::mathlib:
         plt::annotate(std::to_string(i),x_num,y_num+0.02);
     }
     plt::scatter(vertexX,vertexY);
-    
+    plt::arrow(x_goal,y_goal,cos(g_yaw)*arrowLength,sin(g_yaw)*arrowLength,"r","k",0.02,0.01);
+    //plt::arrow(0.8,-0.25,0.046985,-0.232899,"r","k",0.02,0.01);
+    plt::arrow(x_start,y_start,cos(s_yaw)*arrowLength,sin(s_yaw)*arrowLength,"r","k",0.02,0.01);
+
     plt::set_aspect_equal();
     plt::show();
+    
     //plt::pause(0.01);
 
 

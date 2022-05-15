@@ -3,6 +3,10 @@
 
 _FOOTSTEP_PLANNER_BEGIN
 
+double LatticePoint::gridSizeXY = 0.02 ; //m;
+int LatticePoint::yawDivision = 72;
+double LatticePoint::gridSizeYaw = 2.0*pi_f/LatticePoint::yawDivision;
+
 LatticePoint::LatticePoint(double x, double y, double yaw)
 {
     this->xIndex   = int(x/this->gridSizeXY);
@@ -56,7 +60,26 @@ int RobotSide::hashcode()
     return res;
 }
 
+double LatticePoint:: getGridSizeXY(const LatticePoint& other)
+{
+    return other.gridSizeXY;
+}
 
+double LatticePoint:: getGridSizeYaw(const LatticePoint& other)
+{
+    return other.gridSizeYaw;
+}
+
+void LatticePoint:: setGridSizeXY(LatticePoint& other, double sizeXY)
+{
+    other.gridSizeXY = sizeXY;
+}
+
+void LatticePoint:: setYawDivision(LatticePoint& other, int yawDivision)
+{
+    other.yawDivision = yawDivision;
+    other.gridSizeYaw = 2.0*pi_f/yawDivision;
+}
 
 DiscreteFootstep::DiscreteFootstep(double _x, double _y)
 {   

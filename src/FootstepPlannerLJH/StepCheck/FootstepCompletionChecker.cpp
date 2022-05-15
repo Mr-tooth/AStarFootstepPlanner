@@ -47,9 +47,9 @@ int FootstepCompletionChecker::checkIfGoalReached(Location current, std::vector<
     if(this->isProximityModeEnabled())
     {
         this->setIdealSquaredUpStep(current.getSecondStep(),this->param.IdealStepWidth);
-        std::cout<<"Neighbor size before: " <<neighbors.size()<<std::endl;
+        //std::cout<<"Neighbor size before: " <<neighbors.size()<<std::endl;
         sort(neighbors.begin(),neighbors.end(),compareNode);
-        std::cout<<"Neighbor size: " <<neighbors.size()<<std::endl;
+        //std::cout<<"Neighbor size: " <<neighbors.size()<<std::endl;
         this->stopStep = neighbors.at(0);
         this->stopMidPose = stopStep.getOrComputeMidFootPose();
 
@@ -61,10 +61,10 @@ int FootstepCompletionChecker::checkIfGoalReached(Location current, std::vector<
             this->endNode = this->stopStep;
             return GOAL_REACHED_PROXIMITY;
         }
-        else
-        {
-            return GOAL_NO_REACHED;
-        }
+        // else
+        // {
+        //     return GOAL_NO_REACHED;
+        // }
         
     }
     else// specific mode stop at the stand endnode after stopnode
@@ -85,6 +85,7 @@ int FootstepCompletionChecker::checkIfGoalReached(Location current, std::vector<
         }
     }
 
+return GOAL_NO_REACHED;
 }
 
 

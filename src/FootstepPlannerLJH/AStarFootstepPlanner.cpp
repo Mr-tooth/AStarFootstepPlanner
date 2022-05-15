@@ -51,16 +51,21 @@ void AStarFootstepPlanner::doAStarSearch()
     // plt::ion();
     while(!frontier.empty())
     {   
-        std::cout<<++countSearch<<std::endl;
+        if(this->param.getDebugFlag(this->param))
+            std::cout<<++countSearch<<std::endl;
 
         Location current(this->frontier.get());
 
         // Node Expansion
         this->stepExpander.doFullExpansion(current,this->neighbors);
 
+        if(this->param.getDebugFlag(this->param))
+        {
+            this->plotChecker.plotExpansion(current,this->neighbors);
+            this->plotChecker.plotFrontier(this->frontier); 
+        }
         
-        this->plotChecker.plotExpansion(current,this->neighbors);
-        this->plotChecker.plotFrontier(this->frontier);
+
         // Node Stop Check
         this->solutionFoundFlag= this->stepOverChecker.checkIfGoalReached(current,this->neighbors,this->heuclidCoreTool,this->goalL,this->goalR);
         
@@ -75,7 +80,9 @@ void AStarFootstepPlanner::doAStarSearch()
                 {
                     this->costSoFarMap[next] = new_cost;
                     cost_t priority = new_cost + this->stepCostCalculator.computeHeuristicCost(next);
-                    std::cout<< "the heuristic cost: "<<this->stepCostCalculator.getHeuristicCost()<<std::endl;
+
+                    if(this->param.getDebugFlag(this->param))
+                        std::cout<< "the heuristic cost: "<<this->stepCostCalculator.getHeuristicCost()<<std::endl;
 
                     this->frontier.put(next, priority);
                     this->cameFromMap[next] = current;
