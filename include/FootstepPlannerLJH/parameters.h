@@ -65,6 +65,11 @@ public:
 
     // choose whether to plot and cout middle outcome to debug
     static CONST bool debugFlag;
+
+    // constraints for stair alignment// load in the step expansion
+    static CONST bool isStairAlignMode;
+    static CONST double divideLineOne[2];
+
     
 
     parameters(/* args */){};
@@ -92,6 +97,8 @@ public:
     double getGoalDistanceProximity(const parameters& param);
     double getGoalYawProximity(const parameters& param);
     bool   getDebugFlag(const parameters& param);
+    bool   getStairAlignMode(const parameters& param);
+    void   getDivideLineOne(const parameters& param, double *line);
 
     void SetEdgeCostDistance(parameters& param, const double& change);
     void SetEdgeCostYaw(parameters& param, const double& change);
@@ -114,6 +121,8 @@ public:
     void SetGoalDistanceProximity(parameters& param, const double& change);
     void SetGoalYawProximity(parameters& param, const double& change);
     void SetDebugFlag(parameters& param, const bool& change);
+    void SetStairAlignMode(parameters& param, const bool& change);
+    void SetDivideLineOne(parameters& param, double *line);
 };
 
 

@@ -43,6 +43,8 @@ CONST double parameters:: goalDistanceProximity = 0.03;
 CONST double parameters:: goalYawProximity = 5*pi/180;
 
 CONST bool parameters:: debugFlag = true;
+CONST bool parameters:: isStairAlignMode = false;
+CONST double parameters:: divideLineOne[2] = {0.0};
 
 // parameters::parameters(/* args */)
 // {}
@@ -69,6 +71,8 @@ double parameters:: getAStartHeuristicFinalWeight(const parameters& param){ retu
 double parameters:: getGoalDistanceProximity(const parameters& param){ return param.goalDistanceProximity; }
 double parameters:: getGoalYawProximity(const parameters& param){ return param.goalYawProximity; }
 bool   parameters:: getDebugFlag(const parameters& param){ return param.debugFlag;}
+bool   parameters:: getStairAlignMode(const parameters& param){return param.isStairAlignMode; }
+void   parameters:: getDivideLineOne(const parameters& param, double *line){line = param.divideLineOne;}
 
 void parameters::SetEdgeCostDistance(parameters& param, const double& change){ param.edgecost_w_d = change;}
 void parameters::SetEdgeCostYaw(parameters& param, const double& change){ param.edgecost_w_yaw = change; }
@@ -91,4 +95,6 @@ void parameters::SetAStartHeuristicFinalWeight(parameters& param, const double& 
 void parameters::SetGoalDistanceProximity(parameters& param, const double& change){ param.goalDistanceProximity = change;}
 void parameters::SetGoalYawProximity(parameters& param, const double& change){ param.goalYawProximity = change;}
 void parameters::SetDebugFlag(parameters& param, const bool& change){ param.debugFlag = change;}
+void parameters::SetStairAlignMode(parameters& param, const bool& change){param.isStairAlignMode = change;}
+void parameters::SetDivideLineOne(parameters& param, double *line){param.divideLineOne[0]=line[0];param.divideLineOne[1]=line[1];}
 _FOOTSTEP_PLANNER_END
