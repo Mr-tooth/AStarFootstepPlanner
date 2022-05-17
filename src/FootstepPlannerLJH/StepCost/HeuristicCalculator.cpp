@@ -31,7 +31,7 @@ cost_t HeuristicCalculator::compute(FootstepGraphNode& node)
         
         //this->heuristicCost = cost_t(this->param.AStarHeuristicWeight * (this->finalTurnDistance+this->walkDistance));
         this->heuristicCost = cost_t(this->param.AStarHeuristicFinalWeight * (this->finalTurnDistance)
-                                    +this->param.AStarHeuristicFinalWeight * (this->walkDistance));
+                                    +this->param.AStarHeuristicFinalWeight*1.2 * (this->walkDistance));
     }
     else
     {  // turn the Ideal Yaw Traj as Online input

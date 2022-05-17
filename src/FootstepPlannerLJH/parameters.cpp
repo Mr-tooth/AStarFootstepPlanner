@@ -44,7 +44,7 @@ CONST double parameters:: goalYawProximity = 5*pi/180;
 
 CONST bool parameters:: debugFlag = true;
 CONST bool parameters:: isStairAlignMode = false;
-CONST double parameters:: divideLineOne[2] = {0.0};
+CONST ljh::mathlib::ConvexPolygon2D parameters:: stairPolygon;
 
 // parameters::parameters(/* args */)
 // {}
@@ -72,7 +72,7 @@ double parameters:: getGoalDistanceProximity(const parameters& param){ return pa
 double parameters:: getGoalYawProximity(const parameters& param){ return param.goalYawProximity; }
 bool   parameters:: getDebugFlag(const parameters& param){ return param.debugFlag;}
 bool   parameters:: getStairAlignMode(const parameters& param){return param.isStairAlignMode; }
-void   parameters:: getDivideLineOne(const parameters& param, double *line){line = param.divideLineOne;}
+ljh::mathlib::ConvexPolygon2D getStairPolygon(const parameters& param){return param.stairPolygon;}
 
 void parameters::SetEdgeCostDistance(parameters& param, const double& change){ param.edgecost_w_d = change;}
 void parameters::SetEdgeCostYaw(parameters& param, const double& change){ param.edgecost_w_yaw = change; }
@@ -96,5 +96,10 @@ void parameters::SetGoalDistanceProximity(parameters& param, const double& chang
 void parameters::SetGoalYawProximity(parameters& param, const double& change){ param.goalYawProximity = change;}
 void parameters::SetDebugFlag(parameters& param, const bool& change){ param.debugFlag = change;}
 void parameters::SetStairAlignMode(parameters& param, const bool& change){param.isStairAlignMode = change;}
-void parameters::SetDivideLineOne(parameters& param, double *line){param.divideLineOne[0]=line[0];param.divideLineOne[1]=line[1];}
+void parameters::SetStairPolygon(parameters& param, std::vector<Point2D<double> > stairBuffer, int numOfVertices, bool clockwiseOrdered)
+{
+    param.stairPolygon.setVertexBuffer(stairBuffer);
+    param.stairPolygon.setNumOfVertices(numOfVertices);
+    param.stairPolygon.setClockwiseOrder(clockwiseOrdered);
+}
 _FOOTSTEP_PLANNER_END

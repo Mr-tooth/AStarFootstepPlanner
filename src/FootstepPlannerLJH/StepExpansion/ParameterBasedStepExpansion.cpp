@@ -34,9 +34,12 @@ void ParameterBasedStepExpansion::initialize()
                 // double distance = computeDistanceBetweenFootPolygons(DiscreteFootstep(0,0,0,RobotSide.Right),
                 
                 // need a stance clear region  condition                                                    //DiscreteFootstep(x,y,yaw,RobotSide.Left))
-                xOffsets.push_back(x);
-                yOffsets.push_back(y);
-                yawOffsets.push_back(yaw);
+                if(!this->stepConstraintChecker.isTwoFootCollided(0.0,0.0,0.0,stepR, x,y,yaw,stepL))
+                {
+                    xOffsets.push_back(x);
+                    yOffsets.push_back(y);
+                    yawOffsets.push_back(yaw);
+                }
             }
        }
     }
@@ -104,7 +107,17 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
         midStepWidth = stepside.negateIfRightSide(yOffsets[i]);
         midStepYaw = stepside.negateIfRightSide(yawOffsets[i]);
         childStep = constructNodeInPreviousNodeFrame(midStepLength,midStepWidth,midStepYaw,nodeToExpand.getSecondStep());
+
+        // add check  whether the foot is in stair polygon
+        if(this->param.isStairAlignMode)
+        {
+            if(this->stepConstraintChecker.isAnyVertexOfFootInsideStairRegion(childStep,this->param.stairPolygon))
+                continue;
+        }
+
+
         childNode.setNode(nodeToExpand.getSecondStep(),childStep);
+        
         
         if(std::find(fullExpansionToPack.begin(),fullExpansionToPack.end(),childNode) == fullExpansionToPack.end())
         {

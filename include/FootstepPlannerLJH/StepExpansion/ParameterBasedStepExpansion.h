@@ -12,6 +12,7 @@
 #include <FootstepPlannerLJH\FootstepplannerBasic.h>
 #include <Heuclid\euclid\tuple2D\Vector2D.h>
 #include <FootstepPlannerLJH\StepExpansion\PartialExpansionManager.h>
+#include <FootstepPlannerLJH\StepConstraints\StepConstraintCheck.h>
 
 using ljh::mathlib::Vector2D;
 _FOOTSTEP_PLANNER_BEGIN
@@ -30,7 +31,7 @@ private:
     PartialExpansionManager Manager;
     std::unordered_map<FootstepGraphNode,PartialExpansionManager,FootNodeHash> expansionManager;
 
-
+    StepConstraintCheck stepConstraintChecker;
 
     // middle param  
     double midStepLength;
@@ -44,7 +45,7 @@ private:
 public:
     ParameterBasedStepExpansion(/* args */)
         :latPoForFunc(),param(),xOffsets(),yOffsets(),yawOffsets(),fullExpansion(),partialExpansionEnabled(false),
-        Manager(),expansionManager(),midStepLength(0.0),midStepWidth(0.0),midStepYaw(0.0),childStep(),midXY(),childNode() {};
+        Manager(),expansionManager(),stepConstraintChecker(),midStepLength(0.0),midStepWidth(0.0),midStepYaw(0.0),childStep(),midXY(),childNode() {};
     //~ParameterBasedStepExpansion();
     void initialize();
     bool doIterativeExpansion(FootstepGraphNode stanceStep,std::vector<FootstepGraphNode>& expansionToPack);

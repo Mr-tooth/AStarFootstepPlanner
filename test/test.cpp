@@ -1,6 +1,7 @@
 #include <FootstepPlannerLJH\AStarFootstepPlanner.h>
 #include <FootstepPlannerLJH\parameters.h>
 #include <FootstepPlannerLJH\StepConstraints\StepConstraintCheck.h>
+#include <FootstepPlannerLJH\StepConstraints\StepConstraintCheck.h>
 #include <iostream>
 int main()
 {
@@ -8,19 +9,21 @@ int main()
     ljh::path::footstep_planner::LatticePoint latticepoint;
     ljh::path::footstep_planner::parameters param;
 
-    latticepoint.setGridSizeXY(latticepoint,0.01);
+    latticepoint.setGridSizeXY(latticepoint,0.02);
     latticepoint.setYawDivision(latticepoint, 72);
 
     param.SetEdgeCostDistance(param,4.0);
     param.SetEdgeCostYaw(param, 4.0);
     param.SetEdgeCostStaticPerStep(param,1.5);
-    param.SetDebugFlag(param,false);
-    param.SetMaxStepYaw(param,pi/6);
-    param.SetMinStepYaw(param,-pi/6);        
+    param.SetDebugFlag(param,true);
+    param.SetMaxStepYaw(param,pi/5);
+    param.SetMinStepYaw(param,-pi/5);        
 
-    param.SetFinalTurnProximity(param,0.3);
+    param.SetFinalTurnProximity(param,0.2);
     param.SetGoalDistanceProximity(param,0.02);
     param.SetGoalYawProximity(param,2.0/180.0 * pi);
+
+    
 
     std:: cout<< "gridSizeXY is "<<latticepoint.getGridSizeXY(latticepoint)<<std::endl;
     std:: cout<< "gridSizeYaw is "<<latticepoint.getGridSizeYaw(latticepoint)<<std::endl;
@@ -78,7 +81,23 @@ int main()
     ljh::mathlib::Pose3D<double> goalPose(goalX,goalY,goalZ,goalYaw,0.0,0.0);
     ljh::mathlib::Pose3D<double> startPose(startX,startY,startZ,startYaw,0.0,0.0);
 
+    double xFromGoalToStair = 0.16+0.005;
+    double xLenOfStair = 0.5;
+    double yLenOfStair = 0.5;
 
+    Point2D<double> p0(xFromGoalToStair,yLenOfStair/2);
+    Point2D<double> p1(xFromGoalToStair+xLenOfStair,yLenOfStair/2);
+    Point2D<double> p2(xFromGoalToStair+xLenOfStair,-yLenOfStair/2);
+    Point2D<double> p3(xFromGoalToStair,-yLenOfStair/2);
+
+    std::vector<Point2D<double> > stairBuffer({p0,p1,p2,p3});
+    for(int i=0;i<4;i++)
+    {
+        stairBuffer[i].setPoint2D(goalX + cos(goalYaw)*stairBuffer[i].getX() - sin(goalYaw)*stairBuffer[i].getY(),
+                                  goalY + sin(goalYaw)*stairBuffer[i].getX() + cos(goalYaw)*stairBuffer[i].getY());
+    }
+    param.SetStairAlignMode(param,true);
+    param.SetStairPolygon(param,stairBuffer,4,1);
     
 
 
