@@ -1,6 +1,6 @@
 
 #include <FootstepPlannerLJH\StepExpansion\ParameterBasedStepExpansion.h>
-
+#include<iostream>
 _FOOTSTEP_PLANNER_BEGIN
 
 void ParameterBasedStepExpansion::initialize()
@@ -39,6 +39,9 @@ void ParameterBasedStepExpansion::initialize()
                     xOffsets.push_back(x);
                     yOffsets.push_back(y);
                     yawOffsets.push_back(yaw);
+                }
+                else{
+                    std::cout<<" FootColliding! "<< "X: "<<x<<" Y: "<<y<<" Yaw: "<<yaw<<std::endl;
                 }
             }
        }
@@ -112,12 +115,14 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
         if(this->param.isStairAlignMode)
         {
             if(this->stepConstraintChecker.isAnyVertexOfFootInsideStairRegion(childStep,this->param.stairPolygon))
-                continue;
+                continue; //drop the childstep if it's in stair region cause it's unrealiazbile
         }
 
 
         childNode.setNode(nodeToExpand.getSecondStep(),childStep);
         
+        if(this->stepConstraintChecker.isTwoFootCollided(childNode))
+            continue;
         
         if(std::find(fullExpansionToPack.begin(),fullExpansionToPack.end(),childNode) == fullExpansionToPack.end())
         {

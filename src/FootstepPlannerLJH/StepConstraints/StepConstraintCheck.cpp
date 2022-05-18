@@ -8,7 +8,7 @@ bool StepConstraintCheck::isAnyVertexOfFootInsideStairRegion(double stepX, doubl
 {
     this->stepPose.setPosition(stepX,stepY);
     this->stepPose.setOrientation(stepYaw);
-    getFootVertex2D(this->stepPose,stepFlag,this->vertexX,this->vertexY);
+    getExtendedFootVertex2D(this->stepPose,stepFlag,this->vertexX,this->vertexY,0.0);
     for(int i=0;i<numOfVertices;i++)
     {
         if(this->polygonTools.isPoint2DInsideConvexPolygon2D(this->vertexX.at(i),this->vertexY.at(i),stairVertexBuffer,numOfVertices,clockwiseOrdered))
@@ -30,7 +30,7 @@ bool StepConstraintCheck::isTwoFootCollided(double stanceX, double stanceY, doub
     //calculate and load the vertex2d(in clockwiseorder) of the stanceStep as polygon
     this->stepPose.setPosition(stanceX,stanceY);
     this->stepPose.setOrientation(stanceYaw);
-    getFootVertex2D(this->stepPose,stanceFlag,this->vertexX,this->vertexY);
+    getExtendedFootVertex2D(this->stepPose,stanceFlag,this->vertexX,this->vertexY,this->param.footPolygonExtendedLength);
 
     this->stanceBuffer.resize(4);
     for(int i=0;i<4;i++)
@@ -41,13 +41,13 @@ bool StepConstraintCheck::isTwoFootCollided(double stanceX, double stanceY, doub
     // calculate the vertex2d of the swingStep
     this->stepPose.setPosition(swingX,swingY);
     this->stepPose.setOrientation(swingYaw);
-    getFootVertex2D(this->stepPose,swingFlag,this->vertexX,this->vertexY);
+    getExtendedFootVertex2D(this->stepPose,swingFlag,this->vertexX,this->vertexY,this->param.footPolygonExtendedLength);
 
     // check each vertex of swingStep Whether in stanceStep polygon
     for(int i=0;i<4;i++)
     {
         // getFootVertex2D would make an clockwise order
-        if(this->polygonTools.isPoint2DInsideConvexPolygon2D(this->vertexX.at(0),this->vertexY.at(0),this->stanceBuffer,4,1))
+        if(this->polygonTools.isPoint2DInsideConvexPolygon2D(this->vertexX.at(i),this->vertexY.at(i),this->stanceBuffer,4,1))
             return true;
     }
 

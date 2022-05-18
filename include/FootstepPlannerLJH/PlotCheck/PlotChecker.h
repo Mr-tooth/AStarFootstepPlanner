@@ -11,6 +11,8 @@ namespace plt = matplotlibcpp;
 _FOOTSTEP_PLANNER_BEGIN
 class PlotChecker
 {
+private:
+    parameters param;
 public:
     void plotExpansion(FootstepGraphNode nodeToExpand,std::vector<FootstepGraphNode>& fullExpansionToPack);
     void plotFrontier(PriorityQueue<Location,cost_t> _frontier);

@@ -102,6 +102,21 @@ void PlotChecker::plotSearchOutcome(std::vector<Location> _outcome,ljh::mathlib:
     //plt::arrow(0.8,-0.25,0.046985,-0.232899,"r","k",0.02,0.01);
     plt::arrow(x_start,y_start,cos(s_yaw)*arrowLength,sin(s_yaw)*arrowLength,"r","k",0.02,0.01);
 
+    if(this->param.isStairAlignMode)
+    {
+        vertexX.clear();
+        vertexY.clear();
+        for(int i=0;i<4;i++)
+        {
+            vertexX.push_back(this->param.stairPolygon.getVertexBuffer().at(i).getX());
+            vertexY.push_back(this->param.stairPolygon.getVertexBuffer().at(i).getY());
+        }
+        vertexX.push_back(this->param.stairPolygon.getVertexBuffer().at(0).getX());
+        vertexY.push_back(this->param.stairPolygon.getVertexBuffer().at(0).getY());
+        plt::plot(vertexX,vertexY,"c");
+
+
+    }
     plt::set_aspect_equal();
     plt::show();
     

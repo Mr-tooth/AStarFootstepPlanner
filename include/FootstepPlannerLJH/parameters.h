@@ -71,7 +71,7 @@ public:
     // constraints for stair alignment// load in the step expansion
     static CONST bool isStairAlignMode;
     static CONST ljh::mathlib::ConvexPolygon2D stairPolygon;
-
+    static CONST double footPolygonExtendedLength;
     
 
     parameters(/* args */){};
@@ -101,6 +101,7 @@ public:
     bool   getDebugFlag(const parameters& param);
     bool   getStairAlignMode(const parameters& param);
     ljh::mathlib::ConvexPolygon2D getStairPolygon(const parameters& param);
+    double getFootPolygonExtendedLength(const parameters& param);
 
     void SetEdgeCostDistance(parameters& param, const double& change);
     void SetEdgeCostYaw(parameters& param, const double& change);
@@ -125,6 +126,7 @@ public:
     void SetDebugFlag(parameters& param, const bool& change);
     void SetStairAlignMode(parameters& param, const bool& change);
     void SetStairPolygon(parameters& param, std::vector<Point2D<double> > stairBuffer, int numOfVertices, bool clockwiseOrdered);
+    void SetFootPolygonExtendedLength(const parameters& param, const double& change);
 };
 
 

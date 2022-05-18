@@ -45,6 +45,7 @@ CONST double parameters:: goalYawProximity = 5*pi/180;
 CONST bool parameters:: debugFlag = true;
 CONST bool parameters:: isStairAlignMode = false;
 CONST ljh::mathlib::ConvexPolygon2D parameters:: stairPolygon;
+CONST double parameters:: footPolygonExtendedLength = 0.0;
 
 // parameters::parameters(/* args */)
 // {}
@@ -72,7 +73,9 @@ double parameters:: getGoalDistanceProximity(const parameters& param){ return pa
 double parameters:: getGoalYawProximity(const parameters& param){ return param.goalYawProximity; }
 bool   parameters:: getDebugFlag(const parameters& param){ return param.debugFlag;}
 bool   parameters:: getStairAlignMode(const parameters& param){return param.isStairAlignMode; }
-ljh::mathlib::ConvexPolygon2D getStairPolygon(const parameters& param){return param.stairPolygon;}
+ljh::mathlib::ConvexPolygon2D parameters:: getStairPolygon(const parameters& param){return param.stairPolygon;}
+double parameters:: getFootPolygonExtendedLength(const parameters& param){return param.footPolygonExtendedLength;}
+
 
 void parameters::SetEdgeCostDistance(parameters& param, const double& change){ param.edgecost_w_d = change;}
 void parameters::SetEdgeCostYaw(parameters& param, const double& change){ param.edgecost_w_yaw = change; }
@@ -101,5 +104,9 @@ void parameters::SetStairPolygon(parameters& param, std::vector<Point2D<double> 
     param.stairPolygon.setVertexBuffer(stairBuffer);
     param.stairPolygon.setNumOfVertices(numOfVertices);
     param.stairPolygon.setClockwiseOrder(clockwiseOrdered);
+}
+void parameters::SetFootPolygonExtendedLength(const parameters& param, const double& change)
+{
+    param.footPolygonExtendedLength = change;
 }
 _FOOTSTEP_PLANNER_END

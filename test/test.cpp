@@ -5,6 +5,7 @@
 #include <iostream>
 int main()
 {
+    ljh::path::footstep_planner::StepConstraintCheck checker;
     //set parameters!
     ljh::path::footstep_planner::LatticePoint latticepoint;
     ljh::path::footstep_planner::parameters param;
@@ -14,15 +15,15 @@ int main()
 
     param.SetEdgeCostDistance(param,4.0);
     param.SetEdgeCostYaw(param, 4.0);
-    param.SetEdgeCostStaticPerStep(param,1.5);
+    param.SetEdgeCostStaticPerStep(param,1.4);
     param.SetDebugFlag(param,true);
-    param.SetMaxStepYaw(param,pi/5);
-    param.SetMinStepYaw(param,-pi/5);        
+    param.SetMaxStepYaw(param,pi/8);
+    param.SetMinStepYaw(param,-pi/8);        
 
-    param.SetFinalTurnProximity(param,0.2);
+    param.SetFinalTurnProximity(param,0.3);
     param.SetGoalDistanceProximity(param,0.02);
     param.SetGoalYawProximity(param,2.0/180.0 * pi);
-
+    param.SetFootPolygonExtendedLength(param,0.02);
     
 
     std:: cout<< "gridSizeXY is "<<latticepoint.getGridSizeXY(latticepoint)<<std::endl;
@@ -67,15 +68,48 @@ int main()
     // double goalYaw = -140.0/180.0 * 3.1415926535;
 
     //test 4
+    // double startX = 0.0;
+    // double startY = 0.0;
+    // double startZ = 0.0;
+    // double startYaw = 0.0/180.0 * pi;
+
+    // double goalX = 1.3;//0.8;
+    // double goalY = 0.0;//-0.25;
+    // double goalZ = 0.0;
+    // double goalYaw = 40.0/180.0 * pi;
+
+    //test 5
+    // double startX = 0.0;
+    // double startY = 0.0;
+    // double startZ = 0.0;
+    // double startYaw = 0.0/180.0 * pi;
+
+    // double goalX = 0.8;
+    // double goalY = -0.25;
+    // double goalZ = 0.0;
+    // double goalYaw = 40.0/180.0 * pi;
+
+    //test 6
+    // double startX = 0.0;
+    // double startY = 0.0;
+    // double startZ = 0.0;
+    // double startYaw = 0.0/180.0 * pi;
+
+    // double goalX = 0.8;
+    // double goalY = -0.15;
+    // double goalZ = 0.0;
+    // double goalYaw = -25.0/180.0 * pi;
+
+    //test 7
     double startX = 0.0;
     double startY = 0.0;
     double startZ = 0.0;
     double startYaw = 0.0/180.0 * pi;
 
     double goalX = 0.8;
-    double goalY = -0.25;
+    double goalY = 0.0;
     double goalZ = 0.0;
-    double goalYaw = 40.0/180.0 * pi;
+    double goalYaw = -60.0/180.0 * pi;
 
     ljh::mathlib::Pose2D<double> goalPose2D(goalX,goalY,goalYaw);
     ljh::mathlib::Pose3D<double> goalPose(goalX,goalY,goalZ,goalYaw,0.0,0.0);
@@ -129,6 +163,8 @@ int main()
     ljh::path::footstep_planner::PlotChecker pltChecker;
     pltChecker.plotSearchOutcome(Out,goalPose,startPose);
     
+
+    //std::cout<<"Collide :"<<checker.isTwoFootCollided(Out.at(7))<<std::endl;
     std::cout<<"Quit"<<std::endl;
     return 0;
 }
