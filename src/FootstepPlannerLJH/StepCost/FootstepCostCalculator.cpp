@@ -45,7 +45,7 @@ void FootstepCostCalculator::initialize(Pose3D<double> _goalPose, Pose3D<double>
     this->heuristicCost = cost_t(0);
 
     this->xOffset = cost_t(0);
-    this->yawOffset = cost_t(0);
+    this->yOffset = cost_t(0);
     this->yawOffset = cost_t(0);
     this->lenOffset = cost_t(0);
 

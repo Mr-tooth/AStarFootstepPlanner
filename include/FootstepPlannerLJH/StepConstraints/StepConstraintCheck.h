@@ -23,7 +23,7 @@ private:
     std::vector<Point2D<double> > stanceBuffer;
 public:
     StepConstraintCheck():param(),polygonTools(),stepPose(),vertexX(),vertexY(),vertex(),stanceBuffer(){};
-    
+    void initialize();
     bool isAnyVertexOfFootInsideStairRegion(double stepX, double stepY, double stepYaw, enum StepFlag stepFlag,
                                             std::vector<Point2D<double> > stairVertexBuffer, int numOfVertices, bool clockwiseOrdered);
 

@@ -3,6 +3,19 @@
 
 _FOOTSTEP_PLANNER_BEGIN
 
+void StepConstraintCheck::initialize()
+{
+    this->param = parameters();
+    //this->polygonTools = ljh::mathlib::HeuclidGeometryPolygonTools();
+    ljh::mathlib::Pose2D<double> Res;
+    this->stepPose = Res;
+    vertexX.clear();
+    vertexY.clear();
+    vertex.setPoint2D(0.0,0.0);
+    stanceBuffer.clear();
+}
+
+
 bool StepConstraintCheck::isAnyVertexOfFootInsideStairRegion(double stepX, double stepY, double stepYaw, enum StepFlag stepFlag,
                                             std::vector<Point2D<double> > stairVertexBuffer, int numOfVertices, bool clockwiseOrdered)
 {

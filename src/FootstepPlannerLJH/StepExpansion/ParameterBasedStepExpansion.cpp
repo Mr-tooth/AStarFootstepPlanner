@@ -5,9 +5,9 @@ _FOOTSTEP_PLANNER_BEGIN
 
 void ParameterBasedStepExpansion::initialize()
 {
-    xOffsets.clear();
-    yOffsets.clear();
-    yawOffsets.clear();
+    this->xOffsets.clear();
+    this->yOffsets.clear();
+    this->yawOffsets.clear();
 
     double maxReachSquared = param.MaxStepReach * param.MaxStepReach;
     for (double x = param.MinStepLength;x<=param.MaxStepLength; x+=latPoForFunc.gridSizeXY)
@@ -36,9 +36,9 @@ void ParameterBasedStepExpansion::initialize()
                 // need a stance clear region  condition                                                    //DiscreteFootstep(x,y,yaw,RobotSide.Left))
                 if(!this->stepConstraintChecker.isTwoFootCollided(0.0,0.0,0.0,stepR, x,y,yaw,stepL))
                 {
-                    xOffsets.push_back(x);
-                    yOffsets.push_back(y);
-                    yawOffsets.push_back(yaw);
+                    this->xOffsets.push_back(x);
+                    this->yOffsets.push_back(y);
+                    this->yawOffsets.push_back(yaw);
                 }
                 else{
                     std::cout<<" FootColliding! "<< "X: "<<x<<" Y: "<<y<<" Yaw: "<<yaw<<std::endl;
@@ -53,6 +53,8 @@ void ParameterBasedStepExpansion::initialize()
     this->Manager.initialize();
     this->expansionManager.clear();
 
+    this->stepConstraintChecker.initialize();
+    
     this->midStepLength = 0.0;
     this->midStepWidth = 0.0;
     this->midStepYaw = 0.0;

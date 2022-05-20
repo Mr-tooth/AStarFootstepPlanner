@@ -164,6 +164,40 @@ int main()
     pltChecker.plotSearchOutcome(Out,goalPose,startPose);
     
 
+
+    // a second time search
+    //test 5
+    startX = 0.0;
+    startY = 0.0;
+    startZ = 0.0;
+    startYaw = 0.0/180.0 * pi;
+    goalX = 0.8;
+    goalY = -0.35;
+    goalZ = 0.0;
+    goalYaw = 40.0/180.0 * pi;
+
+    goalPose2D.setPosition(goalX,goalY);
+    goalPose2D.setOrientation(goalYaw);
+
+    goalPose.setYawPitchRoll(goalYaw,0.0,0.0);
+    goalPose.setX(goalX);goalPose.setY(goalY);goalPose.setZ(goalZ);
+
+    startPose.setYawPitchRoll(startYaw,0.0,0.0);
+    startPose.setX(startX);startPose.setY(startY);startPose.setZ(startZ);
+
+    std::vector<Point2D<double> > stairBuffer2({p0,p1,p2,p3});
+    for(int i=0;i<4;i++)
+    {
+        stairBuffer2[i].setPoint2D(goalX + cos(goalYaw)*stairBuffer2[i].getX() - sin(goalYaw)*stairBuffer2[i].getY(),
+                                  goalY + sin(goalYaw)*stairBuffer2[i].getX() + cos(goalYaw)*stairBuffer2[i].getY());
+    }
+    param.SetStairPolygon(param,stairBuffer2,4,1);
+
+    footstepPlanner.initialize(goalPose2D,goalPose,startPose);
+    footstepPlanner.doAStarSearch();
+    footstepPlanner.calFootstepSeries();
+    std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out2 = footstepPlanner.getFootstepSeries();
+    pltChecker.plotSearchOutcome(Out2,goalPose,startPose);
     //std::cout<<"Collide :"<<checker.isTwoFootCollided(Out.at(7))<<std::endl;
     std::cout<<"Quit"<<std::endl;
     return 0;

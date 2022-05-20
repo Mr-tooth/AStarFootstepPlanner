@@ -36,6 +36,7 @@ void AStarFootstepPlanner::initialize(Pose2D<double> _goalPose2D, Pose3D<double>
     this->heuclidCoreTool = HeuclidCoreTool();
     this->path.clear();
     this->plotChecker = PlotChecker();
+    this->countSearch = 0;
 }
 
 
