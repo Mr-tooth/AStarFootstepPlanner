@@ -1,7 +1,7 @@
 
 #include <cmath>
 #include <algorithm>
-#include <FootstepPlannerLJH\StepCheck\FootstepPlannerCompletionChecker.h>
+#include <FootstepPlannerLJH/StepCheck/FootstepPlannerCompletionChecker.h>
 #include <iostream>
 _FOOTSTEP_PLANNER_BEGIN
 
