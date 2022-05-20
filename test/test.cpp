@@ -16,7 +16,7 @@ int main()
     param.SetEdgeCostDistance(param,4.0);
     param.SetEdgeCostYaw(param, 4.0);
     param.SetEdgeCostStaticPerStep(param,1.4);
-    param.SetDebugFlag(param,true);
+    param.SetDebugFlag(param,false);
     param.SetMaxStepYaw(param,pi/8);
     param.SetMinStepYaw(param,-pi/8);        
 

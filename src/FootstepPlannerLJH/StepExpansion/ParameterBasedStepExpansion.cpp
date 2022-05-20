@@ -40,9 +40,9 @@ void ParameterBasedStepExpansion::initialize()
                     this->yOffsets.push_back(y);
                     this->yawOffsets.push_back(yaw);
                 }
-                else{
-                    std::cout<<" FootColliding! "<< "X: "<<x<<" Y: "<<y<<" Yaw: "<<yaw<<std::endl;
-                }
+                // else{
+                //     std::cout<<" FootColliding! "<< "X: "<<x<<" Y: "<<y<<" Yaw: "<<yaw<<std::endl;
+                // }
             }
        }
     }
@@ -54,7 +54,7 @@ void ParameterBasedStepExpansion::initialize()
     this->expansionManager.clear();
 
     this->stepConstraintChecker.initialize();
-    
+
     this->midStepLength = 0.0;
     this->midStepWidth = 0.0;
     this->midStepYaw = 0.0;
