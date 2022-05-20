@@ -1,4 +1,4 @@
-#include <FootstepPlannerLJH\StepCost\HeuristicCalculator.h>
+#include <FootstepPlannerLJH/StepCost/HeuristicCalculator.h>
 
 _FOOTSTEP_PLANNER_BEGIN
 

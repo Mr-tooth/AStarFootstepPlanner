@@ -1,5 +1,5 @@
 
-#include <FootstepPlannerLJH\StepExpansion\PartialExpansionManager.h>
+#include <FootstepPlannerLJH/StepExpansion/PartialExpansionManager.h>
 
 _FOOTSTEP_PLANNER_BEGIN
 

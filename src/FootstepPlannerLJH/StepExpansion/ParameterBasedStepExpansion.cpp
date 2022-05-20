@@ -1,5 +1,5 @@
 
-#include <FootstepPlannerLJH\StepExpansion\ParameterBasedStepExpansion.h>
+#include <FootstepPlannerLJH/StepExpansion/ParameterBasedStepExpansion.h>
 #include<iostream>
 _FOOTSTEP_PLANNER_BEGIN
 

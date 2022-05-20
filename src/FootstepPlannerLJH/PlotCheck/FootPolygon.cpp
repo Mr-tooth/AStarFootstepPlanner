@@ -1,5 +1,5 @@
 
-#include <FootstepPlannerLJH\PlotCheck\FootPolygon.h>
+#include <FootstepPlannerLJH/PlotCheck/FootPolygon.h>
 _FOOTSTEP_PLANNER_BEGIN
 double MidVertexX[4] = {0.0};
 double MidVertexY[4] = {0.0};

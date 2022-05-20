@@ -1,10 +1,10 @@
 #pragma once
 
 #include <vector>
-#include <FootstepPlannerLJH\DataType.h>
-#include <FootstepPlannerLJH\Title.h>
-#include <FootstepPlannerLJH\StepCost\HeuristicCalculator.h>
-#include <Heuclid\euclid\tools\HeuclidCoreTool.h>
+#include <FootstepPlannerLJH/DataType.h>
+#include <FootstepPlannerLJH/Title.h>
+#include <FootstepPlannerLJH/StepCost/HeuristicCalculator.h>
+#include <Heuclid/euclid/tools/HeuclidCoreTool.h>
 using ljh::mathlib::HeuclidCoreTool;
 
 #define GOAL_REACHED_SPECIFIC 2

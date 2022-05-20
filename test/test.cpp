@@ -1,7 +1,7 @@
-#include <FootstepPlannerLJH\AStarFootstepPlanner.h>
-#include <FootstepPlannerLJH\parameters.h>
-#include <FootstepPlannerLJH\StepConstraints\StepConstraintCheck.h>
-#include <FootstepPlannerLJH\StepConstraints\StepConstraintCheck.h>
+#include <FootstepPlannerLJH/AStarFootstepPlanner.h>
+#include <FootstepPlannerLJH/parameters.h>
+#include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
+#include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 #include <iostream>
 int main()
 {

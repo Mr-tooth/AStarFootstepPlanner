@@ -18,7 +18,7 @@
 
 
 #include <cmath>
-#include <Heuclid\geometry\ConvexPolygon2D.h>
+#include <Heuclid/geometry/ConvexPolygon2D.h>
 using ljh::mathlib::Point2D;
 _FOOTSTEP_PLANNER_BEGIN
 // extern double _edgecost_w_d;

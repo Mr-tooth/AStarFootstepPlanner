@@ -1,5 +1,5 @@
 
-#include <FootstepPlannerLJH\AStarFootstepPlanner.h>
+#include <FootstepPlannerLJH/AStarFootstepPlanner.h>
 #include <iostream>
 // #include <matplotlibcpp.h>
 // namespace plt = matplotlibcpp;

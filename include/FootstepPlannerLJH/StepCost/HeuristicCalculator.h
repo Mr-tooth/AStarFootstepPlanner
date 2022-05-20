@@ -1,11 +1,11 @@
 
 #pragma once
 #include <cmath>
-#include <FootstepPlannerLJH\Title.h>
-#include <FootstepPlannerLJH\DataType.h>
-#include <FootstepPlannerLJH\parameters.h>
-#include <Heuclid\geometry\Pose3D.h>
-#include <Heuclid\geometry\Pose2D.h>
+#include <FootstepPlannerLJH/Title.h>
+#include <FootstepPlannerLJH/DataType.h>
+#include <FootstepPlannerLJH/parameters.h>
+#include <Heuclid/geometry/Pose3D.h>
+#include <Heuclid/geometry/Pose2D.h>
 using ljh::mathlib::Pose3D;
 _FOOTSTEP_PLANNER_BEGIN
 

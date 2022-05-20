@@ -12,9 +12,9 @@
 #define min_ljh(a,b)  (((a)<(b))?(a):(b))
 #endif
 
-#include <FootstepPlannerLJH\EnumDef.h>
-#include <Heuclid\euclid\tuple2D\Point2D.h>
-#include <Heuclid\geometry\Pose2D.h>
+#include <FootstepPlannerLJH/EnumDef.h>
+#include <Heuclid/euclid/tuple2D/Point2D.h>
+#include <Heuclid/geometry/Pose2D.h>
 #include <cmath>
 using ljh::mathlib::Point2D;
 using ljh::mathlib::Pose2D;

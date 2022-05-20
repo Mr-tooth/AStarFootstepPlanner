@@ -1,5 +1,5 @@
 
-#include <FootstepPlannerLJH\StepConstraints\StepConstraintCheck.h>
+#include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 
 _FOOTSTEP_PLANNER_BEGIN
 

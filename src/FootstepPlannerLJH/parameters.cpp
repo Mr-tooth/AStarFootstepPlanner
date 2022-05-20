@@ -1,5 +1,5 @@
 
-#include <FootstepPlannerLJH\parameters.h>
+#include <FootstepPlannerLJH/parameters.h>
 _FOOTSTEP_PLANNER_BEGIN
 
 

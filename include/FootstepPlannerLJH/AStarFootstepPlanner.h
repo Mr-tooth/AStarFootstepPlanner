@@ -6,13 +6,13 @@
 #include <functional>
 #include <algorithm>
 
-#include <FootstepPlannerLJH\Title.h>
-#include <FootstepPlannerLJH\DataType.h>
-#include <FootstepPlannerLJH\AStarSearch.h>
-#include <FootstepPlannerLJH\StepCost\FootstepCostCalculator.h>
-#include <FootstepPlannerLJH\StepExpansion\ParameterBasedStepExpansion.h>
-#include <FootstepPlannerLJH\StepCheck\FootstepPlannerCompletionChecker.h>
-#include <FootstepPlannerLJH\PlotCheck\PlotChecker.h>
+#include <FootstepPlannerLJH/Title.h>
+#include <FootstepPlannerLJH/DataType.h>
+#include <FootstepPlannerLJH/AStarSearch.h>
+#include <FootstepPlannerLJH/StepCost/FootstepCostCalculator.h>
+#include <FootstepPlannerLJH/StepExpansion/ParameterBasedStepExpansion.h>
+#include <FootstepPlannerLJH/StepCheck/FootstepPlannerCompletionChecker.h>
+#include <FootstepPlannerLJH/PlotCheck/PlotChecker.h>
 
 _FOOTSTEP_PLANNER_BEGIN
 

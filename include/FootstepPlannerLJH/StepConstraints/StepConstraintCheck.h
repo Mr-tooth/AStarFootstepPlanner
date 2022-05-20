@@ -1,12 +1,12 @@
 #pragma once
-#include <FootstepPlannerLJH\Title.h>
-#include <FootstepPlannerLJH\parameters.h>
-#include <FootstepPlannerLJH\EnumDef.h>
-#include <FootstepPlannerLJH\FootstepplannerBasic.h>
-#include <FootstepPlannerLJH\PlotCheck\FootPolygon.h>
-#include <Heuclid\geometry\ConvexPolygon2D.h>
-#include <Heuclid\geometry\tools\HeuclidPolygonTools.h>
-#include <Heuclid\geometry\Pose2D.h>
+#include <FootstepPlannerLJH/Title.h>
+#include <FootstepPlannerLJH/parameters.h>
+#include <FootstepPlannerLJH/EnumDef.h>
+#include <FootstepPlannerLJH/FootstepplannerBasic.h>
+#include <FootstepPlannerLJH/PlotCheck/FootPolygon.h>
+#include <Heuclid/geometry/ConvexPolygon2D.h>
+#include <Heuclid/geometry/tools/HeuclidPolygonTools.h>
+#include <Heuclid/geometry/Pose2D.h>
 #include <vector>
 _FOOTSTEP_PLANNER_BEGIN
 class StepConstraintCheck

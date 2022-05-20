@@ -8,8 +8,8 @@
 #define _FOOTSTEP_PLANNER_BEGIN namespace ljh{namespace path{namespace footstep_planner{
 #define _FOOTSTEP_PLANNER_END }}}
 #include <cmath>
-#include <FootstepPlannerLJH\DataType.h>
-#include <FootstepPlannerLJH\Title.h>
+#include <FootstepPlannerLJH/DataType.h>
+#include <FootstepPlannerLJH/Title.h>
 _FOOTSTEP_PLANNER_BEGIN
 
 

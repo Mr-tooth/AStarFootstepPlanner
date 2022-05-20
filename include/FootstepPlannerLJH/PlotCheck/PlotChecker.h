@@ -1,11 +1,11 @@
 
 #pragma once
 #include <vector>
-#include <FootstepPlannerLJH\Title.h>
-#include <FootstepPlannerLJH\DataType.h>
-#include <FootstepPlannerLJH\AStarSearch.h>
-#include <FootstepPlannerLJH\PlotCheck\FootPolygon.h>
-#include <Heuclid\geometry\Pose3D.h>
+#include <FootstepPlannerLJH/Title.h>
+#include <FootstepPlannerLJH/DataType.h>
+#include <FootstepPlannerLJH/AStarSearch.h>
+#include <FootstepPlannerLJH/PlotCheck/FootPolygon.h>
+#include <Heuclid/geometry/Pose3D.h>
 #include <matplotlibcpp.h>
 namespace plt = matplotlibcpp;
 _FOOTSTEP_PLANNER_BEGIN

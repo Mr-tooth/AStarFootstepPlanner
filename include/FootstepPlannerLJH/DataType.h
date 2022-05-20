@@ -1,6 +1,6 @@
 #pragma once
 
-#include <FootstepPlannerLJH\FootstepplannerBasic.h>
+#include <FootstepPlannerLJH/FootstepplannerBasic.h>
 #ifndef COST_T
 #define COST_T
 typedef double cost_t;

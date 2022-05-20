@@ -3,8 +3,8 @@
 #define _FOOTSTEP_PLANNER_BEGIN namespace ljh{namespace path{namespace footstep_planner{
 #define _FOOTSTEP_PLANNER_END }}}
 
-#include <FootstepPlannerLJH\parameters.h>
-#include <FootstepPlannerLJH\FootstepplannerBasic.h>
+#include <FootstepPlannerLJH/parameters.h>
+#include <FootstepPlannerLJH/FootstepplannerBasic.h>
 #include <vector>
 _FOOTSTEP_PLANNER_BEGIN
 class PartialExpansionManager

@@ -4,11 +4,11 @@
 
 
 
-#include <FootstepPlannerLJH\parameters.h>
-//#include <FootstepPlannerLJH\FootstepplannerBasic.h>
-#include <FootstepPlannerLJH\Title.h>
-#include <FootstepPlannerLJH\DataType.h>
-#include <FootstepPlannerLJH\StepCost\HeuristicCalculator.h>
+#include <FootstepPlannerLJH/parameters.h>
+//#include <FootstepPlannerLJH/FootstepplannerBasic.h>
+#include <FootstepPlannerLJH/Title.h>
+#include <FootstepPlannerLJH/DataType.h>
+#include <FootstepPlannerLJH/StepCost/HeuristicCalculator.h>
 
 _FOOTSTEP_PLANNER_BEGIN
 

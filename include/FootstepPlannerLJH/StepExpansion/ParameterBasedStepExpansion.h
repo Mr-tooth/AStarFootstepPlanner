@@ -8,11 +8,11 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_map>
-#include <FootstepPlannerLJH\parameters.h>
-#include <FootstepPlannerLJH\FootstepplannerBasic.h>
-#include <Heuclid\euclid\tuple2D\Vector2D.h>
-#include <FootstepPlannerLJH\StepExpansion\PartialExpansionManager.h>
-#include <FootstepPlannerLJH\StepConstraints\StepConstraintCheck.h>
+#include <FootstepPlannerLJH/parameters.h>
+#include <FootstepPlannerLJH/FootstepplannerBasic.h>
+#include <Heuclid/euclid/tuple2D/Vector2D.h>
+#include <FootstepPlannerLJH/StepExpansion/PartialExpansionManager.h>
+#include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 
 using ljh::mathlib::Vector2D;
 _FOOTSTEP_PLANNER_BEGIN

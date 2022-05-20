@@ -6,7 +6,7 @@
 #include <functional>
 #include <algorithm>
 #include <queue>
-#include <FootstepPlannerLJH\parameters.h>
+#include <FootstepPlannerLJH/parameters.h>
 #define _FOOTSTEP_PLANNER_BEGIN namespace ljh{namespace path{namespace footstep_planner{
 #define _FOOTSTEP_PLANNER_END }}}
 // // it's not that convicing, need to rethink!

@@ -1,5 +1,5 @@
 
-#include <FootstepPlannerLJH\StepCost\FootstepCostCalculator.h>
+#include <FootstepPlannerLJH/StepCost/FootstepCostCalculator.h>
 
 _FOOTSTEP_PLANNER_BEGIN
 

@@ -3,10 +3,10 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
-#include <Heuclid\geometry\Pose2D.h>
-#include <FootstepPlannerLJH\EnumDef.h>
-#include <FootstepPlannerLJH\Title.h>
-#include <FootstepPlannerLJH\DataType.h>
+#include <Heuclid/geometry/Pose2D.h>
+#include <FootstepPlannerLJH/EnumDef.h>
+#include <FootstepPlannerLJH/Title.h>
+#include <FootstepPlannerLJH/DataType.h>
 
 
 

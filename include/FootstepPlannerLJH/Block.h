@@ -4,8 +4,8 @@
 // #pragma once
 // #ifndef __LJH__FOOTSTEP__PLANNER
 // #define __LJH__FOOTSTEP__PLANNER
-// #include <LBlocks\LBlocks.hpp>
-// #include <Eigen\Dense>
+// #include <LBlocks/LBlocks.hpp>
+// #include <Eigen/Dense>
 
 // #include <algorithm>
 // #include <functional>   

@@ -6,8 +6,8 @@
 #define _FOOTSTEP_PLANNER_END }}}
 
 
-#include <FootstepPlannerLJH\parameters.h>
-#include <Heuclid\geometry\Pose2D.h>
+#include <FootstepPlannerLJH/parameters.h>
+#include <Heuclid/geometry/Pose2D.h>
 using ljh::mathlib::Pose2D;
 _FOOTSTEP_PLANNER_BEGIN
 
