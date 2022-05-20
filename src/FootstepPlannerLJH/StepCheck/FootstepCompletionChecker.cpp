@@ -50,7 +50,15 @@ int FootstepCompletionChecker::checkIfGoalReached(Location current, std::vector<
         //std::cout<<"Neighbor size before: " <<neighbors.size()<<std::endl;
         sort(neighbors.begin(),neighbors.end(),compareNode);
         //std::cout<<"Neighbor size: " <<neighbors.size()<<std::endl;
-        this->stopStep = neighbors.at(0);
+        if(!neighbors.empty())
+            this->stopStep = neighbors.at(0);
+        else
+        {
+            // neighbor is empty! Search Terminate!
+            this->endNode = current;
+            return NEIGHBOR_EMPTY;
+        }
+             
         this->stopMidPose = stopStep.getOrComputeMidFootPose();
 
         double xyDis = heuclidCoreTool.norm(this->stopMidPose.getPosition().getX()-this->goalMidFootPose.getPosition().getX(),

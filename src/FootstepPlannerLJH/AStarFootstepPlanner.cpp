@@ -105,7 +105,11 @@ void AStarFootstepPlanner::doAStarSearch()
             this->cameFromMap[this->stepOverChecker.getEndNode()] = this->stepOverChecker.getStopNode();
             // Solution Found and Quit Search
             break;
-        }      
+        }   
+        else if(this->solutionFoundFlag == NEIGHBOR_EMPTY)   
+        {
+            break;
+        }
     } 
 }
 

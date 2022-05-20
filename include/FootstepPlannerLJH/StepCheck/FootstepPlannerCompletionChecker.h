@@ -10,6 +10,7 @@ using ljh::mathlib::HeuclidCoreTool;
 #define GOAL_REACHED_SPECIFIC 2
 #define GOAL_REACHED_PROXIMITY 1
 #define GOAL_NO_REACHED 0
+#define NEIGHBOR_EMPTY 3
 
 #define YAW_SCALAR 3.0
 

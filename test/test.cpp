@@ -174,7 +174,7 @@ int main()
     goalX = 0.8;
     goalY = -0.35;
     goalZ = 0.0;
-    goalYaw = 40.0/180.0 * pi;
+    goalYaw = 45.0/180.0 * pi;
 
     goalPose2D.setPosition(goalX,goalY);
     goalPose2D.setOrientation(goalYaw);
