@@ -9,10 +9,12 @@ void StepConstraintCheck::initialize()
     //this->polygonTools = ljh::mathlib::HeuclidGeometryPolygonTools();
     ljh::mathlib::Pose2D<double> Res;
     this->stepPose = Res;
-    vertexX.clear();
-    vertexY.clear();
-    vertex.setPoint2D(0.0,0.0);
-    stanceBuffer.clear();
+    this->vertexX.clear();
+    this->vertexY.clear();
+    this->vertexX8.clear();
+    this->vertexY8.clear();
+    this->vertex.setPoint2D(0.0,0.0);
+    this->stanceBuffer.clear();
 }
 
 
@@ -55,6 +57,8 @@ bool StepConstraintCheck::isTwoFootCollided(double stanceX, double stanceY, doub
     this->stepPose.setPosition(swingX,swingY);
     this->stepPose.setOrientation(swingYaw);
     getExtendedFootVertex2D(this->stepPose,swingFlag,this->vertexX,this->vertexY,this->param.footPolygonExtendedLength);
+    // Four Vertex is not enough, need Eight Vertices
+    //this->vertexX8.clear(); this->vertexY8.clear();
 
     // check each vertex of swingStep Whether in stanceStep polygon
     for(int i=0;i<4;i++)
@@ -63,7 +67,12 @@ bool StepConstraintCheck::isTwoFootCollided(double stanceX, double stanceY, doub
         if(this->polygonTools.isPoint2DInsideConvexPolygon2D(this->vertexX.at(i),this->vertexY.at(i),this->stanceBuffer,4,1))
             return true;
     }
-
+    // check 4 middle points of edge
+    for(int i=0;i<4;i++)
+    {
+        if(this->polygonTools.isPoint2DInsideConvexPolygon2D(0.5*(this->vertexX.at(i)+this->vertexX.at((i+1)%4)),0.5*(this->vertexY.at(i)+this->vertexY.at((i+1)%4)),this->stanceBuffer,4,1))
+            return true;
+    }
     return false;
 
 

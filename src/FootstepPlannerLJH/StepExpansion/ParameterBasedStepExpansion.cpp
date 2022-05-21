@@ -122,8 +122,8 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
 
 
         childNode.setNode(nodeToExpand.getSecondStep(),childStep);
-        
-        if(this->stepConstraintChecker.isTwoFootCollided(childNode))
+        double yawDistance = abs(childNode.getFirstStep().getYaw()-childNode.getSecondStep().getYaw());
+        if(this->stepConstraintChecker.isTwoFootCollided(childNode) && yawDistance >1e-4 )
             continue;
         
         if(std::find(fullExpansionToPack.begin(),fullExpansionToPack.end(),childNode) == fullExpansionToPack.end())

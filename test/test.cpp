@@ -10,18 +10,18 @@ int main()
     ljh::path::footstep_planner::LatticePoint latticepoint;
     ljh::path::footstep_planner::parameters param;
 
-    latticepoint.setGridSizeXY(latticepoint,0.02);
+    latticepoint.setGridSizeXY(latticepoint,0.01);
     latticepoint.setYawDivision(latticepoint, 72);
 
     param.SetEdgeCostDistance(param,4.0);
     param.SetEdgeCostYaw(param, 4.0);
     param.SetEdgeCostStaticPerStep(param,1.4);
-    param.SetDebugFlag(param,false);
+    param.SetDebugFlag(param,true);
     param.SetMaxStepYaw(param,pi/8);
     param.SetMinStepYaw(param,-pi/8);        
 
     param.SetFinalTurnProximity(param,0.3);
-    param.SetGoalDistanceProximity(param,0.02);
+    param.SetGoalDistanceProximity(param,0.01);
     param.SetGoalYawProximity(param,2.0/180.0 * pi);
     param.SetFootPolygonExtendedLength(param,0.02);
     
@@ -172,9 +172,9 @@ int main()
     startZ = 0.0;
     startYaw = 0.0/180.0 * pi;
     goalX = 0.8;
-    goalY = -0.35;
+    goalY = -0.8/sqrt(3);
     goalZ = 0.0;
-    goalYaw = 45.0/180.0 * pi;
+    goalYaw = -90.0/180.0 * pi;
 
     goalPose2D.setPosition(goalX,goalY);
     goalPose2D.setOrientation(goalYaw);
@@ -198,7 +198,17 @@ int main()
     footstepPlanner.calFootstepSeries();
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out2 = footstepPlanner.getFootstepSeries();
     pltChecker.plotSearchOutcome(Out2,goalPose,startPose);
-    //std::cout<<"Collide :"<<checker.isTwoFootCollided(Out.at(7))<<std::endl;
+    //Location test = Out2.at(7);
+    std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out3;
+    Out3.push_back(Out2.at(7));
+    Out3.push_back(Out2.at(8));
+    pltChecker.plotSearchOutcome(Out3,goalPose,startPose);
+
+    std::cout<<"Collide 1:"<<checker.isTwoFootCollided(Out2.at(7))<<std::endl;
+    std::cout<<"Collide 2:"<<checker.isTwoFootCollided(Out2.at(8))<<std::endl;
+    std::cout<<"Distance of last two: "<<
+    sqrt(pow(Out2[Out2.size()-1].getSecondStep().getX()-Out2[Out2.size()-2].getSecondStep().getX(),2)+
+    pow(Out2[Out2.size()-1].getSecondStep().getY()-Out2[Out2.size()-2].getSecondStep().getY(),2))<<std::endl;
     std::cout<<"Quit"<<std::endl;
     return 0;
 }

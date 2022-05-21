@@ -82,8 +82,8 @@ void AStarFootstepPlanner::doAStarSearch()
                     this->costSoFarMap[next] = new_cost;
                     cost_t priority = new_cost + this->stepCostCalculator.computeHeuristicCost(next);
 
-                    if(this->param.getDebugFlag(this->param))
-                        std::cout<< "the heuristic cost: "<<this->stepCostCalculator.getHeuristicCost()<<std::endl;
+                    // if(this->param.getDebugFlag(this->param))
+                    //     std::cout<< "the heuristic cost: "<<this->stepCostCalculator.getHeuristicCost()<<std::endl;
 
                     this->frontier.put(next, priority);
                     this->cameFromMap[next] = current;
@@ -141,16 +141,31 @@ void AStarFootstepPlanner::calFootstepSeries()
     Location current(this->stepOverChecker.getEndNode());
     while(!(current==this->start))
     {
-        path.push_back(current);
+        this->path.push_back(current);
         current = cameFromMap[current];
     }
-    path.push_back(this->start);
+    this->path.push_back(this->start);
     if(this->startFlag)
-        path.push_back(this->startL);
+        this->path.push_back(this->startL);
     else
-        path.push_back(this->startR);
+        this->path.push_back(this->startR);
         
-    std::reverse(path.begin(),path.end());
+    std::reverse(this->path.begin(),this->path.end());
+    // LatticePoint lat;
+    // lat.gridSizeXY = 1e-10;
+    // lat.gridSizeYaw = 1e-10;
+    // this->calLocationFromPose(this->goalPose,this->goalL,this->goalR);
+    // if(this->stepOverChecker.getEndNode().getSecondStepSide().getStepFlag()==stepL)
+    // {
+    //     this->path.push_back(this->goalR);
+    //     this->path.push_back(this->goalL);
+    // }
+    // else
+    // {
+    //     this->path.push_back(this->goalL);
+    //     this->path.push_back(this->goalR);
+    // }
+    
 }
 
 _FOOTSTEP_PLANNER_END

@@ -47,7 +47,8 @@ int FootstepCompletionChecker::checkIfGoalReached(Location current, std::vector<
     if(this->isProximityModeEnabled())
     {
         this->setIdealSquaredUpStep(current.getSecondStep(),this->param.IdealStepWidth);
-        //std::cout<<"Neighbor size before: " <<neighbors.size()<<std::endl;
+        if(this->param.debugFlag)
+            std::cout<<"Neighbor size before: " <<neighbors.size()<<std::endl;
         sort(neighbors.begin(),neighbors.end(),compareNode);
         //std::cout<<"Neighbor size: " <<neighbors.size()<<std::endl;
         if(!neighbors.empty())
