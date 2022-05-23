@@ -3,8 +3,33 @@
 #include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 #include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 #include <iostream>
+
 int main()
 {
+    // // CHECK the problem with scatter
+    // ljh::path::footstep_planner::PlotChecker pltChecker2;
+
+    // Location ha1,ha2,ha3,ha4,ha5;
+    // std::vector<Location> ha;
+    // ha.push_back(ha2);
+    // ha.push_back(ha3);
+    // ha.push_back(ha4);
+    // ha.push_back(ha5);
+    // pltChecker2.plotExpansion(ha1,ha);
+    // std::vector<double> expanX,expanY,expanYaw;
+    // for(int i=0;i<1000;i++)
+    // {
+    //     expanX.push_back(i*1.5);
+    //     expanY.push_back(i*2);
+    //     expanYaw.push_back(i*2.5);
+    //     plt::annotate(std::to_string(i),i*1.5,i*2+0.02);
+    // }
+    // plt::figure(1);
+    // //plt::clf();
+    // plt::scatter(expanX,expanY);
+    // plt::show();
+
+
     ljh::path::footstep_planner::StepConstraintCheck checker;
     //set parameters!
     ljh::path::footstep_planner::LatticePoint latticepoint;
@@ -16,14 +41,14 @@ int main()
     param.SetEdgeCostDistance(param,4.0);
     param.SetEdgeCostYaw(param, 4.0);
     param.SetEdgeCostStaticPerStep(param,1.4);
-    param.SetDebugFlag(param,true);
+    param.SetDebugFlag(param,false);
     param.SetMaxStepYaw(param,pi/8);
     param.SetMinStepYaw(param,-pi/8);        
 
     param.SetFinalTurnProximity(param,0.3);
     param.SetGoalDistanceProximity(param,0.01);
     param.SetGoalYawProximity(param,2.0/180.0 * pi);
-    param.SetFootPolygonExtendedLength(param,0.02);
+    param.SetFootPolygonExtendedLength(param,0.03);
     
 
     std:: cout<< "gridSizeXY is "<<latticepoint.getGridSizeXY(latticepoint)<<std::endl;
@@ -161,8 +186,12 @@ int main()
     std::cout<< "First x y yaw"<<Out.at(0).getSecondStep().getX() <<" "<<Out.at(0).getSecondStep().getY() <<" "<<Out.at(0).getSecondStep().getYaw()<<std::endl;
     
     ljh::path::footstep_planner::PlotChecker pltChecker;
-    pltChecker.plotSearchOutcome(Out,goalPose,startPose);
     
+    pltChecker.plotSearchOutcome2(Out,goalPose,startPose);
+    std::cout<<"Collide 1:"<<checker.isTwoFootCollidedAndPlot(Out.at(7))<<std::endl;
+    std::cout<<"Distance of last two: "<<
+    sqrt(pow(Out[Out.size()-1].getSecondStep().getX()-Out[Out.size()-2].getSecondStep().getX(),2)+
+    pow(Out[Out.size()-1].getSecondStep().getY()-Out[Out.size()-2].getSecondStep().getY(),2))<<std::endl;
 
 
     // a second time search
@@ -197,7 +226,7 @@ int main()
     footstepPlanner.doAStarSearch();
     footstepPlanner.calFootstepSeries();
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out2 = footstepPlanner.getFootstepSeries();
-    pltChecker.plotSearchOutcome(Out2,goalPose,startPose);
+    pltChecker.plotSearchOutcome2(Out2,goalPose,startPose);
     //Location test = Out2.at(7);
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out3;
     Out3.push_back(Out2.at(7));

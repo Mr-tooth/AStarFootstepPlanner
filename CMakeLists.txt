@@ -4,7 +4,7 @@ set(LIB_NAME FootstepPlanner)
 project(${PROJECT_NAME} VERSION 1.0.0)
 
 # if need to Modify and Debug , set BUILD_TEST_LJH 1
-set(BUILD_TEST_LJH 1)
+set(BUILD_TEST_LJH 0)
 if(${BUILD_TEST_LJH})
     set(CMAKE_BUILD_TYPE Debug)
     # message("Build type is Debug! ")
@@ -16,14 +16,14 @@ endif()
 
 message("Build type is ${CMAKE_BUILD_TYPE}")
 
-# add_compile_options(-std=c++11)
+# add_compile_options(/std=c++11)
 add_compile_options(/MT)
 
 find_package(matplotlib_cpp REQUIRED)
 find_package(Heuclid REQUIRED)
 
 include_directories(./include)
-include_directories(include)
+# include_directories(include)
 #include_directories(./include/FootstepPlannerLJH)
 
 aux_source_directory(src/FootstepPlannerLJH SRC_FILES)

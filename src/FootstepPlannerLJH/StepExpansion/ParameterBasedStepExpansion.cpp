@@ -29,17 +29,21 @@ void ParameterBasedStepExpansion::initialize()
             double minYaw =  (1-reachFraction) * param.MinStepYaw + reachFraction * minYawAtFullExtension; 
             double maxYaw =  (1-reachFraction) * param.MaxStepYaw + reachFraction * maxYawAtFullExtension;
 
+            // 
+            minYaw = round(minYaw/latPoForFunc.gridSizeYaw)*latPoForFunc.gridSizeYaw;
+            maxYaw = round(maxYaw/latPoForFunc.gridSizeYaw)*latPoForFunc.gridSizeYaw;
             for(double yaw = minYaw;yaw<=maxYaw;yaw += latPoForFunc.gridSizeYaw)
             {
                 // double distance = computeDistanceBetweenFootPolygons(DiscreteFootstep(0,0,0,RobotSide.Right),
                 
                 // need a stance clear region  condition                                                    //DiscreteFootstep(x,y,yaw,RobotSide.Left))
-                if(!this->stepConstraintChecker.isTwoFootCollided(0.0,0.0,0.0,stepR, x,y,yaw,stepL))
-                {
+                // Reserve the node which is collided with stance clear region but is parallel to the stance foot in yaw
+                // if(!(this->stepConstraintChecker.isTwoFootCollided(0.0,0.0,0.0,stepR, x,y,yaw,stepL) && abs(yaw)>1e-4 ))
+                // {
                     this->xOffsets.push_back(x);
                     this->yOffsets.push_back(y);
                     this->yawOffsets.push_back(yaw);
-                }
+                // }
                 // else{
                 //     std::cout<<" FootColliding! "<< "X: "<<x<<" Y: "<<y<<" Yaw: "<<yaw<<std::endl;
                 // }
@@ -106,11 +110,11 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
     fullExpansionToPack.clear();
     RobotSide stepside = nodeToExpand.getFirstStepSide();
 
-    for(int i=0;i<xOffsets.size();i++)
+    for(int i=0;i<this->xOffsets.size();i++)
     {
-        midStepLength = xOffsets[i];
-        midStepWidth = stepside.negateIfRightSide(yOffsets[i]);
-        midStepYaw = stepside.negateIfRightSide(yawOffsets[i]);
+        midStepLength = this->xOffsets[i];
+        midStepWidth = stepside.negateIfRightSide(this->yOffsets[i]);
+        midStepYaw = stepside.negateIfRightSide(this->yawOffsets[i]);
         childStep = constructNodeInPreviousNodeFrame(midStepLength,midStepWidth,midStepYaw,nodeToExpand.getSecondStep());
 
         // add check  whether the foot is in stair polygon
@@ -122,8 +126,9 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
 
 
         childNode.setNode(nodeToExpand.getSecondStep(),childStep);
-        double yawDistance = abs(childNode.getFirstStep().getYaw()-childNode.getSecondStep().getYaw());
-        if(this->stepConstraintChecker.isTwoFootCollided(childNode) && yawDistance >1e-4 )
+        double yawDistance = (childNode.getSecondStep().getYaw()-childNode.getFirstStep().getYaw() );
+        //std::cout<<"yaw distance is : "<<yawDistance-midStepYaw<<std::endl;
+        if(this->stepConstraintChecker.isTwoFootCollided(childNode) && abs(yawDistance) >1e-4 )
             continue;
         
         if(std::find(fullExpansionToPack.begin(),fullExpansionToPack.end(),childNode) == fullExpansionToPack.end())
