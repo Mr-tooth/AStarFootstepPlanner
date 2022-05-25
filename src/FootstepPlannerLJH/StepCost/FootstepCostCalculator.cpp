@@ -17,9 +17,9 @@ cost_t FootstepCostCalculator::computeTotalCost(Location candidateNode, Location
 
 cost_t FootstepCostCalculator::computeEdgeCost(Location candidateNode, Location stanceNode)
 {
-    this->xOffset = abs(candidateNode.getSecondStep().getMidFootPoint().getX()-stanceNode.getSecondStep().getMidFootPoint().getX());
-    this->yOffset = abs(candidateNode.getSecondStep().getMidFootPoint().getY()-stanceNode.getSecondStep().getMidFootPoint().getY());
-    this->yawOffset = abs(candidateNode.getSecondStep().getYaw()-stanceNode.getSecondStep().getYaw());
+    this->xOffset = std::abs(candidateNode.getSecondStep().getMidFootPoint().getX()-stanceNode.getSecondStep().getMidFootPoint().getX());
+    this->yOffset = std::abs(candidateNode.getSecondStep().getMidFootPoint().getY()-stanceNode.getSecondStep().getMidFootPoint().getY());
+    this->yawOffset = std::abs(candidateNode.getSecondStep().getYaw()-stanceNode.getSecondStep().getYaw());
 
     this->lenOffset = sqrt(this->xOffset*this->xOffset + this->yOffset*this->yOffset);
 
@@ -54,9 +54,9 @@ void FootstepCostCalculator::initialize(Pose3D<double> _goalPose, Pose3D<double>
 
 // cost_t FootstepCostCalculator::computeCost(DiscreteFootstep candidateStep, DiscreteFootstep stanceStep, DiscreteFootstep startOfSwing)
 // {
-//     this->xOffset = abs(candidateStep.getMidFootPoint().getX() - stanceStep.getMidFootPoint().getX());
-//     this->yOffset = abs(candidateStep.getMidFootPoint().getY() - stanceStep.getMidFootPoint().getY());
-//     this->yawOffset = abs(candidateStep.getYaw()-stanceStep.getYaw());
+//     this->xOffset = std::abs(candidateStep.getMidFootPoint().getX() - stanceStep.getMidFootPoint().getX());
+//     this->yOffset = std::abs(candidateStep.getMidFootPoint().getY() - stanceStep.getMidFootPoint().getY());
+//     this->yawOffset = std::abs(candidateStep.getYaw()-stanceStep.getYaw());
     
 //     // this->zOffset = cost_t(0);
 //     // this->pitchOffset = cost_t(0);

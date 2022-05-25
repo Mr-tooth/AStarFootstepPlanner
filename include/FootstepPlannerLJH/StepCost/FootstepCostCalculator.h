@@ -57,9 +57,9 @@ public:
 
 // cost_t FootstepCostCalculator::computeCost(DiscreteFootstep candidateStep, DiscreteFootstep stanceStep, DiscreteFootstep startOfSwing)
 // {
-//     this->xOffset = abs(candidateStep.getMidFootPoint().getX() - stanceStep.getMidFootPoint().getX());
-//     this->yOffset = abs(candidateStep.getMidFootPoint().getY() - stanceStep.getMidFootPoint().getY());
-//     this->yawOffset = abs(candidateStep.getYaw()-stanceStep.getYaw());
+//     this->xOffset = std::abs(candidateStep.getMidFootPoint().getX() - stanceStep.getMidFootPoint().getX());
+//     this->yOffset = std::abs(candidateStep.getMidFootPoint().getY() - stanceStep.getMidFootPoint().getY());
+//     this->yawOffset = std::abs(candidateStep.getYaw()-stanceStep.getYaw());
     
 //     // this->zOffset = cost_t(0);
 //     // this->pitchOffset = cost_t(0);

@@ -29,8 +29,8 @@ public:
         // this->MidStanceY = -sin(next.PosYaw)    * next.PosX    + cos(next.PosYaw)    * next.PosY
         //                    +sin(current.PosYaw) * current.PosX - cos(current.PosYaw) * current.PosY;
         // this->MidStance = sqrt(pow(this->MidStanceX,2)+pow(this->MidStanceY,2));
-        // this->DeltaYaw = abs(next.PosYaw-current.PosYaw);
-        // this->DeltaHeight = abs(next.PosZ-current.PosZ);
+        // this->DeltaYaw = std::abs(next.PosYaw-current.PosYaw);
+        // this->DeltaHeight = std::abs(next.PosZ-current.PosZ);
         // //this->CoverFraction = getfracwithplane(int planenum, planedata(vertex, normal));
         // this->g_cost = cost_t(this->param.edgecost_w_d * this->MidStance +  this->param.edgecost_w_yaw * this->DeltaYaw + this->param.edgecost_w_h * this->DeltaHeight 
         //               +this->param.edgecost_w_area * this->CoverFraction + this->param.edgecost_w_static * this->StaticStepCost);

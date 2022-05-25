@@ -143,14 +143,14 @@ double DiscreteFootstep::euclideanPlaneDistance(const DiscreteFootstep& other) c
 
 int DiscreteFootstep::computeYawIndexDistance(const DiscreteFootstep& other) const
 {
-    int dYaw = abs(this->latticepoint.getYawIndex()-other.getYawIndex());
+    int dYaw = std::abs(this->latticepoint.getYawIndex()-other.getYawIndex());
     return min_ljh(dYaw,this->latticepoint.yawDivision-dYaw);
 }
 
 int DiscreteFootstep::computeXYManhattanDistance(const DiscreteFootstep& other) const
 {
-    int manhattandistance = abs(this->latticepoint.getXIndex()-other.latticepoint.getXIndex())
-                           +abs(this->latticepoint.getYIndex()-other.latticepoint.getYIndex());
+    int manhattandistance = std::abs(this->latticepoint.getXIndex()-other.latticepoint.getXIndex())
+                           +std::abs(this->latticepoint.getYIndex()-other.latticepoint.getYIndex());
     
     return manhattandistance;
 }
@@ -231,7 +231,7 @@ double FootstepGraphNode::getStanceAngle()
 {   // return [-pi,pi]
     double difference = firstStep.getYaw()-secondStep.getYaw();
     difference = this->midFootPose.getOrientation().shiftProperYaw(difference);
-    return abs(difference);
+    return std::abs(difference);
 }
 
 void FootstepGraphNode::setNode(DiscreteFootstep _firststep, DiscreteFootstep _secondstep)

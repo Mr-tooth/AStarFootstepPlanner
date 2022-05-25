@@ -26,7 +26,7 @@ cost_t HeuristicCalculator::compute(FootstepGraphNode& node)
     
     if(this->walkDistance < this->param.FinalTurnProximity)
     {
-        this->finalTurnDistance = abs(this->midFootPose.getOrientation().shiftProperYaw(
+        this->finalTurnDistance = std::abs(this->midFootPose.getOrientation().shiftProperYaw(
             this->midFootPose.getOrientation().getYaw()-this->goalPose.getOrientation().getYaw())) * 0.5 * PI * this->param.IdealStepWidth;
         
         //this->heuristicCost = cost_t(this->param.AStarHeuristicWeight * (this->finalTurnDistance+this->walkDistance));
@@ -40,15 +40,15 @@ cost_t HeuristicCalculator::compute(FootstepGraphNode& node)
         double x = (goalPose.getPosition().getX()-startPose.getPosition().getX());
         this->desireHeading = this->midFootPose.getOrientation().shiftProperYaw(atan2(y,x));
         
-        // this->initialTurnDistance = abs(this->midFootPose.getOrientation().shiftProperYaw(
+        // this->initialTurnDistance = std::abs(this->midFootPose.getOrientation().shiftProperYaw(
         //     this->midFootPose.getOrientation().getYaw()-this->desireHeading)) * 0.5 * PI * this->param.IdealStepWidth;
 
-        this->initialTurnDistance = (abs(this->midFootPose.getOrientation().shiftProperYaw(node.getFirstStep().getYaw()-this->desireHeading))
-                                    +abs(this->midFootPose.getOrientation().shiftProperYaw(node.getSecondStep().getYaw()-this->desireHeading))) 
+        this->initialTurnDistance = (std::abs(this->midFootPose.getOrientation().shiftProperYaw(node.getFirstStep().getYaw()-this->desireHeading))
+                                    +std::abs(this->midFootPose.getOrientation().shiftProperYaw(node.getSecondStep().getYaw()-this->desireHeading))) 
                                     * 0.5 * PI * this->param.IdealStepWidth;
 
         //this->finalTurnDistance = 0.0;
-        this->finalTurnDistance = abs(this->midFootPose.getOrientation().shiftProperYaw(
+        this->finalTurnDistance = std::abs(this->midFootPose.getOrientation().shiftProperYaw(
             this->desireHeading - this->goalPose.getOrientation().getYaw())) * 0.5 * PI * this->param.IdealStepWidth;
 
         this->heuristicCost = cost_t(this->param.AStarHeuristicWeight * (this->initialTurnDistance + this->walkDistance + this->finalTurnDistance));

@@ -64,7 +64,7 @@ int FootstepCompletionChecker::checkIfGoalReached(Location current, std::vector<
 
         double xyDis = heuclidCoreTool.norm(this->stopMidPose.getPosition().getX()-this->goalMidFootPose.getPosition().getX(),
                                             this->stopMidPose.getPosition().getY()-this->goalMidFootPose.getPosition().getY());
-        double yawDis = abs(this->stopMidPose.getOrientation().getYaw()-this->goalMidFootPose.getOrientation().getYaw());
+        double yawDis = std::abs(this->stopMidPose.getOrientation().getYaw()-this->goalMidFootPose.getOrientation().getYaw());
         if(xyDis<this->goalDistanceProximity && yawDis<this->goalYawProximity)
         {
             this->endNode = this->stopStep;

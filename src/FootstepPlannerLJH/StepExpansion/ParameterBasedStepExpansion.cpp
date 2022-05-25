@@ -38,7 +38,7 @@ void ParameterBasedStepExpansion::initialize()
                 
                 // need a stance clear region  condition                                                    //DiscreteFootstep(x,y,yaw,RobotSide.Left))
                 // Reserve the node which is collided with stance clear region but is parallel to the stance foot in yaw
-                // if(!(this->stepConstraintChecker.isTwoFootCollided(0.0,0.0,0.0,stepR, x,y,yaw,stepL) && abs(yaw)>1e-4 ))
+                // if(!(this->stepConstraintChecker.isTwoFootCollided(0.0,0.0,0.0,stepR, x,y,yaw,stepL) && std::abs(yaw)>1e-4 ))
                 // {
                     this->xOffsets.push_back(x);
                     this->yOffsets.push_back(y);
@@ -128,7 +128,7 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
         childNode.setNode(nodeToExpand.getSecondStep(),childStep);
         double yawDistance = (childNode.getSecondStep().getYaw()-childNode.getFirstStep().getYaw() );
         //std::cout<<"yaw distance is : "<<yawDistance-midStepYaw<<std::endl;
-        if(this->stepConstraintChecker.isTwoFootCollided(childNode) && abs(yawDistance) >1e-4 )
+        if(this->stepConstraintChecker.isTwoFootCollided(childNode) && std::abs(yawDistance) >1e-4 )
             continue;
         
         if(std::find(fullExpansionToPack.begin(),fullExpansionToPack.end(),childNode) == fullExpansionToPack.end())
