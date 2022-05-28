@@ -9,9 +9,9 @@ double LatticePoint::gridSizeYaw = 2.0*pi_f/LatticePoint::yawDivision;
 
 LatticePoint::LatticePoint(double x, double y, double yaw)
 {
-    this->xIndex   = int(x/this->gridSizeXY);
-    this->yIndex   = int(y/this->gridSizeXY);
-    this->yawIndex = int(yaw/this->gridSizeYaw);
+    this->xIndex   = int(std::round(x/this->gridSizeXY));
+    this->yIndex   = int(std::round(y/this->gridSizeXY));
+    this->yawIndex = int(std::round(yaw/this->gridSizeYaw));
 }
 
 LatticePoint::LatticePoint(int _x, int _y, int _yaw)

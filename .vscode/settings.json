@@ -49,6 +49,17 @@
         "xstddef": "cpp",
         "xstring": "cpp",
         "xtr1common": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "atomic": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "set": "cpp",
+        "memory": "cpp",
+        "ratio": "cpp",
+        "sstream": "cpp",
+        "xthread": "cpp",
+        "thread": "cpp",
+        "xcomplex": "cpp",
+        "core": "cpp"
     }
 }

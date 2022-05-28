@@ -22,6 +22,15 @@ add_compile_options(/MT)
 find_package(matplotlib_cpp REQUIRED)
 find_package(Heuclid REQUIRED)
 
+# for Block 
+find_package(LBlocks REQUIRED)
+find_package(Eigen3 REQUIRED)
+
+include_directories(
+    ${EIGEN3_INCLUDE_DIR}
+    ./include
+)
+
 include_directories(./include)
 # include_directories(include)
 #include_directories(./include/FootstepPlannerLJH)
@@ -32,6 +41,7 @@ aux_source_directory(src/FootstepPlannerLJH/StepCost SRC_FILES)
 aux_source_directory(src/FootstepPlannerLJH/StepCheck SRC_FILES)
 aux_source_directory(src/FootstepPlannerLJH/PlotCheck SRC_FILES)
 aux_source_directory(src/FootstepPlannerLJH/StepConstraints SRC_FILES)
+aux_source_directory(src/FootstepPlannerLJH/Block Block_SRC_FILES)
 
 link_libraries(Heuclid.lib  ${matplotlib_LIBS})
 
@@ -43,9 +53,12 @@ link_libraries(Heuclid.lib  ${matplotlib_LIBS})
 if(${BUILD_TEST_LJH})
     message("--[Test] Build FootstepPlannerLJH basic test by Source Code!")
     add_executable(test test/test.cpp ${SRC_FILES})
+
+    message(("--[TestBlock] Build Block basic test by Source Code!"))
+    add_executable(testBlock test/testBlock.cpp ${SRC_FILES} ${Block_SRC_FILES})
 else()
     message("--Build Final Static Lib!")
-    add_library(${LIB_NAME} STATIC ${SRC_FILES})
+    add_library(${LIB_NAME} STATIC ${SRC_FILES} ${Block_SRC_FILES})
 endif()
 
 # set install configuration

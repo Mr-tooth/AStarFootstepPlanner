@@ -4,6 +4,7 @@
 #include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 #include <iostream>
 
+#include <FootstepPlannerLJH/Block/Block.h>
 int main()
 {
     // // CHECK the problem with scatter
