@@ -63,7 +63,9 @@ void AStarFootstepPlanner::doAStarSearch()
         if(this->param.getDebugFlag(this->param))
         {
             this->plotChecker.plotExpansion(current,this->neighbors);
-            this->plotChecker.plotFrontier(this->frontier); 
+            this->plotChecker.plotFrontier(this->frontier);
+            if(this->param.isStairAlignMode)
+                this->plotChecker.plotGoalposeAndStair(this->goalPose); 
         }
         
 

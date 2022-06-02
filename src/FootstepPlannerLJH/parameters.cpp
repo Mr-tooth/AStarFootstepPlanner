@@ -38,6 +38,12 @@ CONST int parameters:: MaxBranchFactor = 0; //zero means doFullExpansion
 CONST double parameters:: FinalTurnProximity = 0.5;//0.2;
 CONST double parameters:: AStarHeuristicWeight = 30;
 CONST double parameters:: AStarHeuristicFinalWeight = 35;
+// Heuristic Weight Proportion of Walk Distance
+CONST double parameters:: HWPOfWalkDistacne = 1.2;
+// Heuristic Weight Proportion of Initial Turn Distance
+CONST double parameters:: HWPOfInitialTurnDistacne = 1.0;
+// Heuristic Weight Proportion of Final Turn Distance
+CONST double parameters:: HWPOfFinalTurnDistacne = 1.0;
 
 CONST double parameters:: goalDistanceProximity = 0.03;
 CONST double parameters:: goalYawProximity = 5*pi/180;
@@ -75,6 +81,9 @@ bool   parameters:: getDebugFlag(const parameters& param){ return param.debugFla
 bool   parameters:: getStairAlignMode(const parameters& param){return param.isStairAlignMode; }
 ljh::mathlib::ConvexPolygon2D parameters:: getStairPolygon(const parameters& param){return param.stairPolygon;}
 double parameters:: getFootPolygonExtendedLength(const parameters& param){return param.footPolygonExtendedLength;}
+double parameters:: getHWPOfWalkDistacne(const parameters& param){return param.HWPOfWalkDistacne;}
+double parameters:: getHWPOfInitialTurnDistacne(const parameters& param){return param.HWPOfInitialTurnDistacne;}
+double parameters:: getHWPOfFinalTurnDistacne(const parameters& param){return param.HWPOfFinalTurnDistacne;}
 
 
 void parameters::SetEdgeCostDistance(parameters& param, const double& change){ param.edgecost_w_d = change;}
@@ -109,4 +118,8 @@ void parameters::SetFootPolygonExtendedLength(const parameters& param, const dou
 {
     param.footPolygonExtendedLength = change;
 }
+
+void parameters::SetHWPOfWalkDistacne(const parameters& param, const double& change){param.HWPOfWalkDistacne = change;}
+void parameters::SetHWPOfInitialTurnDistacne(const parameters& param, const double& change){param.HWPOfInitialTurnDistacne = change;}
+void parameters::SetHWPOfFinalTurnDistacne(const parameters& param, const double& change){param.HWPOfFinalTurnDistacne = change;}
 _FOOTSTEP_PLANNER_END

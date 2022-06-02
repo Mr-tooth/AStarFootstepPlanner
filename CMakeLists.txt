@@ -4,7 +4,7 @@ set(LIB_NAME FootstepPlanner)
 project(${PROJECT_NAME} VERSION 1.0.0)
 
 # if need to Modify and Debug , set BUILD_TEST_LJH 1
-set(BUILD_TEST_LJH 0)
+set(BUILD_TEST_LJH 1)
 if(${BUILD_TEST_LJH})
     set(CMAKE_BUILD_TYPE Debug)
     # message("Build type is Debug! ")

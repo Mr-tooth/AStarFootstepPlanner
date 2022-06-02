@@ -41,8 +41,32 @@ void PlotChecker::plotFrontier(PriorityQueue<Location,cost_t> _frontier)
     }
     plt::scatter(this->expanX,this->expanY);
 
-    plt::pause(0.01);
+    if(!this->param.isStairAlignMode)
+        plt::pause(0.01);
     
+}
+
+void PlotChecker::plotGoalposeAndStair(ljh::mathlib::Pose3D<double> _goalPose)
+{
+    const double arrowLength = 0.05;
+    double x_goal  = _goalPose.getPosition().getX();
+    double y_goal  = _goalPose.getPosition().getY();
+    double g_yaw = _goalPose.getOrientation().getYaw();
+    plt::arrow(x_goal,y_goal,cos(g_yaw)*arrowLength,sin(g_yaw)*arrowLength,"r","k",0.02,0.01);
+    if(this->param.isStairAlignMode)
+    {
+        this->vertexX.clear();
+        this->vertexY.clear();
+        for(int i=0;i<4;i++)
+        {
+            this->vertexX.push_back(this->param.stairPolygon.getVertexBuffer().at(i).getX());
+            this->vertexY.push_back(this->param.stairPolygon.getVertexBuffer().at(i).getY());
+        }
+        this->vertexX.push_back(this->param.stairPolygon.getVertexBuffer().at(0).getX());
+        this->vertexY.push_back(this->param.stairPolygon.getVertexBuffer().at(0).getY());
+        plt::plot(this->vertexX,this->vertexY,"c");
+    }
+    plt::pause(0.01);
 }
 
 void PlotChecker::plotSearchOutcome(std::vector<Location> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose)

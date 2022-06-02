@@ -31,7 +31,7 @@ cost_t HeuristicCalculator::compute(FootstepGraphNode& node)
         
         //this->heuristicCost = cost_t(this->param.AStarHeuristicWeight * (this->finalTurnDistance+this->walkDistance));
         this->heuristicCost = cost_t(this->param.AStarHeuristicFinalWeight * (this->finalTurnDistance)
-                                    +this->param.AStarHeuristicFinalWeight*1.2 * (this->walkDistance));
+                                    +this->param.AStarHeuristicFinalWeight * this->param.HWPOfWalkDistacne * (this->walkDistance));
     }
     else
     {  // turn the Ideal Yaw Traj as Online input
@@ -51,7 +51,9 @@ cost_t HeuristicCalculator::compute(FootstepGraphNode& node)
         this->finalTurnDistance = std::abs(this->midFootPose.getOrientation().shiftProperYaw(
             this->desireHeading - this->goalPose.getOrientation().getYaw())) * 0.5 * PI * this->param.IdealStepWidth;
 
-        this->heuristicCost = cost_t(this->param.AStarHeuristicWeight * (this->initialTurnDistance + this->walkDistance + this->finalTurnDistance));
+        this->heuristicCost = cost_t(this->param.AStarHeuristicWeight * (this->param.HWPOfInitialTurnDistacne * this->initialTurnDistance 
+                                                                       + this->param.HWPOfWalkDistacne        * this->walkDistance 
+                                                                       + this->param.HWPOfFinalTurnDistacne   * this->finalTurnDistance));
     }
 
     return this->heuristicCost;
