@@ -47,11 +47,17 @@ int main()
     param.SetMinStepYaw(param,-pi/8);        
 
     param.SetFinalTurnProximity(param,0.3);
-    param.SetGoalDistanceProximity(param,0.008);
+    param.SetGoalDistanceProximity(param,0.02);
     param.SetGoalYawProximity(param,2.0/180.0 * pi);
     param.SetFootPolygonExtendedLength(param,0.03);
 
     param.SetHWPOfWalkDistacne(param,1.50);
+
+    param.SetMaxStepLength(param, 0.15);
+    param.SetMinStepLength(param,-0.15);
+    param.SetMaxStepWidth(param,0.26);
+    param.SetMinStepWidth(param,0.16);
+    param.SetMaxStepReach(param,sqrt(param.MaxStepWidth * param.MaxStepWidth + param.MaxStepLength * param.MaxStepLength));
     
 
     std:: cout<< "gridSizeXY is "<<latticepoint.getGridSizeXY(latticepoint)<<std::endl;
@@ -203,9 +209,12 @@ int main()
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out = footstepPlanner.getFootstepSeries();
     std::cout<< "First x y yaw"<<Out.at(0).getSecondStep().getX() <<" "<<Out.at(0).getSecondStep().getY() <<" "<<Out.at(0).getSecondStep().getYaw()<<std::endl;
     
+
+    auto accurateOut = footstepPlanner.getOrCalAccurateFootstepSeries();
     ljh::path::footstep_planner::PlotChecker pltChecker;
     
     pltChecker.plotSearchOutcome2(Out,goalPose,startPose);
+    pltChecker.plotAccurateSearchOutcome(accurateOut,goalPose,startPose);
     // std::cout<<"Collide 1:"<<checker.isTwoFootCollidedAndPlot(Out.at(7))<<std::endl;
     // std::cout<<"Distance of last two: "<<
     // sqrt(pow(Out[Out.size()-1].getSecondStep().getX()-Out[Out.size()-2].getSecondStep().getX(),2)+
@@ -221,7 +230,7 @@ int main()
     goalX = 0.8;
     goalY = -0.8/sqrt(3);
     goalZ = 0.0;
-    goalYaw = -90.0/180.0 * pi;
+    goalYaw = -60.0/180.0 * pi;
 
     goalPose2D.setPosition(goalX,goalY);
     goalPose2D.setOrientation(goalYaw);
@@ -250,7 +259,9 @@ int main()
     footstepPlanner.doAStarSearch();
     footstepPlanner.calFootstepSeries();
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out2 = footstepPlanner.getFootstepSeries();
+    auto accurateOut2 = footstepPlanner.getOrCalAccurateFootstepSeries();
     pltChecker.plotSearchOutcome2(Out2,goalPose,startPose);
+    pltChecker.plotAccurateSearchOutcome(accurateOut2,goalPose,startPose);
     //Location test = Out2.at(7);
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out3;
        Out3.push_back(Out2.at(7));
@@ -262,6 +273,9 @@ int main()
     std::cout<<"Distance of last two: "<<
     sqrt(pow(Out2[Out2.size()-1].getSecondStep().getX()-Out2[Out2.size()-2].getSecondStep().getX(),2)+
     pow(Out2[Out2.size()-1].getSecondStep().getY()-Out2[Out2.size()-2].getSecondStep().getY(),2))<<std::endl;
+    std::cout<<"Distance of accurate last two: "<<
+    sqrt(pow(accurateOut2[accurateOut2.size()-1].getX()-accurateOut2[accurateOut2.size()-2].getX(),2)+
+    pow(accurateOut2[accurateOut2.size()-1].getY()-accurateOut2[accurateOut2.size()-2].getY(),2))<<std::endl;
     std::cout<<"Quit"<<std::endl;
     return 0;
 }

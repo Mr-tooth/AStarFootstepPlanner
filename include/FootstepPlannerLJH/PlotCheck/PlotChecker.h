@@ -28,6 +28,7 @@ public:
     void plotGoalposeAndStair(ljh::mathlib::Pose3D<double> _goalPose);
     void plotSearchOutcome(std::vector<Location> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose);
     void plotSearchOutcome2(std::vector<Location> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose);
+    void plotAccurateSearchOutcome(std::vector<AccurateFootstep> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose);
 };
 
 

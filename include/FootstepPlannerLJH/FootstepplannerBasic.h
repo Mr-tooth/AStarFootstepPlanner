@@ -15,6 +15,7 @@
 #include <FootstepPlannerLJH/EnumDef.h>
 #include <Heuclid/euclid/tuple2D/Point2D.h>
 #include <Heuclid/geometry/Pose2D.h>
+#include <Heuclid/geometry/Pose3D.h>
 #include <cmath>
 using ljh::mathlib::Point2D;
 using ljh::mathlib::Pose2D;
@@ -220,8 +221,77 @@ struct FootNodeHash
     }
 };
 
+// Only for the last two accurate goal steps from GoalPose and the final load of output of footsteps
+class AccurateFootstep
+{
+private:
+    double x;
+    double y;
+    double yaw;
+    RobotSide robotside;
+public:
+    AccurateFootstep():x(0.0),y(0.0),yaw(0.0),robotside(){};
+    AccurateFootstep(double _x, double _y, double _yaw, RobotSide _robotside):x(_x),y(_y),yaw(_yaw),robotside(_robotside){};
+    AccurateFootstep(const AccurateFootstep& _other){this->x = _other.x;this->y = _other.y;this->yaw = _other.yaw;this->robotside = _other.robotside;};
+    AccurateFootstep(double _x, double _y, double _yaw, enum StepFlag _stepflag):x(_x),y(_y),yaw(_yaw){this->robotside=RobotSide(_stepflag);};
+    AccurateFootstep(const FootstepGraphNode& _node)
+        {this->x=_node.getSecondStep().getX();this->y=_node.getSecondStep().getY();this->yaw=_node.getSecondStep().getYaw();this->robotside = _node.getSecondStepSide();};
+
+    AccurateFootstep(const ljh::mathlib::Pose3D<double>& _pose, const RobotSide& _robotside);
+    AccurateFootstep(const ljh::mathlib::Pose3D<double>& _pose, const enum StepFlag& _stepflag);
+    //calAccurateStepFromPose(ljh::mathlib::Pose3D<double> _pose);
+
+    inline double getX() const {return this->x;};
+    inline double getY() const {return this->y;};
+    inline double getYaw() const {return this->yaw;};
+    inline RobotSide getRobotside() const {return this->robotside;};
+    inline enum StepFlag getStepFlag() const {return this->robotside.getStepFlag();};
+
+    inline void setX(double _x) {this->x = _x;};
+    inline void setY(double _y) {this->y = _y;};
+    inline void setYaw(double _yaw) {this->yaw = _yaw;};
+    inline void setStepFlag(enum StepFlag _stepflag) {this->robotside = RobotSide(_stepflag);};
+    inline void setRobotside(RobotSide _robotside) {this->robotside = _robotside;};
+    
+    void setFromNode(const FootstepGraphNode& _node);
+
+    void operator=(const AccurateFootstep& other);
+};
 
 
+// class AccurateFootstep2
+// {
+// private:
+//     ljh::mathlib::Pose2D<double> stepPose;
+//     RobotSide robotside;
+// public:
+//     AccurateFootstep2():x(0.0),y(0.0),yaw(0.0),robotside(){};
+//     AccurateFootstep2(double _x, double _y, double _yaw, RobotSide _robotside):x(_x),y(_y),yaw(_yaw),robotside(_robotside){};
+//     AccurateFootstep2(const AccurateFootstep2& _other){this->x = _other.x;this->y = _other.y;this->yaw = _other.yaw;this->robotside = _other.robotside;};
+//     AccurateFootstep2(double _x, double _y, double _yaw, enum StepFlag _stepflag):x(_x),y(_y),yaw(_yaw){this->robotside=RobotSide(_stepflag);};
+//     AccurateFootstep2(const FootstepGraphNode& _node)
+//         {this->x=_node.getSecondStep().getX();this->y=_node.getSecondStep().getY();this->yaw=_node.getSecondStep().getYaw();this->robotside = _node.getSecondStepSide();};
+
+//     AccurateFootstep2(const ljh::mathlib::Pose3D<double>& _pose, const RobotSide& _robotside);
+//     AccurateFootstep2(const ljh::mathlib::Pose3D<double>& _pose, const enum StepFlag& _stepflag);
+//     //calAccurateStepFromPose(ljh::mathlib::Pose3D<double> _pose);
+
+//     inline double getX() const {return this->x;};
+//     inline double getY() const {return this->y;};
+//     inline double getYaw() const {return this->yaw;};
+//     inline RobotSide getRobotside() const {return this->robotside;};
+//     inline int getStepFLag() const {return this->robotside.getStepFlag();};
+
+//     inline void setX(double _x) {this->x = _x;};
+//     inline void setY(double _y) {this->y = _y;};
+//     inline void setYaw(double _yaw) {this->yaw = _yaw;};
+//     inline void setStepFlag(enum StepFlag _stepflag) {this->robotside = RobotSide(_stepflag);};
+//     inline void setRobotside(RobotSide _robotside) {this->robotside = _robotside;};
+    
+//     void setFromNode(const FootstepGraphNode& _node);
+
+//     void operator=(const AccurateFootstep& other);
+// };
 
 _FOOTSTEP_PLANNER_END
 #endif

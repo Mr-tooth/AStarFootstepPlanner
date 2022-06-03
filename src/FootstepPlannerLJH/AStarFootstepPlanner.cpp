@@ -35,6 +35,7 @@ void AStarFootstepPlanner::initialize(Pose2D<double> _goalPose2D, Pose3D<double>
     this->solutionFoundFlag = GOAL_NO_REACHED;
     this->heuclidCoreTool = HeuclidCoreTool();
     this->path.clear();
+    this->accuratePath.clear();
     this->plotChecker = PlotChecker();
     this->countSearch = 0;
 }
@@ -170,4 +171,42 @@ void AStarFootstepPlanner::calFootstepSeries()
     
 }
 
+void AStarFootstepPlanner::calAccurateFootstepSeries()
+{
+    if(!this->path.empty())
+    {   
+        int i;
+        AccurateFootstep footstep;
+        AccurateFootstep footstepL(this->goalPose,stepL);
+        AccurateFootstep footstepR(this->goalPose,stepR);
+        for(i=0;i<path.size()-2;i++)
+        {
+            //footstep = AccurateFootstep(this->path.at(i));
+
+            footstep.setFromNode(this->path.at(i));
+            this->accuratePath.push_back(footstep);
+        }
+
+        if(path.at(i).getSecondStepSide().getStepFlag()==stepL)
+        {
+            this->accuratePath.push_back(footstepL);
+            this->accuratePath.push_back(footstepR);
+        }
+        else
+        {
+            this->accuratePath.push_back(footstepR);
+            this->accuratePath.push_back(footstepL);
+        }
+        // load the real last two accurate footsteps from goalpose, drop out the last two search 
+        
+    }
+}
+
+std::vector<AccurateFootstep> AStarFootstepPlanner::getOrCalAccurateFootstepSeries()
+{
+    if(this->accuratePath.empty())
+        this->calAccurateFootstepSeries();
+    
+    return this->accuratePath;
+}
 _FOOTSTEP_PLANNER_END
