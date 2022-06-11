@@ -195,4 +195,23 @@ bool StepConstraintCheck::isTwoFootCollidedAndPlot(FootstepGraphNode nodeToCheck
 {
     return this->isTwoFootCollidedAndPlot(nodeToCheck.getFirstStep(),nodeToCheck.getSecondStep());
 }
+
+
+bool StepConstraintCheck::isGoalPoseCollidedWithStairRegion(ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::ConvexPolygon2D stairPolygon)
+{
+    ljh::mathlib::Point2D<double> centralPoint;
+    std::vector<ljh::mathlib::Point2D<double> > stairBuffer = stairPolygon.getVertexBuffer();
+    double x = 0.0;
+    double y = 0.0;
+    for(int i=0;i<4;i++)
+    {
+        x +=stairBuffer.at(i).getX();
+        y +=stairBuffer.at(i).getY();
+    }
+    centralPoint.setX(x/4.0);
+    centralPoint.setY(y/4.0);
+
+    double length = std::sqrt(std::pow(centralPoint.getX()-_goalPose.getPosition().getX(),2) + std::pow(centralPoint.getX()-_goalPose.getPosition().getX(),2));
+    return false;   
+}
 _FOOTSTEP_PLANNER_END

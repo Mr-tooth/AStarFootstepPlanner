@@ -66,6 +66,7 @@ void PlotChecker::plotGoalposeAndStair(ljh::mathlib::Pose3D<double> _goalPose)
         this->vertexY.push_back(this->param.stairPolygon.getVertexBuffer().at(0).getY());
         plt::plot(this->vertexX,this->vertexY,"c");
     }
+    plt::set_aspect_equal();
     plt::pause(0.01);
 }
 

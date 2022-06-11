@@ -43,6 +43,8 @@ public:
                            double swingX,  double swingY,  double swingYaw,  enum StepFlag swingFlag);
     bool isTwoFootCollidedAndPlot(DiscreteFootstep stanceStep, DiscreteFootstep swingStep);
     bool isTwoFootCollidedAndPlot(FootstepGraphNode nodeToCheck);
+
+    bool isGoalPoseCollidedWithStairRegion(ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::ConvexPolygon2D stairPolygon);
 };
 
 

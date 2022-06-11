@@ -47,17 +47,17 @@ int main()
     param.SetMinStepYaw(param,-pi/8);        
 
     param.SetFinalTurnProximity(param,0.3);
-    param.SetGoalDistanceProximity(param,0.02);
+    param.SetGoalDistanceProximity(param,0.04);
     param.SetGoalYawProximity(param,2.0/180.0 * pi);
     param.SetFootPolygonExtendedLength(param,0.03);
 
-    param.SetHWPOfWalkDistacne(param,1.50);
+    param.SetHWPOfWalkDistacne(param,1.30);
 
     param.SetMaxStepLength(param, 0.15);
     param.SetMinStepLength(param,-0.15);
     param.SetMaxStepWidth(param,0.26);
     param.SetMinStepWidth(param,0.16);
-    param.SetMaxStepReach(param,sqrt(param.MaxStepWidth * param.MaxStepWidth + param.MaxStepLength * param.MaxStepLength));
+    param.SetMaxStepReach(param,sqrt((param.MaxStepWidth-param.MinStepWidth) * (param.MaxStepWidth-param.MinStepWidth) + param.MaxStepLength * param.MaxStepLength));
     
 
     std:: cout<< "gridSizeXY is "<<latticepoint.getGridSizeXY(latticepoint)<<std::endl;
@@ -144,15 +144,19 @@ int main()
     // double goalY = 0.0;
     // double goalZ = 0.0;
     // double goalYaw = -60.0/180.0 * pi;
-    double startX = 0.0;
+    double startX = 0.01;
     double startY = 0.0;
     double startZ = 0.0;
     double startYaw = 0.0/180.0 * pi;
 
-    double goalX = 0.292897;
-    double goalY = -0.175203;
+    // double goalX = 0.292897;
+    // double goalY = -0.175203;
+    // double goalZ = 0.0;
+    // double goalYaw = -0.184148;
+    double goalX = 0.428922;
+    double goalY = 0.117461;
     double goalZ = 0.0;
-    double goalYaw = -0.184148;
+    double goalYaw = 0.164328;
 
     ljh::mathlib::Pose2D<double> goalPose2D(goalX,goalY,goalYaw);
     ljh::mathlib::Pose3D<double> goalPose(goalX,goalY,goalZ,goalYaw,0.0,0.0);
@@ -166,10 +170,15 @@ int main()
     // Point2D<double> p1(xFromGoalToStair+xLenOfStair,yLenOfStair/2);
     // Point2D<double> p2(xFromGoalToStair+xLenOfStair,-yLenOfStair/2);
     // Point2D<double> p3(xFromGoalToStair,-yLenOfStair/2);
-    Point2D<double> p0(1.0627,0.183272);
-    Point2D<double> p1(0.569738,0.27509);
-    Point2D<double> p2(0.389632,-0.695077);
-    Point2D<double> p3(0.882591,-0.786894);
+
+    // Point2D<double> p0(1.0627,0.183272);
+    // Point2D<double> p1(0.569738,0.27509);
+    // Point2D<double> p2(0.389632,-0.695077);
+    // Point2D<double> p3(0.882591,-0.786894);
+    Point2D<double> p0(0.729462,0.743607);
+    Point2D<double> p1(0.444198,0.696304);
+    Point2D<double> p2(0.630682,-0.425393);
+    Point2D<double> p3(0.915946,-0.37809);
     std::cout<<"stair angle is "<<-asin((p0.getX()-p3.getX())/(p0.getY()-p3.getY()))<<std::endl;
     std::vector<Point2D<double> > stairBuffer({p0,p1,p2,p3});
     //std::vector<Point2D<double> > stairBuffer({p3,p2,p1,p0});
@@ -178,7 +187,7 @@ int main()
     //     stairBuffer[i].setPoint2D(goalX + cos(goalYaw)*stairBuffer[i].getX() - sin(goalYaw)*stairBuffer[i].getY(),
     //                               goalY + sin(goalYaw)*stairBuffer[i].getX() + cos(goalYaw)*stairBuffer[i].getY());
     // }
-    param.SetStairAlignMode(param,true);
+    param.SetStairAlignMode(param,false);
     param.SetStairPolygon(param,stairBuffer,4,0);
     for(int i=0;i<4;i++)
         std::cout<<"stairPolygon" <<i<<"is"<<param.stairPolygon.getVertexBuffer().at(i).getX()<<" "<<param.stairPolygon.getVertexBuffer().at(i).getY() <<std::endl;
@@ -219,18 +228,18 @@ int main()
     // std::cout<<"Distance of last two: "<<
     // sqrt(pow(Out[Out.size()-1].getSecondStep().getX()-Out[Out.size()-2].getSecondStep().getX(),2)+
     // pow(Out[Out.size()-1].getSecondStep().getY()-Out[Out.size()-2].getSecondStep().getY(),2))<<std::endl;
-
-
+    param.SetStairAlignMode(param,true);
+    pltChecker.plotAccurateSearchOutcome(accurateOut,goalPose,startPose);
     // a second time search
     //test 5
-    startX = 0.0;
+    startX = 0.015;
     startY = 0.0;
     startZ = 0.0;
     startYaw = 0.0/180.0 * pi;
-    goalX = 0.8;
+    goalX = 0.815;
     goalY = -0.8/sqrt(3);
     goalZ = 0.0;
-    goalYaw = -60.0/180.0 * pi;
+    goalYaw = -90.0/180.0 * pi;
 
     goalPose2D.setPosition(goalX,goalY);
     goalPose2D.setOrientation(goalYaw);
