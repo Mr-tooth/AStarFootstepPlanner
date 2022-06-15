@@ -7,6 +7,7 @@
 #include <FootstepPlannerLJH/PlotCheck/FootPolygon.h>
 #include <Heuclid/geometry/Pose3D.h>
 #include <matplotlibcpp.h>
+#include <FootstepPlannerLJH/SimpleBodyPathPlanner/simple2DBodyPathHolder.h>
 namespace plt = matplotlibcpp;
 _FOOTSTEP_PLANNER_BEGIN
 class PlotChecker
@@ -29,6 +30,7 @@ public:
     void plotSearchOutcome(std::vector<Location> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose);
     void plotSearchOutcome2(std::vector<Location> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose);
     void plotAccurateSearchOutcome(std::vector<AccurateFootstep> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose);
+    void plotAccurateSearchOutcome2(std::vector<AccurateFootstep> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose,ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder);
 };
 
 

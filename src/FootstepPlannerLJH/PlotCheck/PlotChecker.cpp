@@ -320,4 +320,105 @@ void PlotChecker::plotAccurateSearchOutcome(std::vector<AccurateFootstep> _outco
     plt::set_aspect_equal();
     plt::show();
 }
+
+void PlotChecker::plotAccurateSearchOutcome2(std::vector<AccurateFootstep> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose,ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder)
+{
+    this->vertexX.clear();this->vertexY.clear();
+    double x_num = 0.0;
+    double y_num = 0.0;
+    double x_start = 0.0;
+    double y_start = 0.0;
+    double x_goal = 0.0;
+    double y_goal = 0.0;
+    double s_yaw = 0.0;
+    double g_yaw = 0.0;
+    const double arrowLength = 0.05;
+
+    x_start = _startPose.getPosition().getX();
+    y_start = _startPose.getPosition().getY();
+    x_goal  = _goalPose.getPosition().getX();
+    y_goal  = _goalPose.getPosition().getY();
+    s_yaw = _startPose.getOrientation().getYaw();
+    g_yaw = _goalPose.getOrientation().getYaw();
+    if(this->param.debugFlag)
+        plt::close();
+    plt::pause(0.01);
+    plt::figure(2);
+    plt::clf();
+
+    ljh::mathlib::Pose2D<double> pose2d;
+    for(int i=0;i<_outcome.size();i++)
+    {
+        pose2d.setPosition(_outcome.at(i).getX(),_outcome.at(i).getY()); 
+        pose2d.setOrientation(_outcome.at(i).getYaw());
+        getFootVertex2D(pose2d,_outcome.at(i).getStepFlag(),this->vertexX,this->vertexY);
+            
+        if(_outcome.at(i).getStepFlag() == stepL)
+            plt::plot(this->vertexX,this->vertexY,"r");
+        else
+            plt::plot(this->vertexX,this->vertexY,"y");
+
+    }
+    this->vertexX.clear();
+    this->vertexY.clear();
+
+    this->vertexX.push_back(x_start);
+    this->vertexX.push_back(x_goal);
+    this->vertexY.push_back(y_start);
+    this->vertexY.push_back(y_goal);
+    plt::plot(this->vertexX,this->vertexY,"g");
+
+    this->vertexXs.clear();
+    this->vertexYs.clear();
+
+    for(int i=0;i<_outcome.size();i++)
+    {
+        x_num = _outcome.at(i).getX();
+        y_num = _outcome.at(i).getY();
+        this->vertexXs.push_back(x_num);
+        this->vertexYs.push_back(y_num);
+        plt::annotate(std::to_string(i),x_num,y_num+0.02);
+    }
+    plt::scatter(this->vertexXs,this->vertexYs,2.0);
+    
+    plt::arrow(x_goal,y_goal,cos(g_yaw)*arrowLength,sin(g_yaw)*arrowLength,"r","k",0.02,0.01);
+    //plt::arrow(0.8,-0.25,0.046985,-0.232899,"r","k",0.02,0.01);
+    plt::arrow(x_start,y_start,cos(s_yaw)*arrowLength,sin(s_yaw)*arrowLength,"r","k",0.02,0.01);
+
+    if(this->param.isStairAlignMode)
+    {
+        this->vertexX.clear();
+        this->vertexY.clear();
+        for(int i=0;i<4;i++)
+        {
+            this->vertexX.push_back(this->param.stairPolygon.getVertexBuffer().at(i).getX());
+            this->vertexY.push_back(this->param.stairPolygon.getVertexBuffer().at(i).getY());
+        }
+        this->vertexX.push_back(this->param.stairPolygon.getVertexBuffer().at(0).getX());
+        this->vertexY.push_back(this->param.stairPolygon.getVertexBuffer().at(0).getY());
+        plt::plot(this->vertexX,this->vertexY,"c");
+
+
+    }
+    
+    std::vector<double> x;
+    std::vector<double> y;
+    std::vector<double> yaw;
+    double arrowlength = 0.005;
+    auto waypoints = pathHolder.getWayPointPath();
+    for(int i=0;i<waypoints.size();i++)
+    {
+        x.push_back(waypoints.at(i).getPosition().getX());
+        y.push_back(waypoints.at(i).getPosition().getY());
+        yaw.push_back(waypoints.at(i).getOrientation().getYaw());
+    }
+    plt::plot(x,y);
+    for(int i=0;i<waypoints.size();i+=10)
+    {
+        plt::arrow(x.at(i),y.at(i),cos(yaw.at(i))*arrowlength,sin(yaw.at(i))*arrowlength,"r","k",0.002,0.0005);
+    }
+
+    plt::set_aspect_equal();
+    plt::show();
+}
 _FOOTSTEP_PLANNER_END

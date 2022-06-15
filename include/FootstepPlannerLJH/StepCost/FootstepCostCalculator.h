@@ -45,7 +45,7 @@ public:
 
     cost_t computeEdgeCost(Location candidateNode, Location stanceNode);
     cost_t computeHeuristicCost(Location candidateNode);
-
+    cost_t computeHeuristicCostWithEllipsiodPath(Location candidateNode);
     void initialize(Pose3D<double> _goalPose, Pose3D<double> _startPose);
 
     cost_t getEdgeCost() const {return this->edgeCost;};

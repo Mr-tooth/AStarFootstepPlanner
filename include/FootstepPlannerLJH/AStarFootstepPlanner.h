@@ -89,7 +89,7 @@ public:
     std::vector<AccurateFootstep> getAccurateFootstepSeries() const {return this->accuratePath;};
     std::vector<AccurateFootstep> getOrCalAccurateFootstepSeries();
 
-
+    void plotAccurateSearchOutcome();
 
 
 

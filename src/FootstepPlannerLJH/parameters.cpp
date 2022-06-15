@@ -45,6 +45,9 @@ CONST double parameters:: HWPOfInitialTurnDistacne = 1.0;
 // Heuristic Weight Proportion of Final Turn Distance
 CONST double parameters:: HWPOfFinalTurnDistacne = 1.0;
 
+CONST double parameters:: HWPOfFinalWalkDistacne = 1.0;
+CONST double parameters:: HWPOfFinalFinalTurnDistacne = 1.0;
+
 CONST double parameters:: goalDistanceProximity = 0.03;
 CONST double parameters:: goalYawProximity = 5*pi/180;
 
@@ -84,6 +87,8 @@ double parameters:: getFootPolygonExtendedLength(const parameters& param){return
 double parameters:: getHWPOfWalkDistacne(const parameters& param){return param.HWPOfWalkDistacne;}
 double parameters:: getHWPOfInitialTurnDistacne(const parameters& param){return param.HWPOfInitialTurnDistacne;}
 double parameters:: getHWPOfFinalTurnDistacne(const parameters& param){return param.HWPOfFinalTurnDistacne;}
+double parameters:: getHWPOfFinalWalkDistacne(const parameters& param){return param.HWPOfFinalWalkDistacne;};
+double parameters:: getHWPOfFinalFinalTurnDistacne(const parameters& param){return param.HWPOfFinalFinalTurnDistacne;};
 
 
 void parameters::SetEdgeCostDistance(parameters& param, const double& change){ param.edgecost_w_d = change;}
@@ -122,4 +127,6 @@ void parameters::SetFootPolygonExtendedLength(const parameters& param, const dou
 void parameters::SetHWPOfWalkDistacne(const parameters& param, const double& change){param.HWPOfWalkDistacne = change;}
 void parameters::SetHWPOfInitialTurnDistacne(const parameters& param, const double& change){param.HWPOfInitialTurnDistacne = change;}
 void parameters::SetHWPOfFinalTurnDistacne(const parameters& param, const double& change){param.HWPOfFinalTurnDistacne = change;}
+void parameters::SetHWPOfFinalWalkDistacne(const parameters& param, const double& change){param.HWPOfFinalWalkDistacne = change;};
+void parameters::SetHWPOfFinalFinalTurnDistacne(const parameters& param, const double& change){param.HWPOfFinalFinalTurnDistacne = change;};
 _FOOTSTEP_PLANNER_END

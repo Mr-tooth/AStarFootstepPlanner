@@ -4,9 +4,11 @@
 #include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 #include <iostream>
 
+#include <FootstepPlannerLJH/SimpleBodyPathPlanner/simple2DBodyPathHolder.h>
 #include <FootstepPlannerLJH/Block/Block.h>
 int main()
 {
+    
     // // CHECK the problem with scatter
     // ljh::path::footstep_planner::PlotChecker pltChecker2;
 
@@ -43,19 +45,23 @@ int main()
     param.SetEdgeCostYaw(param, 4.0);
     param.SetEdgeCostStaticPerStep(param,1.4);
     param.SetDebugFlag(param,true);
-    param.SetMaxStepYaw(param,pi/8);
-    param.SetMinStepYaw(param,-pi/8);        
+    param.SetMaxStepYaw(param,pi/10);
+    param.SetMinStepYaw(param,-pi/10);        
 
     param.SetFinalTurnProximity(param,0.3);
     param.SetGoalDistanceProximity(param,0.04);
-    param.SetGoalYawProximity(param,2.0/180.0 * pi);
-    param.SetFootPolygonExtendedLength(param,0.03);
+    param.SetGoalYawProximity(param,4.0/180.0 * pi);
+    param.SetFootPolygonExtendedLength(param,0.025);
 
     param.SetHWPOfWalkDistacne(param,1.30);
+    param.SetHWPOfInitialTurnDistacne(param,1.0);
 
-    param.SetMaxStepLength(param, 0.15);
-    param.SetMinStepLength(param,-0.15);
-    param.SetMaxStepWidth(param,0.26);
+    param.SetHWPOfFinalTurnDistacne(param,1.30);
+    param.SetHWPOfFinalWalkDistacne(param,1.30);
+
+    param.SetMaxStepLength(param, 0.12);
+    param.SetMinStepLength(param,-0.12);
+    param.SetMaxStepWidth(param,0.24);
     param.SetMinStepWidth(param,0.16);
     param.SetMaxStepReach(param,sqrt((param.MaxStepWidth-param.MinStepWidth) * (param.MaxStepWidth-param.MinStepWidth) + param.MaxStepLength * param.MaxStepLength));
     
@@ -144,7 +150,7 @@ int main()
     // double goalY = 0.0;
     // double goalZ = 0.0;
     // double goalYaw = -60.0/180.0 * pi;
-    double startX = 0.01;
+    double startX = 0.015;
     double startY = 0.0;
     double startZ = 0.0;
     double startYaw = 0.0/180.0 * pi;
@@ -153,42 +159,47 @@ int main()
     // double goalY = -0.175203;
     // double goalZ = 0.0;
     // double goalYaw = -0.184148;
-    double goalX = 0.428922;
-    double goalY = 0.117461;
+    double goalX = 0.815;
+    double goalY = -0.8*1;
     double goalZ = 0.0;
-    double goalYaw = 0.164328;
+    double goalYaw = -90.0/180.0 * pi;;
 
     ljh::mathlib::Pose2D<double> goalPose2D(goalX,goalY,goalYaw);
     ljh::mathlib::Pose3D<double> goalPose(goalX,goalY,goalZ,goalYaw,0.0,0.0);
     ljh::mathlib::Pose3D<double> startPose(startX,startY,startZ,startYaw,0.0,0.0);
 
+    ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder1;
+    pathHolder1.initialize({startX,startY,startYaw},goalPose2D);
+    pathHolder1.plotEllipsoidPath();
+
     double xFromGoalToStair = 0.16+0.005;
     double xLenOfStair = 0.5;
     double yLenOfStair = 0.5;
 
-    // Point2D<double> p0(xFromGoalToStair,yLenOfStair/2);
-    // Point2D<double> p1(xFromGoalToStair+xLenOfStair,yLenOfStair/2);
-    // Point2D<double> p2(xFromGoalToStair+xLenOfStair,-yLenOfStair/2);
-    // Point2D<double> p3(xFromGoalToStair,-yLenOfStair/2);
+    Point2D<double> p0(xFromGoalToStair,yLenOfStair/2);
+    Point2D<double> p1(xFromGoalToStair+xLenOfStair,yLenOfStair/2);
+    Point2D<double> p2(xFromGoalToStair+xLenOfStair,-yLenOfStair/2);
+    Point2D<double> p3(xFromGoalToStair,-yLenOfStair/2);
 
     // Point2D<double> p0(1.0627,0.183272);
     // Point2D<double> p1(0.569738,0.27509);
     // Point2D<double> p2(0.389632,-0.695077);
     // Point2D<double> p3(0.882591,-0.786894);
-    Point2D<double> p0(0.729462,0.743607);
-    Point2D<double> p1(0.444198,0.696304);
-    Point2D<double> p2(0.630682,-0.425393);
-    Point2D<double> p3(0.915946,-0.37809);
+
+    // Point2D<double> p0(0.729462,0.743607);
+    // Point2D<double> p1(0.444198,0.696304);
+    // Point2D<double> p2(0.630682,-0.425393);
+    // Point2D<double> p3(0.915946,-0.37809);
     std::cout<<"stair angle is "<<-asin((p0.getX()-p3.getX())/(p0.getY()-p3.getY()))<<std::endl;
     std::vector<Point2D<double> > stairBuffer({p0,p1,p2,p3});
     //std::vector<Point2D<double> > stairBuffer({p3,p2,p1,p0});
-    // for(int i=0;i<4;i++)
-    // {
-    //     stairBuffer[i].setPoint2D(goalX + cos(goalYaw)*stairBuffer[i].getX() - sin(goalYaw)*stairBuffer[i].getY(),
-    //                               goalY + sin(goalYaw)*stairBuffer[i].getX() + cos(goalYaw)*stairBuffer[i].getY());
-    // }
-    param.SetStairAlignMode(param,false);
-    param.SetStairPolygon(param,stairBuffer,4,0);
+    for(int i=0;i<4;i++)
+    {
+        stairBuffer[i].setPoint2D(goalX + cos(goalYaw)*stairBuffer[i].getX() - sin(goalYaw)*stairBuffer[i].getY(),
+                                  goalY + sin(goalYaw)*stairBuffer[i].getX() + cos(goalYaw)*stairBuffer[i].getY());
+    }
+    param.SetStairAlignMode(param,true);
+    param.SetStairPolygon(param,stairBuffer,4,1);
     for(int i=0;i<4;i++)
         std::cout<<"stairPolygon" <<i<<"is"<<param.stairPolygon.getVertexBuffer().at(i).getX()<<" "<<param.stairPolygon.getVertexBuffer().at(i).getY() <<std::endl;
 
@@ -224,22 +235,32 @@ int main()
     
     pltChecker.plotSearchOutcome2(Out,goalPose,startPose);
     pltChecker.plotAccurateSearchOutcome(accurateOut,goalPose,startPose);
+    footstepPlanner.plotAccurateSearchOutcome();
     // std::cout<<"Collide 1:"<<checker.isTwoFootCollidedAndPlot(Out.at(7))<<std::endl;
     // std::cout<<"Distance of last two: "<<
     // sqrt(pow(Out[Out.size()-1].getSecondStep().getX()-Out[Out.size()-2].getSecondStep().getX(),2)+
     // pow(Out[Out.size()-1].getSecondStep().getY()-Out[Out.size()-2].getSecondStep().getY(),2))<<std::endl;
     param.SetStairAlignMode(param,true);
-    pltChecker.plotAccurateSearchOutcome(accurateOut,goalPose,startPose);
+    //pltChecker.plotAccurateSearchOutcome(accurateOut,goalPose,startPose);
     // a second time search
     //test 5
+    // startX = 0.015;
+    // startY = 0.0;
+    // startZ = 0.0;
+    // startYaw = 0.0/180.0 * pi;
+    // goalX = 0.709;
+    // goalY = -0.552;
+    // goalZ = 0.0;
+    // goalYaw = -1.523;//-90.0/180.0 * pi;
+
     startX = 0.015;
     startY = 0.0;
     startZ = 0.0;
     startYaw = 0.0/180.0 * pi;
-    goalX = 0.815;
-    goalY = -0.8/sqrt(3);
+    goalX = 0.550;
+    goalY = -0.637;
     goalZ = 0.0;
-    goalYaw = -90.0/180.0 * pi;
+    goalYaw = -1.571;//-90.0/180.0 * pi;
 
     goalPose2D.setPosition(goalX,goalY);
     goalPose2D.setOrientation(goalYaw);
@@ -250,17 +271,29 @@ int main()
     startPose.setYawPitchRoll(startYaw,0.0,0.0);
     startPose.setX(startX);startPose.setY(startY);startPose.setZ(startZ);
 
-    Point2D<double> p10(xFromGoalToStair,yLenOfStair/2);
-    Point2D<double> p11(xFromGoalToStair+xLenOfStair,yLenOfStair/2);
-    Point2D<double> p12(xFromGoalToStair+xLenOfStair,-yLenOfStair/2);
-    Point2D<double> p13(xFromGoalToStair,-yLenOfStair/2);
+    ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder;
+    pathHolder.initialize({startX,startY,startYaw},goalPose2D);
+    pathHolder.plotEllipsoidPath();
+
+    // Point2D<double> p10(xFromGoalToStair,yLenOfStair/2);
+    // Point2D<double> p11(xFromGoalToStair+xLenOfStair,yLenOfStair/2);
+    // Point2D<double> p12(xFromGoalToStair+xLenOfStair,-yLenOfStair/2);
+    // Point2D<double> p13(xFromGoalToStair,-yLenOfStair/2);
+    // Point2D<double> p10(1.203,-0.728);
+    // Point2D<double> p11(0.205,-0.776);
+    // Point2D<double> p12(0.214,-0.975);
+    // Point2D<double> p13(1.213,-0.928);
+    Point2D<double> p10(1.022,-0.868);
+    Point2D<double> p11(0.024,-0.805);
+    Point2D<double> p12(0.011,-1.004);
+    Point2D<double> p13(1.009,-1.067);
     std::vector<Point2D<double> > stairBuffer2({p10,p11,p12,p13});
-    for(int i=0;i<4;i++)
-    {
-        stairBuffer2[i].setPoint2D(goalX + cos(goalYaw)*stairBuffer2[i].getX() - sin(goalYaw)*stairBuffer2[i].getY(),
-                                  goalY + sin(goalYaw)*stairBuffer2[i].getX() + cos(goalYaw)*stairBuffer2[i].getY());
-    }
-    param.SetStairPolygon(param,stairBuffer2,4,1);
+    // for(int i=0;i<4;i++)
+    // {
+    //     stairBuffer2[i].setPoint2D(goalX + cos(goalYaw)*stairBuffer2[i].getX() - sin(goalYaw)*stairBuffer2[i].getY(),
+    //                               goalY + sin(goalYaw)*stairBuffer2[i].getX() + cos(goalYaw)*stairBuffer2[i].getY());
+    // }
+    param.SetStairPolygon(param,stairBuffer2,4,0);
 
     param.SetFinalTurnProximity(param,0.3);
     param.SetDebugFlag(param,true);
@@ -270,7 +303,9 @@ int main()
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out2 = footstepPlanner.getFootstepSeries();
     auto accurateOut2 = footstepPlanner.getOrCalAccurateFootstepSeries();
     pltChecker.plotSearchOutcome2(Out2,goalPose,startPose);
-    pltChecker.plotAccurateSearchOutcome(accurateOut2,goalPose,startPose);
+    //pltChecker.plotAccurateSearchOutcome(accurateOut2,goalPose,startPose);
+    footstepPlanner.plotAccurateSearchOutcome();
+    //pltChecker.plotAccurateSearchOutcome2(accurateOut2,goalPose,startPose,);
     //Location test = Out2.at(7);
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out3;
        Out3.push_back(Out2.at(7));

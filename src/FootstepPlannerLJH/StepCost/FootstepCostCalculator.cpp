@@ -38,6 +38,12 @@ cost_t FootstepCostCalculator::computeHeuristicCost(Location candidateNode)
    return this->heuristicCost;
 }
 
+cost_t FootstepCostCalculator::computeHeuristicCostWithEllipsiodPath(Location candidateNode)
+{
+    this->heuristicCost = this->heuristicCalculator.computeFollowEllipsoidPath(candidateNode);
+    return this->heuristicCost;
+}
+
 void FootstepCostCalculator::initialize(Pose3D<double> _goalPose, Pose3D<double> _startPose)
 {
     this->edgeCost = cost_t(0);

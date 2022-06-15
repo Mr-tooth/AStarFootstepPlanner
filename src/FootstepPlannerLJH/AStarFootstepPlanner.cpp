@@ -83,7 +83,12 @@ void AStarFootstepPlanner::doAStarSearch()
                     || new_cost < this->costSoFarMap[next] )
                 {
                     this->costSoFarMap[next] = new_cost;
-                    cost_t priority = new_cost + this->stepCostCalculator.computeHeuristicCost(next);
+
+                    cost_t priority;
+                    if(this->param.isStairAlignMode)
+                        priority = new_cost + this->stepCostCalculator.computeHeuristicCostWithEllipsiodPath(next);
+                    else
+                        priority = new_cost + this->stepCostCalculator.computeHeuristicCost(next);
 
                     // if(this->param.getDebugFlag(this->param))
                     //     std::cout<< "the heuristic cost: "<<this->stepCostCalculator.getHeuristicCost()<<std::endl;
@@ -208,5 +213,14 @@ std::vector<AccurateFootstep> AStarFootstepPlanner::getOrCalAccurateFootstepSeri
         this->calAccurateFootstepSeries();
     
     return this->accuratePath;
+}
+
+
+void AStarFootstepPlanner::plotAccurateSearchOutcome()
+{
+    if(this->accuratePath.empty())
+        this->calAccurateFootstepSeries();
+
+    this->plotChecker.plotAccurateSearchOutcome2(this->accuratePath,this->goalPose,this->startPose,this->stepCostCalculator.heuristicCalculator.pathHolder);
 }
 _FOOTSTEP_PLANNER_END

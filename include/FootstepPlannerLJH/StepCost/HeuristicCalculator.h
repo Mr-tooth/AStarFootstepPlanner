@@ -6,6 +6,7 @@
 #include <FootstepPlannerLJH/parameters.h>
 #include <Heuclid/geometry/Pose3D.h>
 #include <Heuclid/geometry/Pose2D.h>
+#include <FootstepPlannerLJH/SimpleBodyPathPlanner/simple2DBodyPathHolder.h>
 using ljh::mathlib::Pose3D;
 _FOOTSTEP_PLANNER_BEGIN
 
@@ -25,12 +26,18 @@ private:
     double initialTurnDistance;
     double walkDistance;
     double finalTurnDistance;
+    double pathDistance;
+    PointFromPathInfo pfp;
+    
 public:
-    HeuristicCalculator():heuristicCost(cost_t(0)),goalPose(),startPose(),desireHeading(0.0),param(),midFootPose(),initialTurnDistance(0.0),walkDistance(0.0),finalTurnDistance(0.0){};
-    HeuristicCalculator(Pose3D<double> _goalPose, Pose3D<double> _startPose):heuristicCost(cost_t(0)),goalPose(_goalPose),startPose(_startPose),desireHeading(0.0),param(),midFootPose(),initialTurnDistance(0.0),walkDistance(0.0),finalTurnDistance(0.0){};
+    Simple2DBodyPathHolder pathHolder;
+    
+    HeuristicCalculator():heuristicCost(cost_t(0)),goalPose(),startPose(),desireHeading(0.0),param(),midFootPose(),initialTurnDistance(0.0),walkDistance(0.0),finalTurnDistance(0.0),pathDistance(0.0),pathHolder(){};
+    HeuristicCalculator(Pose3D<double> _goalPose, Pose3D<double> _startPose):heuristicCost(cost_t(0)),goalPose(_goalPose),startPose(_startPose),desireHeading(0.0),param(),midFootPose(),initialTurnDistance(0.0),walkDistance(0.0),finalTurnDistance(0.0),pathDistance(0.0),pathHolder(){};
 
     void initialize(Pose3D<double> _goalPose, Pose3D<double> _startPose);
     cost_t compute(FootstepGraphNode& node);
+    cost_t computeFollowEllipsoidPath(FootstepGraphNode& node);
 };
 
 
