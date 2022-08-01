@@ -45,8 +45,8 @@ int main()
     param.SetEdgeCostYaw(param, 4.0);
     param.SetEdgeCostStaticPerStep(param,1.4);
     param.SetDebugFlag(param,true);
-    param.SetMaxStepYaw(param,pi/10);
-    param.SetMinStepYaw(param,-pi/10);        
+    param.SetMaxStepYaw(param,pi/12);
+    param.SetMinStepYaw(param,-pi/12);        
 
     param.SetFinalTurnProximity(param,0.3);
     param.SetGoalDistanceProximity(param,0.04);
@@ -54,14 +54,15 @@ int main()
     param.SetFootPolygonExtendedLength(param,0.025);
 
     param.SetHWPOfWalkDistacne(param,1.30);
-    param.SetHWPOfInitialTurnDistacne(param,1.0);
+    param.SetHWPOfPathDistance(param,2.50);
+    //param.SetHWPOfInitialTurnDistacne(param,1.0);
 
     param.SetHWPOfFinalTurnDistacne(param,1.30);
     param.SetHWPOfFinalWalkDistacne(param,1.30);
 
-    param.SetMaxStepLength(param, 0.12);
-    param.SetMinStepLength(param,-0.12);
-    param.SetMaxStepWidth(param,0.24);
+    param.SetMaxStepLength(param, 0.08);
+    param.SetMinStepLength(param,-0.08);
+    param.SetMaxStepWidth(param,0.22);
     param.SetMinStepWidth(param,0.16);
     param.SetMaxStepReach(param,sqrt((param.MaxStepWidth-param.MinStepWidth) * (param.MaxStepWidth-param.MinStepWidth) + param.MaxStepLength * param.MaxStepLength));
     
@@ -253,14 +254,24 @@ int main()
     // goalZ = 0.0;
     // goalYaw = -1.523;//-90.0/180.0 * pi;
 
-    startX = 0.015;
+    //test 6
+    // startX = 0.015;
+    // startY = 0.0;
+    // startZ = 0.0;
+    // startYaw = 0.0/180.0 * pi;
+    // goalX = 0.550;
+    // goalY = -0.637;
+    // goalZ = 0.0;
+    // goalYaw = -1.571;//-90.0/180.0 * pi;
+
+    startX = 0.015;//0.0;//0.015;
     startY = 0.0;
     startZ = 0.0;
     startYaw = 0.0/180.0 * pi;
-    goalX = 0.550;
-    goalY = -0.637;
+    goalX = 0.648+0.015;//0.601;//+0.015;
+    goalY = -0.962;//-0.662;
     goalZ = 0.0;
-    goalYaw = -1.571;//-90.0/180.0 * pi;
+    goalYaw = -1.554;//-1.634;//-90.0/180.0 * pi;
 
     goalPose2D.setPosition(goalX,goalY);
     goalPose2D.setOrientation(goalYaw);
@@ -283,10 +294,21 @@ int main()
     // Point2D<double> p11(0.205,-0.776);
     // Point2D<double> p12(0.214,-0.975);
     // Point2D<double> p13(1.213,-0.928);
-    Point2D<double> p10(1.022,-0.868);
-    Point2D<double> p11(0.024,-0.805);
-    Point2D<double> p12(0.011,-1.004);
-    Point2D<double> p13(1.009,-1.067);
+
+    // Point2D<double> p10(1.022,-0.868);
+    // Point2D<double> p11(0.024,-0.805);
+    // Point2D<double> p12(0.011,-1.004);
+    // Point2D<double> p13(1.009,-1.067);
+
+    // Point2D<double> p10(1.087,-0.893);
+    // Point2D<double> p11(0.089,-0.830);
+    // Point2D<double> p12(0.076,-1.029);
+    // Point2D<double> p13(1.074,-1.092);
+
+    Point2D<double> p10(1.136,-1.153);
+    Point2D<double> p11(0.137,-1.170);
+    Point2D<double> p12(0.140,-1.370);
+    Point2D<double> p13(1.140,-1.353);
     std::vector<Point2D<double> > stairBuffer2({p10,p11,p12,p13});
     // for(int i=0;i<4;i++)
     // {
@@ -295,7 +317,7 @@ int main()
     // }
     param.SetStairPolygon(param,stairBuffer2,4,0);
 
-    param.SetFinalTurnProximity(param,0.3);
+    //param.SetFinalTurnProximity(param,0.3);
     param.SetDebugFlag(param,true);
     footstepPlanner.initialize(goalPose2D,goalPose,startPose);
     footstepPlanner.doAStarSearch();

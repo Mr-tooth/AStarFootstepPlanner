@@ -64,6 +64,7 @@ public:
     static CONST double HWPOfWalkDistacne;
     static CONST double HWPOfInitialTurnDistacne;
     static CONST double HWPOfFinalTurnDistacne;
+    static CONST double HWPOfPathDistance;
 
     static CONST double HWPOfFinalWalkDistacne;
     static CONST double HWPOfFinalFinalTurnDistacne;
@@ -112,6 +113,7 @@ public:
     double getHWPOfWalkDistacne(const parameters& param);
     double getHWPOfInitialTurnDistacne(const parameters& param);
     double getHWPOfFinalTurnDistacne(const parameters& param);
+    double getHWPOfPathDistance(const parameters& param);
     double getHWPOfFinalWalkDistacne(const parameters& param);
     double getHWPOfFinalFinalTurnDistacne(const parameters& param);
 
@@ -142,6 +144,7 @@ public:
     void SetHWPOfWalkDistacne(const parameters& param, const double& change);
     void SetHWPOfInitialTurnDistacne(const parameters& param, const double& change);
     void SetHWPOfFinalTurnDistacne(const parameters& param, const double& change);
+    void SetHWPOfPathDistance(const parameters& param, const double& change);
     void SetHWPOfFinalWalkDistacne(const parameters& param, const double& change);
     void SetHWPOfFinalFinalTurnDistacne(const parameters& param, const double& change);
 };

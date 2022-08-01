@@ -80,7 +80,7 @@ cost_t HeuristicCalculator::computeFollowEllipsoidPath(FootstepGraphNode& node)
         //this->heuristicCost = cost_t(this->param.AStarHeuristicWeight * (this->finalTurnDistance+this->walkDistance));
         this->heuristicCost = cost_t(this->param.AStarHeuristicFinalWeight * this->param.HWPOfFinalFinalTurnDistacne * (this->finalTurnDistance)
                                     +this->param.AStarHeuristicFinalWeight * this->param.HWPOfFinalWalkDistacne      * (this->walkDistance)
-                                    +this->param.AStarHeuristicFinalWeight * 1.0                                     * (this->pathDistance));
+                                    +this->param.AStarHeuristicFinalWeight * 1.8                                     * (this->pathDistance));
     }
     else
     {  // turn the Ideal Yaw Traj as Online input
@@ -105,7 +105,7 @@ cost_t HeuristicCalculator::computeFollowEllipsoidPath(FootstepGraphNode& node)
         this->heuristicCost = cost_t(this->param.AStarHeuristicWeight * (this->param.HWPOfInitialTurnDistacne * this->initialTurnDistance 
                                                                        + this->param.HWPOfWalkDistacne        * this->walkDistance 
                                                                        + this->param.HWPOfFinalTurnDistacne   * this->finalTurnDistance
-                                                                       + 1.0                                  * this->pathDistance));
+                                                                       + this->param.HWPOfPathDistance        * this->pathDistance));
     }
 
     return this->heuristicCost;
