@@ -1,70 +1,45 @@
-# AStarFootstepPlanner
+<div align="center">
 
-> C++ implementation of A*-based footstep planner for humanoid robots, 
-> inspired by [IHMC Footstep Planning](https://github.com/ihmcrobotics/ihmc-open-robotics-software/tree/develop/ihmc-footstep-planning).
+# 🦶 AStarFootstepPlanner
 
+**A* algorithm-based footstep planner for humanoid robots in C++**
+
+[![CI](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml/badge.svg)](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![C++](https://img.shields.io/badge/C%2B%2B-11-blue.svg)]()
-[![CMake](https://img.shields.io/badge/CMake-3.22+-blue.svg)]()
+[![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg)](https://en.cppreference.com/w/cpp/11)
+[![CMake](https://img.shields.io/badge/CMake-3.22%2B-blue.svg)](https://cmake.org/)
+[![Heuclid](https://img.shields.io/badge/Heuclid-v2.0-blue.svg)](https://github.com/Mr-tooth/Heuclid)
+
+[中文](README_CN.md)
+
+</div>
+
+---
 
 ## Overview
 
-AStarFootstepPlanner is a C++ library for planning optimal footstep sequences for humanoid robots navigating complex terrains. It implements an A* graph search algorithm to find collision-free paths from a start pose to a goal pose.
+**AStarFootstepPlanner** is a C++ library that plans optimal footstep sequences for humanoid robots navigating complex terrains. It implements an A* graph search algorithm to find feasible, near-optimal paths from start to goal poses while satisfying kinematic and environmental constraints.
 
-This library is a C++ reimplementation inspired by the IHMC (Indiana Humanoid Motion Control) footstep planning framework, originally developed in Java. It follows the algorithms described in the IEEE Humanoids 2019 paper "Footstep Planning for Autonomous Walking Over Rough Terrain".
+This project is a C++ reimplementation of the core algorithms from the [IHMC Footstep Planning](https://github.com/ihmcrobotics/ihmc-open-robotics-software/tree/develop/ihmc-footstep-planning) framework (originally Java), as described in the IEEE Humanoids 2019 paper.
 
-Key capabilities include:
-- Parameter-based step expansion with configurable stride parameters
-- Kinematic constraint checking for robot reachability
-- Environmental collision detection (stairs, obstacles)
-- Configurable cost functions for step quality evaluation
-- Optional matplotlib-based visualization for debugging
+**Key capabilities:**
 
-## Features
+- A* graph search over discrete footstep configurations
+- Parameter-based step expansion with ideal step computation
+- Kinematic constraint checking (reachability, stability)
+- Environmental constraints (stair regions, obstacle avoidance)
+- Configurable cost functions (distance, yaw, transition penalties)
+- Optional matplotlib-based visualization for debugging and analysis
 
-- **A* Graph Search**: Optimal footstep sequence planning using A* algorithm
-- **Parameter-Based Expansion**: Configurable step parameters for different robot gaits
-- **Kinematic Constraints**: Robot reachability and stability checking
-- **Environmental Awareness**: Stair region and obstacle collision detection
-- **Flexible Cost Functions**: Distance, yaw, step transition costs
-- **Visualization**: Optional matplotlib-based plotting for trajectory analysis
-- **Cross-Platform**: Ubuntu, macOS, Windows with MSVC
+## Demo
 
-## Dependencies
+> 🎥 **TODO**: GIF demonstrations will be added here.
+>
+> - Flat terrain: start → goal footstep sequence
+> - Obstacle avoidance: navigating around forbidden regions
+> - Stair climbing: constrained footstep planning on stairs
 
-| Dependency | Version | Required | Description |
-|-----------|---------|----------|-------------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ | C++ geometry math library (IHMC Euclid port) |
-| [Eigen3](https://eigen.tuxfamily.org/) | 3.x | ✅ | Linear algebra library |
-| [LBlocks](https://github.com/hexb66/LBlocks) | — | ✅ | Modularization framework |
-| [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ | Visualization (optional) |
-
-## Building
-
-### Prerequisites
-
-**Ubuntu/Debian:**
-```bash
-sudo apt update
-sudo apt install -y build-essential cmake git
-sudo apt install -y libeigen3-dev python3 python3-pip
-pip3 install matplotlib numpy
-```
-
-**macOS:**
-```bash
-brew install cmake eigen git
-brew install python@3.11
-pip3 install matplotlib numpy
-```
-
-**Windows (MSVC):**
-1. Install Visual Studio 2022 with C++ workload
-2. Install Python 3.8+ from python.org (check "Add to PATH")
-3. Open PowerShell: `pip install matplotlib numpy`
-4. Set environment variable: `Python3_ROOT_DIR=C:\Path\To\Python`
-
-### Build Steps
+## Quick Start
 
 ```bash
 # Clone with submodules
@@ -72,158 +47,252 @@ git clone --recursive https://github.com/Mr-tooth/AStarFootstepPlanner.git
 cd AStarFootstepPlanner
 
 # Build
-mkdir build && cd build
-cmake .. -DCMAKE_PREFIX_PATH=/path/to/Heuclid/install
-cmake --build . -j$(nproc)
+cmake -B build -DBUILD_TESTING=ON
+cmake --build build
+
+# Run tests
+ctest --test-dir build
 ```
 
-### CMake Options
+## Using in Your Project
 
-| Option | Default | Description |
-|--------|---------|-------------|
-| `BUILD_TESTING` | ON | Build test executables |
-| `CMAKE_BUILD_TYPE` | Release | Build configuration |
+### CMake Integration
 
-If `matplotlib_cpp` is not found, set `Python3_ROOT_DIR` to your Python installation.
+```cmake
+# Option 1: add_subdirectory
+add_subdirectory(path/to/AStarFootstepPlanner)
+target_link_libraries(your_target PRIVATE FootstepPlannerLJH)
 
-## Usage
+# Option 2: find_package (after installing)
+find_package(FootstepPlannerLJH REQUIRED)
+target_link_libraries(your_target PRIVATE FootstepPlannerLJH::FootstepPlannerLJH)
+```
 
-### Basic Example
+### Code Example
 
 ```cpp
 #include <FootstepPlannerLJH/AStarFootstepPlanner.h>
-#include <FootstepPlannerLJH/Data/Footstep.h>
 
 using namespace ljh::path::footstep_planner;
 
-int main() {
-    // Set up start and goal poses (x, y, z, yaw, pitch, roll)
-    Pose3D<double> startPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-    Pose3D<double> goalPose(2.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-    
-    // Goal pose for A* search (2D: x, y, yaw)
-    Pose2D<double> goalPose2D(2.0, 0.0, 0.0);
-    
-    // Create and configure planner
-    AStarFootstepPlanner planner(goalPose2D, goalPose, startPose);
-    
-    // Run A* search
-    planner.doAStarSearch();
-    
-    // Get results
-    auto footsteps = planner.getAccurateFootstepSeries();
-    
-    // footsteps now contains the planned footstep sequence
-    return 0;
+int main()
+{
+   // Define start and goal poses (x, y, z, yaw, pitch, roll)
+   Pose3D<double> startPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+   Pose3D<double> goalPose(2.0, 0.5, 0.0, 0.3, 0.0, 0.0);
+   Pose2D<double> goalPose2D(2.0, 0.5, 0.3);
+
+   // Create planner and run A* search
+   AStarFootstepPlanner planner(goalPose2D, goalPose, startPose);
+   planner.doAStarSearch();
+
+   // Retrieve planned footstep sequence
+   auto footsteps = planner.getAccurateFootstepSeries();
+   for (const auto& step : footsteps)
+   {
+      // Process each footstep...
+   }
+
+   return 0;
 }
-```
-
-### With Visualization
-
-```cpp
-#include <FootstepPlannerLJH/Check/PlotCheck.h>
-
-// After planning
-PlotCheck plotter;
-plotter.plotFootsteps(footsteps, "planned_path.png");
-```
-
-### Advanced Configuration
-
-```cpp
-#include <FootstepPlannerLJH/Parameters/FootstepPlannerParameter.h>
-
-FootstepPlannerParameter params;
-params.setIdealFootstepLength(0.3);    // meters
-params.setIdealFootstepWidth(0.2);     // meters
-params.setMaximumStepYaw(0.3);         // radians
-
-planner.setParameters(params);
 ```
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                  AStarFootstepPlanner                   │
-│                     (A* Main Loop)                      │
-├─────────────────────────────────────────────────────────┤
-│  ┌─────────────────┐    ┌─────────────────────────┐  │
-│  │ ParameterBased  │    │    IdealStepCalculator  │  │
-│  │  StepExpansion   │    │   (Computes ideal pose) │  │
-│  └─────────────────┘    └─────────────────────────┘  │
-├─────────────────────────────────────────────────────────┤
-│  ┌─────────────────┐    ┌─────────────────────────┐  │
-│  │ FootstepCost    │    │   HeuristicCalculator   │  │
-│  │   Calculator    │    │     (A* Heuristic)      │  │
-│  └─────────────────┘    └─────────────────────────┘  │
-├─────────────────────────────────────────────────────────┤
-│  ┌─────────────────┐    ┌─────────────────────────┐  │
-│  │ StepConstraint  │    │ FootstepCompletionChecker│  │
-│  │    Check        │    │    (Goal Validation)    │  │
-│  └─────────────────┘    └─────────────────────────┘  │
-├─────────────────────────────────────────────────────────┤
-│  ┌─────────────────┐    ┌─────────────────────────┐  │
-│  │  Simple2DBody   │    │      PlotCheck          │  │
-│  │   PathHolder    │    │   (Visualization)       │  │
-│  └─────────────────┘    └─────────────────────────┘  │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                  AStarFootstepPlanner                       │
+│                     (A* Main Loop)                          │
+├──────────┬──────────┬──────────────┬────────────────────────┤
+│  Step    │  Step    │   Step       │  Completion            │
+│ Expansion│  Cost    │ Constraints  │  Checker               │
+├──────────┼──────────┼──────────────┼────────────────────────┤
+│Parameter │Heuristic │ StairRegion  │ Distance + Yaw         │
+│Based     │Calculator│ Collision    │ Proximity              │
+├──────────┴──────────┴──────────────┴────────────────────────┤
+│              Simple2DBodyPathPlanner                        │
+│               (Body Path Guidance)                          │
+├─────────────────────────────────────────────────────────────┤
+│                      Heuclid v2.0                           │
+│          (Pose, Vector, ConvexPolygon, Tools)               │
+├─────────────────────────────────────────────────────────────┤
+│                   Eigen3 (Linear Algebra)                   │
+└─────────────────────────────────────────────────────────────┘
+
+Optional: matplotlib_cpp ──► PlotChecker (Visualization)
+           LBlocks ────────► Block (Modularization Wrapper)
 ```
 
-## API Reference
+### Component Mapping (C++ ↔ IHMC Java)
 
-Key classes and interfaces:
+| C++ Component | IHMC Java Equivalent | Description |
+|---------------|---------------------|-------------|
+| `AStarFootstepPlanner` | `AStarFootstepPlanner` | A* search main loop |
+| `ParameterBasedStepExpansion` | `ParameterBasedStepExpansion` | Step expansion strategy |
+| `IdealStepCalculator` | `IdealStepCalculator` | Nominal step position |
+| `FootstepCostCalculator` | `FootstepCostCalculator` | Step cost evaluation |
+| `HeuristicCalculator` | `FootstepPlannerHeuristicCalculator` | A* heuristic |
+| `StepConstraintCheck` | `HeightMapFootstepChecker` | Environmental constraints |
+| `Simple2DBodyPathHolder` | `WaypointDefinedBodyPathPlanHolder` | Body path guidance |
 
-- `AStarFootstepPlanner` - Main planner class
-- `Footstep` - Footstep state representation
-- `FootstepPlannerParameter` - Configuration parameters
-- `PlotCheck` - Visualization utilities
-- `Pose3D<T>` / `Pose2D<T>` - Pose representations (from Heuclid)
+## Dependencies
 
-For full API documentation, see the Doxygen comments in the header files or generate docs with:
+| Dependency | Version | Required | Auto-fetched |
+|------------|---------|----------|--------------|
+| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ Yes | ❌ |
+| [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ Yes | ❌ |
+| [LBlocks](https://github.com/hexb66/LBlocks) | latest | ✅ Yes | ✅ (submodule) |
+| [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ Optional | ❌ |
+
+## Building from Source
+
+### Requirements
+
+- CMake 3.22+
+- C++11 compliant compiler (GCC 5+, Clang 3.8+, MSVC 2017+)
+- Heuclid v2.0+ (must be installed or available via `CMAKE_PREFIX_PATH`)
+- Eigen 3.3+
+
+### Platform-Specific Setup
+
+**Ubuntu / Debian:**
 ```bash
-cd build
-cmake .. -DBUILD_DOCS=ON
-make docs
+sudo apt install build-essential cmake git libeigen3-dev
+```
+
+**macOS:**
+```bash
+brew install cmake eigen
+```
+
+**Windows (MSVC):**
+- Install [Visual Studio 2017+](https://visualstudio.microsoft.com/) with C++ workload
+- Install [CMake](https://cmake.org/download/)
+- Install [Eigen3](https://eigen.tuxfamily.org/) (via vcpkg or manual)
+
+### Build Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `BUILD_TESTING` | `ON` | Build test executables |
+
+### Enabling Visualization (matplotlib_cpp)
+
+<details>
+<summary><b>Ubuntu</b></summary>
+
+```bash
+sudo apt install python3-dev python3-matplotlib python3-numpy
+```
+</details>
+
+<details>
+<summary><b>macOS</b></summary>
+
+```bash
+brew install python3
+pip3 install matplotlib numpy
+```
+</details>
+
+<details>
+<summary><b>Windows (MSVC)</b></summary>
+
+1. Install [Python 3.8+](https://python.org) — check **"Add Python to PATH"**
+2. Install packages:
+   ```cmd
+   pip install matplotlib numpy
+   ```
+3. Set environment variable:
+   ```cmd
+   set Python3_ROOT_DIR=C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python312
+   ```
+4. Build:
+   ```cmd
+   cmake -B build -DPython3_ROOT_DIR=%Python3_ROOT_DIR%
+   cmake --build build --config Release
+   ```
+
+**Note**: matplotlib_cpp requires linking with `/MT` (static CRT) on MSVC. This is handled automatically by the build system when matplotlib_cpp is detected.
+</details>
+
+When matplotlib_cpp is **not** found, the `PlotChecker` visualization module is automatically disabled. All core planning functionality remains available.
+
+## Project Structure
+
+```
+AStarFootstepPlanner/
+├── include/FootstepPlannerLJH/
+│   ├── AStarFootstepPlanner.h      # Main planner class
+│   ├── AStarSearch.h               # A* algorithm (generic)
+│   ├── FootstepplannerBasic.h      # Footstep types (DiscreteFootstep, AccurateFootstep)
+│   ├── parameters.h                # Planner parameters
+│   ├── Block/                      # LBlocks integration wrapper
+│   ├── PlotCheck/                  # Visualization (matplotlib)
+│   ├── SimpleBodyPathPlanner/      # Body path guidance
+│   ├── StepCheck/                  # Completion checking
+│   ├── StepConstraints/            # Environmental constraints
+│   ├── StepCost/                   # Cost and heuristic functions
+│   └── StepExpansion/              # Step expansion strategies
+├── src/                            # Implementation files
+├── test/                           # Test executables
+└── external/                       # Git submodules (LBlocks)
 ```
 
 ## Roadmap
 
-- [ ] **Snap & Wiggle** - Support for IHMC's FootstepSnapAndWiggler for terrain adaptation
-- [ ] **Heightmap Support** - Full heightmap-based terrain awareness
-- [ ] **ROS 2 Integration** - Native ROS 2 node and message interfaces
-- [ ] **Enhanced Body Path Planning** - Integration with external path planners
+- [ ] Snap & Wiggle step refinement (matching IHMC's `FootstepSnapAndWiggler`)
+- [ ] Heightmap-based terrain awareness
+- [ ] Body path planning enhancement
+- [ ] ROS 2 integration
+- [ ] Performance benchmarking
 
 ## Citation
 
-If you use this library in academic work, please cite:
+If you use this library in your research or projects, please cite:
+
+```bibtex
+@software{astarfootstepplanner,
+  title = {AStarFootstepPlanner: A* Footstep Planner for Humanoid Robots},
+  author = {Junhang Lai},
+  year = {2026},
+  url = {https://github.com/Mr-tooth/AStarFootstepPlanner}
+}
+```
+
+The underlying algorithm is based on:
 
 ```bibtex
 @inproceedings{ihmc_footstep_2019,
   title={Footstep Planning for Autonomous Walking Over Rough Terrain},
-  author={Dornbush, Alexander and V\'{a}squez, Andr\'{e}s and L\'{e}on, Beatriz and de~las~Heras, Luis and Bergasa, Luis M and Oca\~{n}a, Manuel},
+  author={Griffin, Robert J and Wiedebach, Georg and Bertrand, Sylvain and Leonessa, Alexander and Pratt, Jerry},
   booktitle={IEEE-RAS International Conference on Humanoid Robots},
   year={2019},
-  organization={IEEE}
+  organization={IEEE},
+  doi={1109/Humanoids43949.2019.9035046}
 }
 ```
 
+## Related Projects
+
+| Project | Description |
+|---------|-------------|
+| [Heuclid](https://github.com/Mr-tooth/Heuclid) | C++ geometry library (IHMC Euclid port) |
+| [IHMC Euclid](https://github.com/ihmcrobotics/euclid) | Original Java geometry library |
+| [IHMC Footstep Planning](https://github.com/ihmcrobotics/ihmc-open-robotics-software) | Original Java footstep planner |
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
 ## License
 
-Copyright 2024-2025 AStarFootstepPlanner Contributors
+Licensed under the [Apache License 2.0](LICENSE).
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+## Author
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+**Junhang Lai (赖俊杭)** — [GitHub](https://github.com/Mr-tooth)
 
 ---
 
-**中文文档**: [README_CN.md](README_CN.md)
+_This library's upstream dependency [Heuclid](https://github.com/Mr-tooth/Heuclid) provides the geometric primitives used throughout._

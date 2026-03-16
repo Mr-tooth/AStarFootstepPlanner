@@ -1,69 +1,67 @@
-# Contributing
+# Contributing to AStarFootstepPlanner
 
-感谢您对 AStarFootstepPlanner 的贡献！
+Thank you for your interest in contributing to AStarFootstepPlanner!
 
-## 开发环境配置
+## Development Setup
 
-1. Fork 并克隆仓库
 ```bash
-git clone https://github.com/your-username/AStarFootstepPlanner.git
+# Clone with submodules
+git clone --recursive https://github.com/Mr-tooth/AStarFootstepPlanner.git
 cd AStarFootstepPlanner
+
+# Build
+cmake -B build -DBUILD_TESTING=ON
+cmake --build build
+
+# Run tests
+ctest --test-dir build
 ```
 
-2. 安装依赖（见 README）
-3. 构建项目进行测试
-```bash
-mkdir build && cd build
-cmake ..
-cmake --build .
-```
+## Prerequisites
 
-## 代码风格
+- CMake 3.22+
+- C++11 compliant compiler (GCC 5+, Clang 3.8+, MSVC 2017+)
+- [Heuclid v2.0+](https://github.com/Mr-tooth/Heuclid) installed or available via `CMAKE_PREFIX_PATH`
+- Eigen 3.3+
 
-- 使用 `.clang-format` 进行格式化（基于 Google 风格）
-- 缩进宽度：3 个空格
-- C++17 标准
-- 命名空间：`ljh::path::footstep_planner`
+## Code Style
 
-格式化命令：
-```bash
-clang-format -i src/**/*.cpp include/**/*.h
-```
+- C++11 standard
+- Google-style formatting (see `.clang-format`, `IndentWidth: 3`)
+- All public APIs should have Doxygen documentation (`/** */`)
+- Run `clang-format` before committing
 
-## 提交规范
+## Pull Request Process
 
-使用 [Conventional Commits](https://conventionalcommits.org/) 格式：
+1. Fork and create a feature branch from `main`
+2. Ensure all tests pass: `ctest --test-dir build`
+3. Add tests for new functionality
+4. Update documentation (Doxygen comments, README if needed)
+5. Submit PR with a clear description of changes and motivation
 
-```
-<type>(<scope>): <description>
-```
+## Commit Messages
 
-类型：`feat` `fix` `docs` `style` `refactor` `test` `chore`
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
-示例：
-```
-feat(planner): add early termination for timeout
-docs(readme): update build instructions
-fix(constraint): correct stair boundary check
-```
+| Prefix | Usage |
+|--------|-------|
+| `feat:` | New feature |
+| `fix:` | Bug fix |
+| `docs:` | Documentation only |
+| `build:` | Build system or dependencies |
+| `test:` | Test additions or changes |
+| `refactor:` | Code restructuring (no behavior change) |
+| `chore:` | Maintenance tasks |
 
-## Pull Request 流程
+## Reporting Issues
 
-1. 从 `main` 创建功能分支：`git checkout -b feature/your-feature`
-2. 提交更改并推送到您的 Fork
-3. 创建 PR 到 `main` 分支
-4. 确保 CI 检查通过
-5. 等待代码审查和合并
+When reporting bugs, please include:
 
-## Issue 报告
+- Compiler and OS version
+- CMake version
+- Steps to reproduce
+- Expected vs. actual behavior
 
-报告问题时请包含：
-- 操作系统和版本
-- 编译器/CMake 版本
-- 复现步骤
-- 预期行为 vs 实际行为
-- 相关日志或错误信息
+## License
 
----
-
-有疑问？欢迎通过 GitHub Issue 讨论！
+By contributing, you agree that your contributions will be licensed under the [Apache License 2.0](LICENSE).
