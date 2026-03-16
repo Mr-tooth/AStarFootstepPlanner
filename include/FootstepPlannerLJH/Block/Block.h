@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 
 // using in ubuntu with Dr.Chao
 
@@ -98,8 +101,3 @@ public:
 
 
 _FOOTSTEP_PLANNER_END
-
-
-
-
-

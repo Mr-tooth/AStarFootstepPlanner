@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef __FOOTSTEP__COST__CALCULATOR__
 #define __FOOTSTEP__COST__CALCULATOR__
@@ -12,7 +15,14 @@
 
 _FOOTSTEP_PLANNER_BEGIN
 
-// Regular version of LJH cost calculation
+/**
+ * @class FootstepCostCalculator
+ * @brief Cost function evaluator for A* footstep planning.
+ *
+ * Computes edge costs and heuristic costs for graph search.
+ * Edge cost combines step distance, yaw, height, and static penalties.
+ * Heuristic estimates remaining cost to goal.
+ */
 class FootstepCostCalculator
 {
 private:
@@ -30,25 +40,74 @@ private:
     //cost_t rollOffset;
 
     cost_t lenOffset;
-    
-    
+
+
 public:
     HeuristicCalculator heuristicCalculator;
+
+    /**
+     * @brief Default constructor.
+     */
     FootstepCostCalculator()
         :param(),edgeCost(cost_t(0)),totalCost(cost_t(0)),heuristicCost(cost_t(0)),xOffset(cost_t(0)),yOffset(cost_t(0)),yawOffset(cost_t(0)),lenOffset(cost_t(0)),heuristicCalculator(){};
-    
+
+    /**
+     * @brief Constructor with start and goal poses.
+     * @param _goalPose Target body pose
+     * @param _startPose Starting body pose
+     */
     FootstepCostCalculator(Pose3D<double> _goalPose, Pose3D<double> _startPose)
         :param(),edgeCost(cost_t(0)),totalCost(cost_t(0)),heuristicCost(cost_t(0)),xOffset(cost_t(0)),yOffset(cost_t(0)),yawOffset(cost_t(0)),lenOffset(cost_t(0)),
         heuristicCalculator(_goalPose,_startPose){};
+
+    /**
+     * @brief Compute total cost (edge + heuristic) for a transition.
+     * @param candidateNode Candidate stance node
+     * @param stanceNode Current stance node
+     * @return Total cost g(n) + h(n)
+     */
     cost_t computeTotalCost(Location candidateNode, Location stanceNode);
     //cost_t computeCost(DiscreteFootstep candidateStep, DiscreteFootstep stanceStep, DiscreteFootstep startOfSwing);
 
+    /**
+     * @brief Compute edge cost for transition between two stances.
+     * @param candidateNode Candidate stance node
+     * @param stanceNode Current stance node
+     * @return Edge cost g(n)
+     */
     cost_t computeEdgeCost(Location candidateNode, Location stanceNode);
+
+    /**
+     * @brief Compute heuristic cost for a node.
+     * @param candidateNode Node to evaluate
+     * @return Heuristic estimate h(n)
+     */
     cost_t computeHeuristicCost(Location candidateNode);
+
+    /**
+     * @brief Compute heuristic cost using elliptical path model.
+     * @param candidateNode Node to evaluate
+     * @return Heuristic estimate with path distance
+     */
     cost_t computeHeuristicCostWithEllipsiodPath(Location candidateNode);
+
+    /**
+     * @brief Initialize calculator with start and goal poses.
+     * @param _goalPose Target body pose
+     * @param _startPose Starting body pose
+     */
     void initialize(Pose3D<double> _goalPose, Pose3D<double> _startPose);
 
+    /**
+     * @brief Get the last computed edge cost.
+     * @return Edge cost value
+     */
     cost_t getEdgeCost() const {return this->edgeCost;};
+
+    /**
+     * @brief Get the last computed heuristic cost.
+     * @return Heuristic cost value
+     */
     cost_t getHeuristicCost() const {return this->heuristicCost;};
 
 };

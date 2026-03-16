@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #include <FootstepPlannerLJH/StepCost/HeuristicCalculator.h>
 
 _FOOTSTEP_PLANNER_BEGIN

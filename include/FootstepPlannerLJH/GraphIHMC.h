@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 // things should be clarified in Graph:
 // the class of [node]: Location
 // the datatype of [edge cost]: cost_t

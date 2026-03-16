@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef __IDEAL__STEP__CALCULATOR__
 #define __IDEAL__STEP__CALCULATOR__

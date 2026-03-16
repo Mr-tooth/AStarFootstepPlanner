@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef __PARAMETERS__
 #define __PARAMETERS__
@@ -27,6 +30,17 @@ _FOOTSTEP_PLANNER_BEGIN
 // extern double _edgecost_w_area;
 // extern double _edgecost_w_static;
 
+/**
+ * @class parameters
+ * @brief Configuration parameters for footstep planning.
+ *
+ * Contains all tunable parameters for the A* footstep planner including:
+ * - Step expansion constraints (length, width, yaw limits)
+ * - Cost function weights (distance, yaw, height, area)
+ * - Heuristic weights for A* search
+ * - Goal proximity thresholds
+ * - Stair alignment mode configuration
+ */
 class parameters
 {
 public:
@@ -60,7 +74,7 @@ public:
     static CONST double FinalTurnProximity;
     static CONST double AStarHeuristicWeight;
     static CONST double AStarHeuristicFinalWeight;
-    
+
     static CONST double HWPOfWalkDistacne;
     static CONST double HWPOfInitialTurnDistacne;
     static CONST double HWPOfFinalTurnDistacne;
