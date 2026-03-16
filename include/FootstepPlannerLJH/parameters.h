@@ -19,7 +19,7 @@
 
 #include <cmath>
 #include <Heuclid/geometry/ConvexPolygon2D.h>
-using ljh::mathlib::Point2D;
+using ljh::heuclid::Point2D;
 _FOOTSTEP_PLANNER_BEGIN
 // extern double _edgecost_w_d;
 // extern double _edgecost_w_yaw;
@@ -78,7 +78,7 @@ public:
 
     // constraints for stair alignment// load in the step expansion
     static CONST bool isStairAlignMode;
-    static CONST ljh::mathlib::ConvexPolygon2D stairPolygon;
+    static CONST ljh::heuclid::ConvexPolygon2D stairPolygon;
     static CONST double footPolygonExtendedLength;
     
 
@@ -108,7 +108,7 @@ public:
     double getGoalYawProximity(const parameters& param);
     bool   getDebugFlag(const parameters& param);
     bool   getStairAlignMode(const parameters& param);
-    ljh::mathlib::ConvexPolygon2D getStairPolygon(const parameters& param);
+    ljh::heuclid::ConvexPolygon2D getStairPolygon(const parameters& param);
     double getFootPolygonExtendedLength(const parameters& param);
     double getHWPOfWalkDistacne(const parameters& param);
     double getHWPOfInitialTurnDistacne(const parameters& param);

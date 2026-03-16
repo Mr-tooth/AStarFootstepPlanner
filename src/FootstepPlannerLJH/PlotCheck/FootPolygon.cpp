@@ -63,7 +63,7 @@ void getFootVertex2D(double *CenterPose2D, int stepflag, double *VertexX, double
 
 }
 
-void getFootVertex2D(ljh::mathlib::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<double>& _vertexX,std::vector<double>& _vertexY)
+void getFootVertex2D(ljh::heuclid::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<double>& _vertexX,std::vector<double>& _vertexY)
 {
     double centerPose[3] = {_footPose.getPosition().getX(), _footPose.getPosition().getY(), _footPose.getOrientation().getYaw()};
     double vertexX[4] = {0.0};
@@ -88,7 +88,7 @@ void getFootVertex2D(ljh::mathlib::Pose2D<double> _footPose, enum StepFlag _step
 
 void getFootVertex2D(Location _footNode, std::vector<double>& _vertexX,std::vector<double>& _vertexY)
 {
-    ljh::mathlib::Pose2D<double> _footPose(_footNode.getSecondStep().getX(), _footNode.getSecondStep().getY(), _footNode.getSecondStep().getYaw());
+    ljh::heuclid::Pose2D<double> _footPose(_footNode.getSecondStep().getX(), _footNode.getSecondStep().getY(), _footNode.getSecondStep().getYaw());
     getFootVertex2D(_footPose,_footNode.getSecondStepSide().getStepFlag(),_vertexX, _vertexY);
 }
 
@@ -134,7 +134,7 @@ void getExtendedFootVertex2D(double *CenterPose2D, int stepflag, double *VertexX
 }
 
 
-void getExtendedFootVertex2D(ljh::mathlib::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<double>& _vertexX,std::vector<double>& _vertexY, double extendLength)
+void getExtendedFootVertex2D(ljh::heuclid::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<double>& _vertexX,std::vector<double>& _vertexY, double extendLength)
 {
     double centerPose[3] = {_footPose.getPosition().getX(), _footPose.getPosition().getY(), _footPose.getOrientation().getYaw()};
     double vertexX[4] = {0.0};
@@ -158,7 +158,7 @@ void getExtendedFootVertex2D(ljh::mathlib::Pose2D<double> _footPose, enum StepFl
 
 void getExtendedFootVertex2D(Location _footNode, std::vector<double>& _vertexX,std::vector<double>& _vertexY, double extendLength)
 {
-    ljh::mathlib::Pose2D<double> _footPose(_footNode.getSecondStep().getX(), _footNode.getSecondStep().getY(), _footNode.getSecondStep().getYaw());
+    ljh::heuclid::Pose2D<double> _footPose(_footNode.getSecondStep().getX(), _footNode.getSecondStep().getY(), _footNode.getSecondStep().getYaw());
     getExtendedFootVertex2D(_footPose,_footNode.getSecondStepSide().getStepFlag(),_vertexX, _vertexY, extendLength);
 }
 

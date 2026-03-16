@@ -1,3 +1,4 @@
+#ifdef HAS_MATPLOTLIB
 #include <FootstepPlannerLJH/PlotCheck/PlotChecker.h>
 
 _FOOTSTEP_PLANNER_BEGIN
@@ -46,7 +47,7 @@ void PlotChecker::plotFrontier(PriorityQueue<Location,cost_t> _frontier)
     
 }
 
-void PlotChecker::plotGoalposeAndStair(ljh::mathlib::Pose3D<double> _goalPose)
+void PlotChecker::plotGoalposeAndStair(ljh::heuclid::Pose3D<double> _goalPose)
 {
     const double arrowLength = 0.05;
     double x_goal  = _goalPose.getPosition().getX();
@@ -70,7 +71,7 @@ void PlotChecker::plotGoalposeAndStair(ljh::mathlib::Pose3D<double> _goalPose)
     plt::pause(0.01);
 }
 
-void PlotChecker::plotSearchOutcome(std::vector<Location> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose)
+void PlotChecker::plotSearchOutcome(std::vector<Location> _outcome,ljh::heuclid::Pose3D<double> _goalPose,ljh::heuclid::Pose3D<double> _startPose)
 {
     // static std::vector<double> vertexX(4);
     // static std::vector<double> vertexY(4);
@@ -154,7 +155,7 @@ void PlotChecker::plotSearchOutcome(std::vector<Location> _outcome,ljh::mathlib:
 }
 
 
-void PlotChecker::plotSearchOutcome2(std::vector<Location> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose)
+void PlotChecker::plotSearchOutcome2(std::vector<Location> _outcome,ljh::heuclid::Pose3D<double> _goalPose,ljh::heuclid::Pose3D<double> _startPose)
 {
     // static std::vector<double> vertexX(4);
     // static std::vector<double> vertexY(4);
@@ -238,7 +239,7 @@ void PlotChecker::plotSearchOutcome2(std::vector<Location> _outcome,ljh::mathlib
 
 }
 
-void PlotChecker::plotAccurateSearchOutcome(std::vector<AccurateFootstep> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose)
+void PlotChecker::plotAccurateSearchOutcome(std::vector<AccurateFootstep> _outcome,ljh::heuclid::Pose3D<double> _goalPose,ljh::heuclid::Pose3D<double> _startPose)
 {
     this->vertexX.clear();this->vertexY.clear();
     double x_num = 0.0;
@@ -263,7 +264,7 @@ void PlotChecker::plotAccurateSearchOutcome(std::vector<AccurateFootstep> _outco
     plt::figure(2);
     plt::clf();
 
-    ljh::mathlib::Pose2D<double> pose2d;
+    ljh::heuclid::Pose2D<double> pose2d;
     for(int i=0;i<_outcome.size();i++)
     {
         pose2d.setPosition(_outcome.at(i).getX(),_outcome.at(i).getY()); 
@@ -321,7 +322,7 @@ void PlotChecker::plotAccurateSearchOutcome(std::vector<AccurateFootstep> _outco
     plt::show();
 }
 
-void PlotChecker::plotAccurateSearchOutcome2(std::vector<AccurateFootstep> _outcome,ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::Pose3D<double> _startPose,ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder)
+void PlotChecker::plotAccurateSearchOutcome2(std::vector<AccurateFootstep> _outcome,ljh::heuclid::Pose3D<double> _goalPose,ljh::heuclid::Pose3D<double> _startPose,ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder)
 {
     this->vertexX.clear();this->vertexY.clear();
     double x_num = 0.0;
@@ -346,7 +347,7 @@ void PlotChecker::plotAccurateSearchOutcome2(std::vector<AccurateFootstep> _outc
     plt::figure(2);
     plt::clf();
 
-    ljh::mathlib::Pose2D<double> pose2d;
+    ljh::heuclid::Pose2D<double> pose2d;
     for(int i=0;i<_outcome.size();i++)
     {
         pose2d.setPosition(_outcome.at(i).getX(),_outcome.at(i).getY()); 
@@ -422,3 +423,4 @@ void PlotChecker::plotAccurateSearchOutcome2(std::vector<AccurateFootstep> _outc
     plt::show();
 }
 _FOOTSTEP_PLANNER_END
+#endif

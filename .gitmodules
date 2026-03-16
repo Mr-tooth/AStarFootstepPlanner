@@ -1,0 +1,3 @@
+[submodule "external/LBlocks"]
+	path = external/LBlocks
+	url = https://github.com/hexb66/LBlocks.git

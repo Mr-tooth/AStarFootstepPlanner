@@ -267,7 +267,7 @@ int FootstepGraphNode::computeHashCode()
 }
 
 
-AccurateFootstep::AccurateFootstep(const ljh::mathlib::Pose3D<double>& _pose, const RobotSide& _robotside)
+AccurateFootstep::AccurateFootstep(const ljh::heuclid::Pose3D<double>& _pose, const RobotSide& _robotside)
 {
     this->x = _pose.getPosition().getX() + -sin(_pose.getOrientation().getYaw()) * _robotside.negateIfRightSide(IDEAL_STEP_WIDTH/2.0);
     this->y = _pose.getPosition().getY() +  cos(_pose.getOrientation().getYaw()) * _robotside.negateIfRightSide(IDEAL_STEP_WIDTH/2.0);
@@ -276,7 +276,7 @@ AccurateFootstep::AccurateFootstep(const ljh::mathlib::Pose3D<double>& _pose, co
 }
 
 // get Accurate Footstep Info from midFootPose
-AccurateFootstep::AccurateFootstep(const ljh::mathlib::Pose3D<double>& _pose, const enum StepFlag& _stepflag)
+AccurateFootstep::AccurateFootstep(const ljh::heuclid::Pose3D<double>& _pose, const enum StepFlag& _stepflag)
 {
     RobotSide _robotside(_stepflag);
     //AccurateFootstep(_pose,robotside);

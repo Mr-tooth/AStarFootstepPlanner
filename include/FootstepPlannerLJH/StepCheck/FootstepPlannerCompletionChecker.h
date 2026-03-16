@@ -5,7 +5,7 @@
 #include <FootstepPlannerLJH/Title.h>
 #include <FootstepPlannerLJH/StepCost/HeuristicCalculator.h>
 #include <Heuclid/euclid/tools/HeuclidCoreTool.h>
-using ljh::mathlib::HeuclidCoreTool;
+using ljh::heuclid::HeuclidCoreTool;
 
 #define GOAL_REACHED_SPECIFIC 2
 #define GOAL_REACHED_PROXIMITY 1

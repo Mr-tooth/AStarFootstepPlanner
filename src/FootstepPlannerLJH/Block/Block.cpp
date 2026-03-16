@@ -283,7 +283,7 @@ void Block::transformWorldStairCenter2Local(double *centerPose)
     
     centerPose[2] = Start_T_StairCenter.block<3,3>(0,0).eulerAngles(2,1,0)[0];
 
-    this->startPose3D = ljh::mathlib::Pose3D<double> ();
+    this->startPose3D = ljh::heuclid::Pose3D<double> ();
 }
 
 void Block::setIP(const char *_IP)

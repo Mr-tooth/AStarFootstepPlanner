@@ -7,7 +7,7 @@
 #include <Heuclid/geometry/Pose3D.h>
 #include <Heuclid/geometry/Pose2D.h>
 #include <FootstepPlannerLJH/SimpleBodyPathPlanner/simple2DBodyPathHolder.h>
-using ljh::mathlib::Pose3D;
+using ljh::heuclid::Pose3D;
 _FOOTSTEP_PLANNER_BEGIN
 
 
