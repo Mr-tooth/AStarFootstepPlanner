@@ -115,6 +115,7 @@ double Simple2DBodyPathHolder::getClosestdPointsYawfromPathToGivenPoint(Footstep
 }
 
 
+#ifdef HAS_MATPLOTLIB
 void Simple2DBodyPathHolder::plotEllipsoidPath()
 {
     namespace plt = matplotlibcpp;
@@ -139,6 +140,7 @@ void Simple2DBodyPathHolder::plotEllipsoidPath()
     plt::show();
     
 }
+#endif
 
 
 std::vector<ljh::heuclid::Pose2D<double> > Simple2DBodyPathHolder::getWayPointPath()

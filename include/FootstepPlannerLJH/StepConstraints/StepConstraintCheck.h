@@ -10,7 +10,9 @@
 #include <Heuclid/geometry/ConvexPolygon2D.h>
 #include <Heuclid/geometry/tools/HeuclidPolygonTools.h>
 #include <Heuclid/geometry/Pose2D.h>
+#ifdef HAS_MATPLOTLIB
 #include <matplotlibcpp.h>
+#endif
 #include <vector>
 _FOOTSTEP_PLANNER_BEGIN
 
