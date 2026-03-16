@@ -1,49 +1,49 @@
 # AStarFootstepPlanner
 
-> C++ implementation of A*-based footstep planner for humanoid robots, 
-> inspired by [IHMC Footstep Planning](https://github.com/ihmcrobotics/ihmc-open-robotics-software/tree/develop/ihmc-footstep-planning).
+> 基于 A* 算法的人形机器人落脚点规划器 C++ 实现，
+> 灵感来源于 [IHMC Footstep Planning](https://github.com/ihmcrobotics/ihmc-open-robotics-software/tree/develop/ihmc-footstep-planning)。
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C%2B%2B-11-blue.svg)]()
 [![CMake](https://img.shields.io/badge/CMake-3.22+-blue.svg)]()
 
-## Overview
+## 概述
 
-AStarFootstepPlanner is a C++ library for planning optimal footstep sequences for humanoid robots navigating complex terrains. It implements an A* graph search algorithm to find collision-free paths from a start pose to a goal pose.
+AStarFootstepPlanner 是一个用于人形机器人在复杂地形中规划最优落脚点序列的 C++ 库。它实现了 A* 图搜索算法，用于寻找从起始姿态到目标姿态的无碰撞路径。
 
-This library is a C++ reimplementation inspired by the IHMC (Indiana Humanoid Motion Control) footstep planning framework, originally developed in Java. It follows the algorithms described in the IEEE Humanoids 2019 paper "Footstep Planning for Autonomous Walking Over Rough Terrain".
+本库是 IHMC（Indiana Humanoid Motion Control）落脚点规划框架的 C++ 重新实现，原框架使用 Java 开发。它遵循 IEEE Humanoids 2019 论文《Footstep Planning for Autonomous Walking Over Rough Terrain》中描述的算法。
 
-Key capabilities include:
-- Parameter-based step expansion with configurable stride parameters
-- Kinematic constraint checking for robot reachability
-- Environmental collision detection (stairs, obstacles)
-- Configurable cost functions for step quality evaluation
-- Optional matplotlib-based visualization for debugging
+主要功能包括：
+- 基于参数的步扩展，支持可配置的步态参数
+- 机器人可达性运动学约束检查
+- 环境碰撞检测（楼梯、障碍物）
+- 可配置的代价函数用于步质量评估
+- 可选的基于 matplotlib 的可视化调试
 
-## Features
+## 功能特性
 
-- **A* Graph Search**: Optimal footstep sequence planning using A* algorithm
-- **Parameter-Based Expansion**: Configurable step parameters for different robot gaits
-- **Kinematic Constraints**: Robot reachability and stability checking
-- **Environmental Awareness**: Stair region and obstacle collision detection
-- **Flexible Cost Functions**: Distance, yaw, step transition costs
-- **Visualization**: Optional matplotlib-based plotting for trajectory analysis
-- **Cross-Platform**: Ubuntu, macOS, Windows with MSVC
+- **A* 图搜索**：使用 A* 算法规划最优落脚点序列
+- **参数化步扩展**：支持可配置步态参数的步生成
+- **运动学约束**：机器人可达性和稳定性检查
+- **环境感知**：楼梯区域和障碍物碰撞检测
+- **灵活代价函数**：距离、偏航角、步态转换代价
+- **可视化**：基于 matplotlib 的轨迹分析绘图
+- **跨平台**：支持 Ubuntu、macOS、Windows (MSVC)
 
-## Dependencies
+## 依赖项
 
-| Dependency | Version | Required | Description |
+| 依赖 | 版本 | 必需 | 说明 |
 |-----------|---------|----------|-------------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ | C++ geometry math library (IHMC Euclid port) |
-| [Eigen3](https://eigen.tuxfamily.org/) | 3.x | ✅ | Linear algebra library |
-| [LBlocks](https://github.com/hexb66/LBlocks) | — | ✅ | Modularization framework |
-| [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ | Visualization (optional) |
+| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ | C++ 几何数学库（IHMC Euclid 移植版） |
+| [Eigen3](https://eigen.tuxfamily.org/) | 3.x | ✅ | 线性代数库 |
+| [LBlocks](https://github.com/hexb66/LBlocks) | — | ✅ | 模块化框架 |
+| [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ | 可视化（可选） |
 
-## Building
+## 编译构建
 
-### Prerequisites
+### 前置条件
 
-**Ubuntu/Debian:**
+**Ubuntu/Debian：**
 ```bash
 sudo apt update
 sudo apt install -y build-essential cmake git
@@ -51,44 +51,44 @@ sudo apt install -y libeigen3-dev python3 python3-pip
 pip3 install matplotlib numpy
 ```
 
-**macOS:**
+**macOS：**
 ```bash
 brew install cmake eigen git
 brew install python@3.11
 pip3 install matplotlib numpy
 ```
 
-**Windows (MSVC):**
-1. Install Visual Studio 2022 with C++ workload
-2. Install Python 3.8+ from python.org (check "Add to PATH")
-3. Open PowerShell: `pip install matplotlib numpy`
-4. Set environment variable: `Python3_ROOT_DIR=C:\Path\To\Python`
+**Windows (MSVC)：**
+1. 安装 Visual Studio 2022 并选择 C++ 工作负载
+2. 从 python.org 安装 Python 3.8+（勾选"添加到 PATH"）
+3. 打开 PowerShell: `pip install matplotlib numpy`
+4. 设置环境变量: `Python3_ROOT_DIR=C:\Path\To\Python`
 
-### Build Steps
+### 编译步骤
 
 ```bash
-# Clone with submodules
+# 克隆仓库（包含子模块）
 git clone --recursive https://github.com/Mr-tooth/AStarFootstepPlanner.git
 cd AStarFootstepPlanner
 
-# Build
+# 构建
 mkdir build && cd build
 cmake .. -DCMAKE_PREFIX_PATH=/path/to/Heuclid/install
 cmake --build . -j$(nproc)
 ```
 
-### CMake Options
+### CMake 选项
 
-| Option | Default | Description |
+| 选项 | 默认值 | 说明 |
 |--------|---------|-------------|
-| `BUILD_TESTING` | ON | Build test executables |
-| `CMAKE_BUILD_TYPE` | Release | Build configuration |
+| `BUILD_TESTING` | ON | 编译测试可执行文件 |
+| `CMAKE_BUILD_TYPE` | Release | 构建配置 |
 
-If `matplotlib_cpp` is not found, set `Python3_ROOT_DIR` to your Python installation.
+如果找不到 `matplotlib_cpp`，请设置 `Python3_ROOT_DIR` 指向您的 Python 安装目录。
 
-## Usage
+## 使用方法
 
-### Basic Example
+### 基础示例
 
 ```cpp
 #include <FootstepPlannerLJH/AStarFootstepPlanner.h>
@@ -97,106 +97,106 @@ If `matplotlib_cpp` is not found, set `Python3_ROOT_DIR` to your Python installa
 using namespace ljh::path::footstep_planner;
 
 int main() {
-    // Set up start and goal poses (x, y, z, yaw, pitch, roll)
+    // 设置起始姿态和目标姿态 (x, y, z, 偏航角, 俯仰角, 横滚角)
     Pose3D<double> startPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
     Pose3D<double> goalPose(2.0, 0.0, 0.0, 0.0, 0.0, 0.0);
     
-    // Goal pose for A* search (2D: x, y, yaw)
+    // A* 搜索使用的目标姿态 (2D: x, y, 偏航角)
     Pose2D<double> goalPose2D(2.0, 0.0, 0.0);
     
-    // Create and configure planner
+    // 创建并配置规划器
     AStarFootstepPlanner planner(goalPose2D, goalPose, startPose);
     
-    // Run A* search
+    // 运行 A* 搜索
     planner.doAStarSearch();
     
-    // Get results
+    // 获取结果
     auto footsteps = planner.getAccurateFootstepSeries();
     
-    // footsteps now contains the planned footstep sequence
+    // footsteps 现在包含规划好的落脚点序列
     return 0;
 }
 ```
 
-### With Visualization
+### 带可视化
 
 ```cpp
 #include <FootstepPlannerLJH/Check/PlotCheck.h>
 
-// After planning
+// 规划完成后
 PlotCheck plotter;
 plotter.plotFootsteps(footsteps, "planned_path.png");
 ```
 
-### Advanced Configuration
+### 高级配置
 
 ```cpp
 #include <FootstepPlannerLJH/Parameters/FootstepPlannerParameter.h>
 
 FootstepPlannerParameter params;
-params.setIdealFootstepLength(0.3);    // meters
-params.setIdealFootstepWidth(0.2);     // meters
-params.setMaximumStepYaw(0.3);         // radians
+params.setIdealFootstepLength(0.3);    // 米
+params.setIdealFootstepWidth(0.2);     // 米
+params.setMaximumStepYaw(0.3);         // 弧度
 
 planner.setParameters(params);
 ```
 
-## Architecture
+## 架构设计
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                  AStarFootstepPlanner                   │
-│                     (A* Main Loop)                      │
+│                     (A* 主循环)                          │
 ├─────────────────────────────────────────────────────────┤
 │  ┌─────────────────┐    ┌─────────────────────────┐  │
-│  │ ParameterBased  │    │    IdealStepCalculator  │  │
-│  │  StepExpansion   │    │   (Computes ideal pose) │  │
+│  │  基于参数的     │    │    IdealStepCalculator  │  │
+│  │  步扩展策略     │    │   (计算理想姿态)         │  │
 │  └─────────────────┘    └─────────────────────────┘  │
 ├─────────────────────────────────────────────────────────┤
 │  ┌─────────────────┐    ┌─────────────────────────┐  │
 │  │ FootstepCost    │    │   HeuristicCalculator   │  │
-│  │   Calculator    │    │     (A* Heuristic)      │  │
+│  │   Calculator    │    │     (A* 启发式函数)      │  │
 │  └─────────────────┘    └─────────────────────────┘  │
 ├─────────────────────────────────────────────────────────┤
 │  ┌─────────────────┐    ┌─────────────────────────┐  │
 │  │ StepConstraint  │    │ FootstepCompletionChecker│  │
-│  │    Check        │    │    (Goal Validation)    │  │
+│  │    Check        │    │    (目标验证)           │  │
 │  └─────────────────┘    └─────────────────────────┘  │
 ├─────────────────────────────────────────────────────────┤
 │  ┌─────────────────┐    ┌─────────────────────────┐  │
 │  │  Simple2DBody   │    │      PlotCheck          │  │
-│  │   PathHolder    │    │   (Visualization)       │  │
+│  │   PathHolder    │    │    (可视化模块)          │  │
 │  └─────────────────┘    └─────────────────────────┘  │
 └─────────────────────────────────────────────────────────┘
 ```
 
-## API Reference
+## API 参考
 
-Key classes and interfaces:
+核心类和接口：
 
-- `AStarFootstepPlanner` - Main planner class
-- `Footstep` - Footstep state representation
-- `FootstepPlannerParameter` - Configuration parameters
-- `PlotCheck` - Visualization utilities
-- `Pose3D<T>` / `Pose2D<T>` - Pose representations (from Heuclid)
+- `AStarFootstepPlanner` - 主规划器类
+- `Footstep` - 落脚点状态表示
+- `FootstepPlannerParameter` - 配置参数
+- `PlotCheck` - 可视化工具
+- `Pose3D<T>` / `Pose2D<T>` - 姿态表示（来自 Heuclid）
 
-For full API documentation, see the Doxygen comments in the header files or generate docs with:
+完整 API 文档请参阅头文件中的 Doxygen 注释，或使用以下命令生成：
 ```bash
 cd build
 cmake .. -DBUILD_DOCS=ON
 make docs
 ```
 
-## Roadmap
+## 路线图
 
-- [ ] **Snap & Wiggle** - Support for IHMC's FootstepSnapAndWiggler for terrain adaptation
-- [ ] **Heightmap Support** - Full heightmap-based terrain awareness
-- [ ] **ROS 2 Integration** - Native ROS 2 node and message interfaces
-- [ ] **Enhanced Body Path Planning** - Integration with external path planners
+- [ ] **Snap & Wiggle** - 支持 IHMC 的 FootstepSnapAndWiggler 地形适配
+- [ ] **Heightmap 支持** - 完整的高度图地形感知
+- [ ] **ROS 2 集成** - 原生 ROS 2 节点和消息接口
+- [ ] **身体路径规划增强** - 与外部路径规划器集成
 
-## Citation
+## 引用
 
-If you use this library in academic work, please cite:
+如果您在学术工作中使用本库，请引用：
 
 ```bibtex
 @inproceedings{ihmc_footstep_2019,
@@ -208,7 +208,7 @@ If you use this library in academic work, please cite:
 }
 ```
 
-## License
+## 许可证
 
 Copyright 2024-2025 AStarFootstepPlanner Contributors
 
@@ -226,4 +226,4 @@ limitations under the License.
 
 ---
 
-**中文文档**: [README_CN.md](README_CN.md)
+**English Documentation**: [README.md](README.md)
