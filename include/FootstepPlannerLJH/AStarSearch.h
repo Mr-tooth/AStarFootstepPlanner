@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef __A__STAR__SEARCH
 #define __A__STAR__SEARCH
@@ -38,15 +41,39 @@ struct greater
 };
 
 
+/**
+ * @class PriorityQueue
+ * @brief Min-priority queue wrapper for A* search frontier.
+ *
+ * Provides a simple priority queue interface for A* graph search.
+ * Elements are ordered by priority (lower values have higher priority).
+ * Note: This implementation does not support "decrease key" operations.
+ * Duplicates may exist in the queue with different priorities.
+ */
 template<typename T,typename priority_t>
 class PriorityQueue
 {
 public:
     typedef std::pair<priority_t,T> PQElement;
-    std::priority_queue<PQElement,std::vector<PQElement>,greater<PQElement> > elements; 
+    std::priority_queue<PQElement,std::vector<PQElement>,greater<PQElement> > elements;
+
+    /**
+     * @brief Check if the queue is empty.
+     * @return true if empty, false otherwise
+     */
     inline bool empty() const {return elements.empty();};
+
+    /**
+     * @brief Insert an element with given priority.
+     * @param item The element to insert
+     * @param priority Priority value (lower = higher priority)
+     */
     inline void put(T item, priority_t priority){elements.emplace(priority,item);};
-    
+
+    /**
+     * @brief Remove and return the highest priority (lowest cost) element.
+     * @return The element with lowest priority value
+     */
     T get()
     {
         T best_item = elements.top().second;
@@ -56,6 +83,20 @@ public:
 };
 
 
+/**
+ * @brief A* graph search algorithm implementation.
+ *
+ * Standard A* search for finding the lowest-cost path from start to goal.
+ * Uses heuristic function to guide the search and cost function to evaluate edges.
+ *
+ * @tparam Graph Graph type defining Location, cost_t, getneighbors(), edgecost()
+ * @param graph Graph instance providing neighbor and cost functions
+ * @param start Starting location
+ * @param goal Goal location
+ * @param heuristic Heuristic function estimating cost to goal (admissible)
+ * @param came_from Output map recording the predecessor of each visited node
+ * @param cost_so_far Output map recording the best known cost to each node
+ */
 template<typename Graph>
 void a_star_search(
     Graph graph,
@@ -97,6 +138,18 @@ void a_star_search(
     }
 }
 
+/**
+ * @brief Reconstruct the path from start to goal using came_from map.
+ *
+ * Backtracks from goal to start using the predecessor map,
+ * then reverses to produce the forward path.
+ *
+ * @tparam Location Location type
+ * @param start Starting location
+ * @param goal Goal location
+ * @param came_from Map recording predecessor relationships
+ * @return Vector of locations from start to goal
+ */
 template<typename Location>
 std::vector<Location> reconstruct_path(
     Location start,Location goal,

@@ -1,22 +1,14 @@
-cmake_minimum_required(VERSION 3.0)
-project(FootstepPlannerTest)
+cmake_minimum_required(VERSION 3.22)
+project(FootstepPlannerTest LANGUAGES CXX)
 
-
-find_package(FootstepPlannerLJH REQUIRED)
-#add_compile_options(/O2)
-
-find_package(matplotlib_cpp REQUIRED)
 find_package(Heuclid REQUIRED)
+find_package(Eigen3 REQUIRED)
 
-add_compile_options(/MT)
-link_libraries(FootstepPlanner.lib Heuclid.lib ${matplotlib_LIBS})
+find_package(matplotlib_cpp QUIET)
 
-message("include ${FOOTSTEPPLANNER_INCLUDE_DIRS}")
-set(BUILD_TEST_LJH 1)
-
-if(${BUILD_TEST_LJH})
-    message("--[Test] Build FootstepPlanner basic test!")
-    add_compile_options(/O2)
-    add_executable(test test.cpp)
-    
+add_executable(test test.cpp)
+target_link_libraries(test PRIVATE FootstepPlannerLJH)
+if(matplotlib_cpp_FOUND)
+    target_include_directories(test PRIVATE ${matplotlib_cpp_INCLUDE_DIRS})
+    target_link_libraries(test PRIVATE ${matplotlib_LIBS})
 endif()

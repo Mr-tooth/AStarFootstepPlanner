@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef __IDEAL__STEP__CALCULATOR__
 #define __IDEAL__STEP__CALCULATOR__
@@ -8,7 +11,7 @@
 
 #include <FootstepPlannerLJH/parameters.h>
 #include <Heuclid/geometry/Pose2D.h>
-using ljh::mathlib::Pose2D;
+using ljh::heuclid::Pose2D;
 _FOOTSTEP_PLANNER_BEGIN
 
 class IdealstepCalculator

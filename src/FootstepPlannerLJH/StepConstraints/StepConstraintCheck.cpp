@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 
 #include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 
@@ -6,8 +9,8 @@ _FOOTSTEP_PLANNER_BEGIN
 void StepConstraintCheck::initialize()
 {
     this->param = parameters();
-    //this->polygonTools = ljh::mathlib::HeuclidGeometryPolygonTools();
-    ljh::mathlib::Pose2D<double> Res;
+    //this->polygonTools = ljh::heuclid::HeuclidGeometryPolygonTools();
+    ljh::heuclid::Pose2D<double> Res;
     this->stepPose = Res;
     this->vertexX.clear();
     this->vertexY.clear();
@@ -33,7 +36,7 @@ bool StepConstraintCheck::isAnyVertexOfFootInsideStairRegion(double stepX, doubl
     return false;
 }
 
-bool StepConstraintCheck::isAnyVertexOfFootInsideStairRegion(DiscreteFootstep stepToCheck, ljh::mathlib::ConvexPolygon2D stairPolygon)
+bool StepConstraintCheck::isAnyVertexOfFootInsideStairRegion(DiscreteFootstep stepToCheck, ljh::heuclid::ConvexPolygon2D stairPolygon)
 {
     return this->isAnyVertexOfFootInsideStairRegion(stepToCheck.getX(),stepToCheck.getY(),stepToCheck.getYaw(),stepToCheck.getRobotSide().getStepFlag(),
                                                     stairPolygon.getVertexBuffer(),stairPolygon.getNumOfVertices(),stairPolygon.getClockwiseOrder());
@@ -197,10 +200,10 @@ bool StepConstraintCheck::isTwoFootCollidedAndPlot(FootstepGraphNode nodeToCheck
 }
 
 
-bool StepConstraintCheck::isGoalPoseCollidedWithStairRegion(ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::ConvexPolygon2D stairPolygon)
+bool StepConstraintCheck::isGoalPoseCollidedWithStairRegion(ljh::heuclid::Pose3D<double> _goalPose,ljh::heuclid::ConvexPolygon2D stairPolygon)
 {
-    ljh::mathlib::Point2D<double> centralPoint;
-    std::vector<ljh::mathlib::Point2D<double> > stairBuffer = stairPolygon.getVertexBuffer();
+    ljh::heuclid::Point2D<double> centralPoint;
+    std::vector<ljh::heuclid::Point2D<double> > stairBuffer = stairPolygon.getVertexBuffer();
     double x = 0.0;
     double y = 0.0;
     for(int i=0;i<4;i++)

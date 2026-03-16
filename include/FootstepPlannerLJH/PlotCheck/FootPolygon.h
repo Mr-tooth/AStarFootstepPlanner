@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 
 #include <cmath>
@@ -29,13 +32,13 @@ _FOOTSTEP_PLANNER_BEGIN
 
 void getFootVertex2D(double *CenterPose2D, int stepflag, double *VertexX, double *VertexY);
 
-void getFootVertex2D(ljh::mathlib::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<double>& _vertexX,std::vector<double>& _vertexY);
+void getFootVertex2D(ljh::heuclid::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<double>& _vertexX,std::vector<double>& _vertexY);
 
 void getFootVertex2D(Location _footNode, std::vector<double>& _vertexX,std::vector<double>& _vertexY);
 
 void getExtendedFootVertex2D(double *CenterPose2D, int stepflag, double *VertexX, double *VertexY, double extendLength);
-void getExtendedFootVertex2D(ljh::mathlib::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<double>& _vertexX,std::vector<double>& _vertexY, double extendLength);
+void getExtendedFootVertex2D(ljh::heuclid::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<double>& _vertexX,std::vector<double>& _vertexY, double extendLength);
 void getExtendedFootVertex2D(Location _footNode, std::vector<double>& _vertexX,std::vector<double>& _vertexY, double extendLength);
 
-//void getFootVertex2D(ljh::mathlib::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<Point2D<double> >& stepBuffer);
+//void getFootVertex2D(ljh::heuclid::Pose2D<double> _footPose, enum StepFlag _stepflag, std::vector<Point2D<double> >& stepBuffer);
 _FOOTSTEP_PLANNER_END

@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 
 #include <vector>
@@ -5,7 +8,7 @@
 #include <FootstepPlannerLJH/Title.h>
 #include <FootstepPlannerLJH/StepCost/HeuristicCalculator.h>
 #include <Heuclid/euclid/tools/HeuclidCoreTool.h>
-using ljh::mathlib::HeuclidCoreTool;
+using ljh::heuclid::HeuclidCoreTool;
 
 #define GOAL_REACHED_SPECIFIC 2
 #define GOAL_REACHED_PROXIMITY 1

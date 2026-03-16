@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef __PARAMETERS__
 #define __PARAMETERS__
@@ -19,7 +22,7 @@
 
 #include <cmath>
 #include <Heuclid/geometry/ConvexPolygon2D.h>
-using ljh::mathlib::Point2D;
+using ljh::heuclid::Point2D;
 _FOOTSTEP_PLANNER_BEGIN
 // extern double _edgecost_w_d;
 // extern double _edgecost_w_yaw;
@@ -27,6 +30,17 @@ _FOOTSTEP_PLANNER_BEGIN
 // extern double _edgecost_w_area;
 // extern double _edgecost_w_static;
 
+/**
+ * @class parameters
+ * @brief Configuration parameters for footstep planning.
+ *
+ * Contains all tunable parameters for the A* footstep planner including:
+ * - Step expansion constraints (length, width, yaw limits)
+ * - Cost function weights (distance, yaw, height, area)
+ * - Heuristic weights for A* search
+ * - Goal proximity thresholds
+ * - Stair alignment mode configuration
+ */
 class parameters
 {
 public:
@@ -60,7 +74,7 @@ public:
     static CONST double FinalTurnProximity;
     static CONST double AStarHeuristicWeight;
     static CONST double AStarHeuristicFinalWeight;
-    
+
     static CONST double HWPOfWalkDistacne;
     static CONST double HWPOfInitialTurnDistacne;
     static CONST double HWPOfFinalTurnDistacne;
@@ -78,7 +92,7 @@ public:
 
     // constraints for stair alignment// load in the step expansion
     static CONST bool isStairAlignMode;
-    static CONST ljh::mathlib::ConvexPolygon2D stairPolygon;
+    static CONST ljh::heuclid::ConvexPolygon2D stairPolygon;
     static CONST double footPolygonExtendedLength;
     
 
@@ -108,7 +122,7 @@ public:
     double getGoalYawProximity(const parameters& param);
     bool   getDebugFlag(const parameters& param);
     bool   getStairAlignMode(const parameters& param);
-    ljh::mathlib::ConvexPolygon2D getStairPolygon(const parameters& param);
+    ljh::heuclid::ConvexPolygon2D getStairPolygon(const parameters& param);
     double getFootPolygonExtendedLength(const parameters& param);
     double getHWPOfWalkDistacne(const parameters& param);
     double getHWPOfInitialTurnDistacne(const parameters& param);
