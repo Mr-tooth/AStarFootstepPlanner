@@ -1,0 +1,27 @@
+---
+Language: Cpp
+BasedOnStyle: Google
+ColumnLimit: 145
+IndentWidth: 3
+AccessModifierOffset: -3
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  BeforeElse: true
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+IndentCaseLabels: false
+NamespaceIndentation: All
+SortIncludes: Never
+IncludeBlocks: Preserve
+SpaceAfterCStyleCast: true
+SpacesInParentheses: false
+TabWidth: 3
+UseTab: Never
+...

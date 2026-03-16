@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 
 
 #pragma once
@@ -16,6 +19,15 @@
 
 _FOOTSTEP_PLANNER_BEGIN
 
+/**
+ * @class AStarFootstepPlanner
+ * @brief A* algorithm-based footstep planner for humanoid robots.
+ *
+ * This planner implements the core A* graph search algorithm from the IHMC
+ * footstep planning framework (Humanoids 2019). It searches for an optimal
+ * sequence of footsteps connecting start to goal poses while satisfying
+ * kinematic and environmental constraints.
+ */
 class AStarFootstepPlanner
 {
 private:
@@ -77,18 +89,61 @@ public:
                 this->param.goalYawProximity,this->stepCostCalculator.heuristicCalculator);
         };
 
+    /**
+     * @brief Initialize the planner with start and goal poses.
+     * @param _goalPose2D 2D goal pose (x, y, yaw)
+     * @param _goalPose 3D goal pose (x, y, z, roll, pitch, yaw)
+     * @param _startPose 3D start pose (x, y, z, roll, pitch, yaw)
+     */
     void initialize(Pose2D<double> _goalPose2D, Pose3D<double> _goalPose, Pose3D<double> _startPose);
+
+    /**
+     * @brief Execute the main A* search loop.
+     *
+     * Performs graph expansion, cost evaluation, and goal checking until
+     * a solution is found or the search is terminated.
+     */
     void doAStarSearch();
 
+    /**
+     * @brief Calculate left and right foot locations from a body pose.
+     * @param _Pose Body pose
+     * @param Left Output left foot location
+     * @param Right Output right foot location
+     */
     void calLocationFromPose(Pose3D<double> _Pose, Location& Left, Location& Right);
 
+    /**
+     * @brief Calculate the discrete footstep series from the search result.
+     */
     void calFootstepSeries();
+
+    /**
+     * @brief Get the discrete footstep series.
+     * @return Vector of foot locations
+     */
     std::vector<Location> getFootstepSeries() const {return this->path;};
 
+    /**
+     * @brief Calculate the accurate footstep series from the discrete solution.
+     */
     void calAccurateFootstepSeries();
+
+    /**
+     * @brief Get the accurate footstep series.
+     * @return Vector of accurate footsteps
+     */
     std::vector<AccurateFootstep> getAccurateFootstepSeries() const {return this->accuratePath;};
+
+    /**
+     * @brief Calculate and return the accurate footstep series.
+     * @return Vector of accurate footsteps
+     */
     std::vector<AccurateFootstep> getOrCalAccurateFootstepSeries();
 
+    /**
+     * @brief Plot the accurate search outcome for visualization.
+     */
     void plotAccurateSearchOutcome();
 
 
@@ -101,4 +156,3 @@ public:
 
 
 _FOOTSTEP_PLANNER_END
-

@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 
 #include <FootstepPlannerLJH/StepExpansion/PartialExpansionManager.h>
 
@@ -45,4 +48,3 @@ void PartialExpansionManager::initialize()
 }
 
 _FOOTSTEP_PLANNER_END
-

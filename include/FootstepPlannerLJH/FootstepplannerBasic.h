@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef __FOOTSTEP__PLANNER__BASIC__
 #define __FOOTSTEP__PLANNER__BASIC__
@@ -22,6 +25,13 @@ using ljh::heuclid::Pose2D;
 _FOOTSTEP_PLANNER_BEGIN
 
 
+/**
+ * @class LatticePoint
+ * @brief Discrete lattice point representation in the footstep planning state space.
+ *
+ * Represents a discretized 3D pose (x, y, yaw) using integer indices.
+ * The continuous pose is reconstructed by multiplying indices with grid sizes.
+ */
 class LatticePoint
 {
 private:
@@ -57,6 +67,13 @@ public:
 
 
 
+/**
+ * @class RobotSide
+ * @brief Represents a robot foot side (left or right).
+ *
+ * Provides utilities for determining the opposite side and for side-specific
+ * calculations (e.g. negating values for the left side).
+ */
 class RobotSide
 {
 private:
@@ -99,6 +116,13 @@ public:
 };
 
 
+/**
+ * @class DiscreteFootstep
+ * @brief Discrete footstep representation for graph search.
+ *
+ * Combines a lattice point (discrete pose) with a robot side to represent
+ * a footstep in the planning state space. Used for A* graph nodes.
+ */
 class DiscreteFootstep
 {
 private:
@@ -163,9 +187,12 @@ public:
 
 
 /**
- * This object represents a node on the graph search by the footstep planner.
- * A node is a robot "stance", i.e. a left footstep and right footstep.
- * An edge represents a step, i.e. a transition between two stances.
+ * @class FootstepGraphNode
+ * @brief Graph node representing a bipedal stance in the A* search.
+ *
+ * A node represents a robot "stance" consisting of both a left and right footstep.
+ * An edge in the search graph represents a step (transition between two stances).
+ * The firstStep is the swing foot, secondStep is the stance foot at this node.
  */
 class FootstepGraphNode
 {
@@ -221,7 +248,14 @@ struct FootNodeHash
     }
 };
 
-// Only for the last two accurate goal steps from GoalPose and the final load of output of footsteps
+/**
+ * @class AccurateFootstep
+ * @brief Accurate footstep representation for continuous output.
+ *
+ * Represents a footstep with continuous floating-point pose coordinates.
+ * Used for the final output of the planner and for accurate goal steps.
+ * Contains precise (x, y, yaw) coordinates and robot side information.
+ */
 class AccurateFootstep
 {
 private:

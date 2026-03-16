@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #include <Heuclid/geometry/Pose2D.h>
 #include <Heuclid/geometry/Pose3D.h>
@@ -56,4 +59,3 @@ public:
 
 
 _FOOTSTEP_PLANNER_END
-

@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 
 //#include<FootstepPlannerLJH/Block.h>
 //using namespace std;
