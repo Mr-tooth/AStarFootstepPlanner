@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🦶 AStarFootstepPlanner
+<img src="assets/logo.png" alt="AStarFootstepPlanner" width="320"/>
+
+# AStarFootstepPlanner
 
 **基于 A* 算法的人形机器人落脚点规划器（C++ 实现）**
 
@@ -11,6 +13,8 @@
 [![Heuclid](https://img.shields.io/badge/Heuclid-v2.0-blue.svg)](https://github.com/Mr-tooth/Heuclid)
 
 [English](README.md)
+
+⭐ **如果这个项目对您有帮助，请给一个 Star！** 这有助于更多人发现本项目，支持开源机器人发展。
 
 </div>
 
@@ -46,13 +50,15 @@
 git clone --recursive https://github.com/Mr-tooth/AStarFootstepPlanner.git
 cd AStarFootstepPlanner
 
-# 构建
+# 构建（首次配置时自动获取所有依赖）
 cmake -B build -DBUILD_TESTING=ON
 cmake --build build
 
 # 运行测试
 ctest --test-dir build
 ```
+
+> **就这么简单！** Heuclid、Eigen3 和 LBlocks 在未找到时会自动下载。首次构建可能需要几分钟来获取依赖。
 
 ## 在项目中使用
 
@@ -136,12 +142,19 @@ int main()
 
 ## 依赖
 
+所有依赖在未找到时会**自动获取**，无需手动安装！
+
 | 依赖 | 版本 | 必需 | 自动获取 |
 |------|------|------|----------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ | ❌ |
-| [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ | ❌ |
+| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ | ✅ (GitHub) |
+| [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ | ✅ (GitLab) |
 | [LBlocks](https://github.com/hexb66/LBlocks) | 最新 | ✅ | ✅ (submodule) |
-| [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ 可选 | ❌ |
+| [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ 可选 | ❌ (需 Python) |
+
+如需使用已安装的依赖而非自动获取，设置 `CMAKE_PREFIX_PATH`：
+```bash
+cmake -B build -DCMAKE_PREFIX_PATH="/path/to/Heuclid;/path/to/Eigen3"
+```
 
 ## 从源码构建
 
@@ -149,8 +162,9 @@ int main()
 
 - CMake 3.22+
 - C++11 编译器（GCC 5+, Clang 3.8+, MSVC 2017+）
-- Heuclid v2.0+（需已安装或通过 `CMAKE_PREFIX_PATH` 指定）
-- Eigen 3.3+
+- 网络连接（首次获取依赖时需要）
+
+所有 C++ 依赖（Heuclid、Eigen3、LBlocks）在首次配置时**自动获取**，无需手动安装！
 
 ### 各平台依赖安装
 
