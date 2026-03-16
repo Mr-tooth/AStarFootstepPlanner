@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Li
+// SPDX-License-Identifier: Apache-2.0
+
 
 #include <FootstepPlannerLJH/parameters.h>
 _FOOTSTEP_PLANNER_BEGIN
@@ -55,7 +58,7 @@ CONST double parameters:: goalYawProximity = 5*pi/180;
 
 CONST bool parameters:: debugFlag = true;
 CONST bool parameters:: isStairAlignMode = false;
-CONST ljh::mathlib::ConvexPolygon2D parameters:: stairPolygon;
+CONST ljh::heuclid::ConvexPolygon2D parameters:: stairPolygon;
 CONST double parameters:: footPolygonExtendedLength = 0.0;
 
 // parameters::parameters(/* args */)
@@ -84,7 +87,7 @@ double parameters:: getGoalDistanceProximity(const parameters& param){ return pa
 double parameters:: getGoalYawProximity(const parameters& param){ return param.goalYawProximity; }
 bool   parameters:: getDebugFlag(const parameters& param){ return param.debugFlag;}
 bool   parameters:: getStairAlignMode(const parameters& param){return param.isStairAlignMode; }
-ljh::mathlib::ConvexPolygon2D parameters:: getStairPolygon(const parameters& param){return param.stairPolygon;}
+ljh::heuclid::ConvexPolygon2D parameters:: getStairPolygon(const parameters& param){return param.stairPolygon;}
 double parameters:: getFootPolygonExtendedLength(const parameters& param){return param.footPolygonExtendedLength;}
 double parameters:: getHWPOfWalkDistacne(const parameters& param){return param.HWPOfWalkDistacne;}
 double parameters:: getHWPOfInitialTurnDistacne(const parameters& param){return param.HWPOfInitialTurnDistacne;}
