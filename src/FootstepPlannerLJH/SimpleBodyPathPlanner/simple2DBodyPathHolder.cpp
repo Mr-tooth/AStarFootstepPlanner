@@ -1,7 +1,7 @@
 #include <FootstepPlannerLJH/SimpleBodyPathPlanner/simple2DBodyPathHolder.h>
 
 _FOOTSTEP_PLANNER_BEGIN
-void Simple2DBodyPathHolder::initialize(ljh::mathlib::Pose2D<double> _startPose,ljh::mathlib::Pose2D<double> _goalPose)                                                                
+void Simple2DBodyPathHolder::initialize(ljh::heuclid::Pose2D<double> _startPose,ljh::heuclid::Pose2D<double> _goalPose)                                                                
 {
     this->startPose = _startPose;
     this->goalPose = _goalPose;
@@ -100,7 +100,7 @@ double Simple2DBodyPathHolder::getClosestdPointsYawfromPathToGivenPoint(double x
     return pfp.yaw;   
 }
 
-double Simple2DBodyPathHolder::getClosestdPointsYawfromPathToGivenPoint(ljh::mathlib::Point2D<double> point, PointFromPathInfo& pfp)
+double Simple2DBodyPathHolder::getClosestdPointsYawfromPathToGivenPoint(ljh::heuclid::Point2D<double> point, PointFromPathInfo& pfp)
 {
     return this->getClosestdPointsYawfromPathToGivenPoint(point.getX(),point.getY(),pfp);
 }
@@ -138,7 +138,7 @@ void Simple2DBodyPathHolder::plotEllipsoidPath()
 }
 
 
-std::vector<ljh::mathlib::Pose2D<double> > Simple2DBodyPathHolder::getWayPointPath()
+std::vector<ljh::heuclid::Pose2D<double> > Simple2DBodyPathHolder::getWayPointPath()
 {
     return this->wayPointsAlongPath;
 }

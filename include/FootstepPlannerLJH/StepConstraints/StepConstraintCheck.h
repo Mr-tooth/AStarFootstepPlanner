@@ -14,15 +14,15 @@ class StepConstraintCheck
 {
 private:
     parameters param;
-    ljh::mathlib::HeuclidGeometryPolygonTools polygonTools;
+    ljh::heuclid::HeuclidGeometryPolygonTools polygonTools;
 
-    ljh::mathlib::Pose2D<double> stepPose;
+    ljh::heuclid::Pose2D<double> stepPose;
     std::vector<double> vertexX;
     std::vector<double> vertexY;
     std::vector<double> vertexX8;
     std::vector<double> vertexY8;
 
-    ljh::mathlib::Point2D<double> vertex;
+    ljh::heuclid::Point2D<double> vertex;
     std::vector<Point2D<double> > stanceBuffer;
 public:
     StepConstraintCheck():param(),polygonTools(),stepPose(),vertexX(),vertexY(),vertexX8(),vertexY8(),vertex(),stanceBuffer(){};
@@ -30,7 +30,7 @@ public:
     bool isAnyVertexOfFootInsideStairRegion(double stepX, double stepY, double stepYaw, enum StepFlag stepFlag,
                                             std::vector<Point2D<double> > stairVertexBuffer, int numOfVertices, bool clockwiseOrdered);
 
-    bool isAnyVertexOfFootInsideStairRegion(DiscreteFootstep stepToCheck, ljh::mathlib::ConvexPolygon2D stairPolygon);
+    bool isAnyVertexOfFootInsideStairRegion(DiscreteFootstep stepToCheck, ljh::heuclid::ConvexPolygon2D stairPolygon);
 
 
     bool isTwoFootCollided(double stanceX, double stanceY, double stanceYaw, enum StepFlag stanceFlag,
@@ -44,7 +44,7 @@ public:
     bool isTwoFootCollidedAndPlot(DiscreteFootstep stanceStep, DiscreteFootstep swingStep);
     bool isTwoFootCollidedAndPlot(FootstepGraphNode nodeToCheck);
 
-    bool isGoalPoseCollidedWithStairRegion(ljh::mathlib::Pose3D<double> _goalPose,ljh::mathlib::ConvexPolygon2D stairPolygon);
+    bool isGoalPoseCollidedWithStairRegion(ljh::heuclid::Pose3D<double> _goalPose,ljh::heuclid::ConvexPolygon2D stairPolygon);
 };
 
 

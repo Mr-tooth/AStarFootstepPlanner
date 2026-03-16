@@ -14,7 +14,7 @@
 #include <FootstepPlannerLJH/StepExpansion/PartialExpansionManager.h>
 #include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 
-using ljh::mathlib::Vector2D;
+using ljh::heuclid::Vector2D;
 _FOOTSTEP_PLANNER_BEGIN
 
 class ParameterBasedStepExpansion

@@ -165,9 +165,9 @@ int main()
     double goalZ = 0.0;
     double goalYaw = -90.0/180.0 * pi;;
 
-    ljh::mathlib::Pose2D<double> goalPose2D(goalX,goalY,goalYaw);
-    ljh::mathlib::Pose3D<double> goalPose(goalX,goalY,goalZ,goalYaw,0.0,0.0);
-    ljh::mathlib::Pose3D<double> startPose(startX,startY,startZ,startYaw,0.0,0.0);
+    ljh::heuclid::Pose2D<double> goalPose2D(goalX,goalY,goalYaw);
+    ljh::heuclid::Pose3D<double> goalPose(goalX,goalY,goalZ,goalYaw,0.0,0.0);
+    ljh::heuclid::Pose3D<double> startPose(startX,startY,startZ,startYaw,0.0,0.0);
 
     ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder1;
     pathHolder1.initialize({startX,startY,startYaw},goalPose2D);

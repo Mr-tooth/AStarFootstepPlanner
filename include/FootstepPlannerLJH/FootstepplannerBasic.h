@@ -17,8 +17,8 @@
 #include <Heuclid/geometry/Pose2D.h>
 #include <Heuclid/geometry/Pose3D.h>
 #include <cmath>
-using ljh::mathlib::Point2D;
-using ljh::mathlib::Pose2D;
+using ljh::heuclid::Point2D;
+using ljh::heuclid::Pose2D;
 _FOOTSTEP_PLANNER_BEGIN
 
 
@@ -237,9 +237,9 @@ public:
     AccurateFootstep(const FootstepGraphNode& _node)
         {this->x=_node.getSecondStep().getX();this->y=_node.getSecondStep().getY();this->yaw=_node.getSecondStep().getYaw();this->robotside = _node.getSecondStepSide();};
 
-    AccurateFootstep(const ljh::mathlib::Pose3D<double>& _pose, const RobotSide& _robotside);
-    AccurateFootstep(const ljh::mathlib::Pose3D<double>& _pose, const enum StepFlag& _stepflag);
-    //calAccurateStepFromPose(ljh::mathlib::Pose3D<double> _pose);
+    AccurateFootstep(const ljh::heuclid::Pose3D<double>& _pose, const RobotSide& _robotside);
+    AccurateFootstep(const ljh::heuclid::Pose3D<double>& _pose, const enum StepFlag& _stepflag);
+    //calAccurateStepFromPose(ljh::heuclid::Pose3D<double> _pose);
 
     inline double getX() const {return this->x;};
     inline double getY() const {return this->y;};
@@ -262,7 +262,7 @@ public:
 // class AccurateFootstep2
 // {
 // private:
-//     ljh::mathlib::Pose2D<double> stepPose;
+//     ljh::heuclid::Pose2D<double> stepPose;
 //     RobotSide robotside;
 // public:
 //     AccurateFootstep2():x(0.0),y(0.0),yaw(0.0),robotside(){};
@@ -272,9 +272,9 @@ public:
 //     AccurateFootstep2(const FootstepGraphNode& _node)
 //         {this->x=_node.getSecondStep().getX();this->y=_node.getSecondStep().getY();this->yaw=_node.getSecondStep().getYaw();this->robotside = _node.getSecondStepSide();};
 
-//     AccurateFootstep2(const ljh::mathlib::Pose3D<double>& _pose, const RobotSide& _robotside);
-//     AccurateFootstep2(const ljh::mathlib::Pose3D<double>& _pose, const enum StepFlag& _stepflag);
-//     //calAccurateStepFromPose(ljh::mathlib::Pose3D<double> _pose);
+//     AccurateFootstep2(const ljh::heuclid::Pose3D<double>& _pose, const RobotSide& _robotside);
+//     AccurateFootstep2(const ljh::heuclid::Pose3D<double>& _pose, const enum StepFlag& _stepflag);
+//     //calAccurateStepFromPose(ljh::heuclid::Pose3D<double> _pose);
 
 //     inline double getX() const {return this->x;};
 //     inline double getY() const {return this->y;};

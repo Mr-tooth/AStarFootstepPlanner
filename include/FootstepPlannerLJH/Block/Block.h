@@ -57,15 +57,15 @@ protected:
     AStarFootstepPlanner footstepPlanner;
     double stepTime;
     bool simulateFlag;
-    ljh::mathlib::Pose2D<double> goalPose2D;
-    ljh::mathlib::Pose3D<double> goalPose3D;
-    ljh::mathlib::Pose3D<double> startPose3D;
+    ljh::heuclid::Pose2D<double> goalPose2D;
+    ljh::heuclid::Pose3D<double> goalPose3D;
+    ljh::heuclid::Pose3D<double> startPose3D;
 
     bool doSearchFlag;
     bool plotFlag;
     PlotChecker pltChecker;
     int simStairNum;
-    std::vector<ljh::mathlib::Point2D<double> > stairBuffer;
+    std::vector<ljh::heuclid::Point2D<double> > stairBuffer;
     //parameters param;
 public:
     Block():footstepPlanner(),stepTime(0.8),simulateFlag(true),goalPose2D(),goalPose3D(),startPose3D(),doSearchFlag(false),plotFlag(true), pltChecker(),simStairNum(0),stairBuffer()
