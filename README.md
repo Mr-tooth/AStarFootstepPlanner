@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🦶 AStarFootstepPlanner
+<img src="assets/logo.png" alt="AStarFootstepPlanner" width="320"/>
+
+# AStarFootstepPlanner
 
 **A* algorithm-based footstep planner for humanoid robots in C++**
 
@@ -11,6 +13,8 @@
 [![Heuclid](https://img.shields.io/badge/Heuclid-v2.0-blue.svg)](https://github.com/Mr-tooth/Heuclid)
 
 [中文](README_CN.md)
+
+⭐ **If you find this project useful, please give it a star!** It helps others discover this project and supports open-source robotics development.
 
 </div>
 
@@ -46,13 +50,15 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
 git clone --recursive https://github.com/Mr-tooth/AStarFootstepPlanner.git
 cd AStarFootstepPlanner
 
-# Build
+# Build (all dependencies auto-fetched on first configure)
 cmake -B build -DBUILD_TESTING=ON
 cmake --build build
 
 # Run tests
 ctest --test-dir build
 ```
+
+> **That's it!** Heuclid, Eigen3, and LBlocks are automatically fetched if not found on your system. First build may take a few minutes to download dependencies.
 
 ## Using in Your Project
 
@@ -137,12 +143,19 @@ Optional: matplotlib_cpp ──► PlotChecker (Visualization)
 
 ## Dependencies
 
+All dependencies are **automatically fetched** if not found on your system. No manual installation required for basic usage!
+
 | Dependency | Version | Required | Auto-fetched |
 |------------|---------|----------|--------------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ Yes | ❌ |
-| [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ Yes | ❌ |
+| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ Yes | ✅ (GitHub) |
+| [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ Yes | ✅ (GitLab) |
 | [LBlocks](https://github.com/hexb66/LBlocks) | latest | ✅ Yes | ✅ (submodule) |
-| [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ Optional | ❌ |
+| [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ Optional | ❌ (needs Python) |
+
+To use pre-installed dependencies instead of auto-fetching, set `CMAKE_PREFIX_PATH`:
+```bash
+cmake -B build -DCMAKE_PREFIX_PATH="/path/to/Heuclid;/path/to/Eigen3"
+```
 
 ## Building from Source
 
@@ -150,8 +163,9 @@ Optional: matplotlib_cpp ──► PlotChecker (Visualization)
 
 - CMake 3.22+
 - C++11 compliant compiler (GCC 5+, Clang 3.8+, MSVC 2017+)
-- Heuclid v2.0+ (must be installed or available via `CMAKE_PREFIX_PATH`)
-- Eigen 3.3+
+- Internet connection (for first-time dependency fetch)
+
+All C++ dependencies (Heuclid, Eigen3, LBlocks) are **automatically fetched** on first configure. No manual installation needed!
 
 ### Platform-Specific Setup
 

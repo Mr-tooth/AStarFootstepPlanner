@@ -24,12 +24,47 @@ include("${JRL_CMAKE_MODULES}/base.cmake")
 # --- C++11 ---
 check_minimal_cxx_standard(11 ENFORCE)
 
-# --- 依赖 ---
-find_package(Heuclid REQUIRED)
-find_package(Eigen3 REQUIRED)
-# LBlocks: header-only, use submodule path directly
+# --- Dependencies ---
+
+# Heuclid: three-tier lookup (find_package → FetchContent)
+find_package(Heuclid QUIET CONFIG)
+if(NOT Heuclid_FOUND)
+  message(STATUS "Heuclid not found, fetching from GitHub...")
+  include(FetchContent)
+  FetchContent_Declare(Heuclid
+    GIT_REPOSITORY "https://github.com/Mr-tooth/Heuclid.git"
+    GIT_TAG "main"
+    GIT_SHALLOW TRUE)
+  set(BUILD_TESTING_HEUCID OFF CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(Heuclid)
+  message(STATUS "Heuclid fetched successfully")
+else()
+  message(STATUS "Heuclid found: ${Heuclid_DIR}")
+endif()
+
+# Eigen3: three-tier lookup (find_package → FetchContent)
+find_package(Eigen3 3.3 QUIET)
+if(NOT Eigen3_FOUND)
+  message(STATUS "Eigen3 not found, fetching...")
+  include(FetchContent)
+  FetchContent_Declare(Eigen3
+    GIT_REPOSITORY "https://gitlab.com/libeigen/eigen.git"
+    GIT_TAG "3.4.0"
+    GIT_SHALLOW TRUE)
+  set(EIGEN_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+  set(EIGEN_BUILD_DOC OFF CACHE BOOL "" FORCE)
+  set(EIGEN_BUILD_PKGCONFIG OFF CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(Eigen3)
+  message(STATUS "Eigen3 3.4.0 fetched successfully")
+else()
+  message(STATUS "Eigen3 found: ${Eigen3_DIR}")
+endif()
+
+# LBlocks: header-only, use submodule path
 set(LBlocks_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/LBlocks")
 find_package(LBlocks REQUIRED PATHS ${LBlocks_DIR} NO_DEFAULT_PATH)
+
+# matplotlib_cpp: optional (for visualization)
 find_package(matplotlib_cpp QUIET)
 
 # --- 核心源文件（显式列表） ---
