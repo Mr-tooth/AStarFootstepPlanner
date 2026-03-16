@@ -45,7 +45,7 @@ void FootstepCompletionChecker::initilize(Pose2D<double> _goalMidFootPose,Locati
 
 
 
-int FootstepCompletionChecker::checkIfGoalReached(Location current, std::vector<Location> neighbors, HeuclidCoreTool heuclidCoreTool, Location _goalL, Location _goalR )
+int FootstepCompletionChecker::checkIfGoalReached(Location current, std::vector<Location> neighbors, Location _goalL, Location _goalR )
 {
     if(this->isProximityModeEnabled())
     {
@@ -65,7 +65,7 @@ int FootstepCompletionChecker::checkIfGoalReached(Location current, std::vector<
              
         this->stopMidPose = stopStep.getOrComputeMidFootPose();
 
-        double xyDis = heuclidCoreTool.norm(this->stopMidPose.getPosition().getX()-this->goalMidFootPose.getPosition().getX(),
+        double xyDis = ljh::heuclid::HeuclidCoreTool::norm(this->stopMidPose.getPosition().getX()-this->goalMidFootPose.getPosition().getX(),
                                             this->stopMidPose.getPosition().getY()-this->goalMidFootPose.getPosition().getY());
         double yawDis = std::abs(this->stopMidPose.getOrientation().getYaw()-this->goalMidFootPose.getOrientation().getYaw());
         if(xyDis<this->goalDistanceProximity && yawDis<this->goalYawProximity)

@@ -9,7 +9,7 @@
 #define _FOOTSTEP_PLANNER_END }}}
 
 #ifndef pi
-#define pi 3.1415926535
+static constexpr double pi = 3.1415926535;
 #endif
 
 //#define CON

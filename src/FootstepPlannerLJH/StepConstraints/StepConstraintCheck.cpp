@@ -124,13 +124,17 @@ bool StepConstraintCheck::isTwoFootCollided(FootstepGraphNode nodeToCheck)
 bool StepConstraintCheck::isTwoFootCollidedAndPlot(double stanceX, double stanceY, double stanceYaw, enum StepFlag stanceFlag,
                            double swingX,  double swingY,  double swingYaw,  enum StepFlag swingFlag)
 {
+#ifdef HAS_MATPLOTLIB
     namespace plt = matplotlibcpp;
+#endif
     //calculate and load the vertex2d(in clockwiseorder) of the stanceStep as polygon
     this->stepPose.setPosition(stanceX,stanceY);
     this->stepPose.setOrientation(stanceYaw);
     getExtendedFootVertex2D(this->stepPose,stanceFlag,this->vertexX8,this->vertexY8,this->param.footPolygonExtendedLength);
     
+#ifdef HAS_MATPLOTLIB
     plt::plot(this->vertexX8,this->vertexY8,"r");
+#endif
 
     this->stanceBuffer.resize(4);
     for(int i=0;i<4;i++)
@@ -142,13 +146,21 @@ bool StepConstraintCheck::isTwoFootCollidedAndPlot(double stanceX, double stance
     this->stepPose.setPosition(swingX,swingY);
     this->stepPose.setOrientation(swingYaw);
     getExtendedFootVertex2D(this->stepPose,swingFlag,this->vertexX,this->vertexY,this->param.footPolygonExtendedLength);
+#ifdef HAS_MATPLOTLIB
     plt::plot(vertexX,vertexY,"g");
+#endif
+#ifdef HAS_MATPLOTLIB
     plt::scatter(vertexX,vertexY,20.0);
+#endif
     // Four Vertex is not enough, need Eight Vertices
     //this->vertexX8.clear(); this->vertexY8.clear();
 
+#ifdef HAS_MATPLOTLIB
     plt::set_aspect_equal();
+#endif
+#ifdef HAS_MATPLOTLIB
     plt::      show();
+#endif
     // check each vertex of swingStep Whether in stanceStep polygon
     for(int i=0;i<4;i++)
     {

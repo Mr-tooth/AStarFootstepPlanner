@@ -8,7 +8,9 @@
 #include <FootstepPlannerLJH/FootstepplannerBasic.h>
 #include <vector>
 #include <cmath>
+#ifdef HAS_MATPLOTLIB
 #include <matplotlibcpp.h>
+#endif
 _FOOTSTEP_PLANNER_BEGIN
 
 struct PointFromPathInfo
@@ -52,7 +54,9 @@ public:
     double getClosestdPointsYawfromPathToGivenPoint(ljh::heuclid::Point2D<double> point, PointFromPathInfo& pfp);
     double getClosestdPointsYawfromPathToGivenPoint(FootstepGraphNode node, PointFromPathInfo& pfp);
 
+#ifdef HAS_MATPLOTLIB
     void plotEllipsoidPath();
+#endif
     std::vector<ljh::heuclid::Pose2D<double> > getWayPointPath();
 };
 
