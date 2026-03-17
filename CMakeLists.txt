@@ -38,7 +38,7 @@ if(NOT Heuclid_FOUND)
   include(FetchContent)
   FetchContent_Declare(Heuclid
     GIT_REPOSITORY "https://github.com/Mr-tooth/Heuclid.git"
-    GIT_TAG "v2.2"
+    GIT_TAG "v2.4"
     GIT_SHALLOW TRUE)
   set(BUILD_TESTING_HEUCID OFF CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(Heuclid)
