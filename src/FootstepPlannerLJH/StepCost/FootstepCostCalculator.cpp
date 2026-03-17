@@ -3,6 +3,7 @@
 
 
 #include <FootstepPlannerLJH/StepCost/FootstepCostCalculator.h>
+#include <FootstepPlannerLJH/SimpleBodyPathPlanner/simple2DBodyPathHolder.h>
 
 _FOOTSTEP_PLANNER_BEGIN
 
@@ -30,6 +31,17 @@ cost_t FootstepCostCalculator::computeEdgeCost(Location candidateNode, Location 
                     +this->yawOffset * this->param.edgecost_w_yaw
                     //+this->zOffset   * this->param.edgecost_w_h
                     +this->param.edgecost_w_static;
+
+    // Body path deviation penalty: penalizes footsteps that stray from the
+    // ellipsoid body path. Uses squared distance from getClosestdPointsYawfromPathToGivenPoint().
+    // Tuning: edgecost_w_pathdev ~3.0–15.0 for moderate guidance, higher for stronger tracking.
+    // @note pfp.distance is the squared Euclidean distance to the closest waypoint.
+    if(this->param.edgecost_w_pathdev > 0.0)
+    {
+        PointFromPathInfo pfp;
+        this->heuristicCalculator.pathHolder.getClosestdPointsYawfromPathToGivenPoint(candidateNode, pfp);
+        this->edgeCost += this->param.edgecost_w_pathdev * pfp.distance;
+    }
 
     return this->edgeCost;
 }

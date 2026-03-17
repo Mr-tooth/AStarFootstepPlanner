@@ -120,11 +120,11 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
         midStepYaw = stepside.negateIfRightSide(this->yawOffsets[i]);
         childStep = constructNodeInPreviousNodeFrame(midStepLength,midStepWidth,midStepYaw,nodeToExpand.getSecondStep());
 
-        // add check  whether the foot is in stair polygon
+        // Full polygon-polygon collision check against obstacle
         if(this->param.isStairAlignMode)
         {
             if(this->stepConstraintChecker.isAnyVertexOfFootInsideStairRegion(childStep,this->param.stairPolygon))
-                continue; //drop the childstep if it's in stair region cause it's unrealiazbile
+                continue; //drop the childstep if it collides with the obstacle polygon
         }
 
 
