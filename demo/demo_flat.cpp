@@ -1,14 +1,15 @@
 // Copyright 2026 Junhang Li
 // SPDX-License-Identifier: Apache-2.0
 
-// Demo: Flat terrain footstep planning visualization
-// Generates progressive PNG frames showing A* footstep planning from start to goal
+// Demo: Flat terrain footstep planning with ellipsoid body path
+// Agg-compatible: uses only plt::plot + plt::annotate (no arrow, no scatter, no set_aspect_equal)
 
 #include <matplotlibcpp.h>
 #include <FootstepPlannerLJH/AStarFootstepPlanner.h>
 #include <FootstepPlannerLJH/parameters.h>
 #include <FootstepPlannerLJH/PlotCheck/PlotChecker.h>
 #include <FootstepPlannerLJH/PlotCheck/FootPolygon.h>
+#include <FootstepPlannerLJH/SimpleBodyPathPlanner/simple2DBodyPathHolder.h>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -17,8 +18,22 @@
 namespace plt = matplotlibcpp;
 namespace fs = std::filesystem;
 
-void drawFootsteps(const std::vector<ljh::path::footstep_planner::FootstepGraphNode>& steps,
-                   int count)
+void drawEllipsoidPath(ljh::path::footstep_planner::Simple2DBodyPathHolder& pathHolder)
+{
+    auto waypoints = pathHolder.getWayPointPath();
+    if (waypoints.empty()) return;
+
+    std::vector<double> x, y;
+    for (size_t i = 0; i < waypoints.size(); i++)
+    {
+        x.push_back(waypoints[i].getPosition().getX());
+        y.push_back(waypoints[i].getPosition().getY());
+    }
+
+    plt::plot(x, y, {{"color", "3498db"}, {"linewidth", "1.2"}});
+}
+
+void drawFootsteps(const std::vector<ljh::path::footstep_planner::FootstepGraphNode>& steps, int count)
 {
     std::vector<double> vx, vy;
     for (int i = 0; i < count && i < (int)steps.size(); i++)
@@ -28,26 +43,35 @@ void drawFootsteps(const std::vector<ljh::path::footstep_planner::FootstepGraphN
         getFootVertex2D(steps.at(i), vx, vy);
         if (!vx.empty()) { vx.push_back(vx.front()); vy.push_back(vy.front()); }
 
-        std::string color = (steps.at(i).getSecondStepSide().getStepFlag() == stepL) ? "red" : "orange";
-        std::map<std::string, std::string> kw = {{"color", color}, {"linewidth", "1.2"}};
-        plt::plot(vx, vy, kw);
+        std::string color = (steps.at(i).getSecondStepSide().getStepFlag() == stepL) ? "e74c3c" : "f39c12";
+        plt::plot(vx, vy, {{"color", color}, {"linewidth", "1.5"}});
+
+        // Step center dot (instead of scatter)
+        double cx = steps.at(i).getSecondStep().getX();
+        double cy = steps.at(i).getSecondStep().getY();
+        plt::plot(std::vector<double>{cx}, std::vector<double>{cy},
+                  {{"color", "3498db"}, {"marker", "."}, {"linestyle", "none"}, {"markersize", "4"}});
     }
 }
 
-void drawBodyPath(const std::vector<ljh::path::footstep_planner::FootstepGraphNode>& steps,
-                  int count)
+void drawMarkers(double sx, double sy, double syaw,
+                 double gx, double gy, double gyaw)
 {
-    std::vector<double> px, py;
-    for (int i = 0; i < count && i < (int)steps.size(); i++)
-    {
-        px.push_back(steps.at(i).getSecondStep().getX());
-        py.push_back(steps.at(i).getSecondStep().getY());
-    }
-    if (px.size() >= 2)
-    {
-        std::map<std::string, std::string> kw = {{"color", "green"}, {"linewidth", "1.0"}};
-        plt::plot(px, py, kw);
-    }
+    const double arrowLen = 0.03;
+
+    // Start: green dot + direction line
+    plt::plot(std::vector<double>{sx}, std::vector<double>{sy},
+              {{"color", "2ecc71"}, {"marker", "s"}, {"linestyle", "none"}, {"markersize", "10"}});
+    plt::plot(std::vector<double>{sx, sx + cos(syaw) * arrowLen},
+              std::vector<double>{sy, sy + sin(syaw) * arrowLen},
+              {{"color", "2ecc71"}, {"linewidth", "3.0"}});
+
+    // Goal: red dot + direction line
+    plt::plot(std::vector<double>{gx}, std::vector<double>{gy},
+              {{"color", "e74c3c"}, {"marker", "D"}, {"linestyle", "none"}, {"markersize", "10"}});
+    plt::plot(std::vector<double>{gx, gx + cos(gyaw) * arrowLen},
+              std::vector<double>{gy, gy + sin(gyaw) * arrowLen},
+              {{"color", "e74c3c"}, {"linewidth", "3.0"}});
 }
 
 int main()
@@ -90,77 +114,50 @@ int main()
     ljh::heuclid::Pose3D<double> goalPose(goalX, goalY, goalZ, goalYaw, 0.0, 0.0);
     ljh::heuclid::Pose3D<double> startPose(startX, startY, startZ, startYaw, 0.0, 0.0);
 
+    ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder;
+    pathHolder.initialize({startX, startY, startYaw}, goalPose2D);
+
     std::cout << "Running A* search..." << std::endl;
     ljh::path::footstep_planner::AStarFootstepPlanner planner;
     planner.initialize(goalPose2D, goalPose, startPose);
     planner.doAStarSearch();
     planner.calFootstepSeries();
-
     auto outcome = planner.getFootstepSeries();
-    std::cout << "Discrete footsteps: " << outcome.size() << std::endl;
 
-    if (outcome.empty())
-    {
-        std::cerr << "No footstep solution found!" << std::endl;
-        return 1;
-    }
+    std::cout << "Footsteps: " << outcome.size() << std::endl;
+    if (outcome.empty()) { return 1; }
 
     int totalSteps = (int)outcome.size();
-    std::cout << "Generating " << (totalSteps + 1) << " frames..." << std::endl;
+    int totalFrames = totalSteps + 1;
+    std::cout << "Generating " << totalFrames << " frames..." << std::endl;
 
-    double sx_start = startPose.getPosition().getX();
-    double sy_start = startPose.getPosition().getY();
-    double gx = goalPose.getPosition().getX();
-    double gy = goalPose.getPosition().getY();
-    double syaw = startPose.getOrientation().getYaw();
-    double gyaw = goalPose.getOrientation().getYaw();
-    const double arrowLen = 0.04;
-
-    for (int n = 0; n <= totalSteps; n++)
+    for (int n = 0; n < totalFrames; n++)
     {
-        plt::figure_size(800, 600);
-        plt::axis("off");
+        int stepsToShow = n;
 
-        // Start/goal arrows
-        plt::arrow(sx_start, sy_start, cos(syaw) * arrowLen, sin(syaw) * arrowLen, "green", "k", 0.015, 0.008);
-        plt::arrow(gx, gy, cos(gyaw) * arrowLen, sin(gyaw) * arrowLen, "red", "k", 0.015, 0.008);
+        plt::figure_size(900, 700);
 
-        // Start/goal dots
-        std::vector<double> start_xv = {sx_start}, start_yv = {sy_start};
-        std::vector<double> goal_xv = {gx}, goal_yv = {gy};
-        plt::scatter(start_xv, start_yv, 30.0);
-        plt::scatter(goal_xv, goal_yv, 30.0);
+        // Ellipsoid body path (always visible)
+        drawEllipsoidPath(pathHolder);
 
-        if (n > 0)
+        // Footsteps up to current step
+        if (stepsToShow > 0)
         {
-            drawBodyPath(outcome, n);
-            drawFootsteps(outcome, n);
-
-            // Step number annotations
-            for (int i = 0; i < n && i < (int)outcome.size(); i++)
-            {
-                double x = outcome.at(i).getSecondStep().getX();
-                double y = outcome.at(i).getSecondStep().getY();
-                plt::annotate(std::to_string(i), x, y + 0.025);
-            }
+            drawFootsteps(outcome, stepsToShow);
         }
 
-        // Step label
-        std::string label = n == 0 ? "0 / " + std::to_string(totalSteps)
-                                   : std::to_string(n) + " / " + std::to_string(totalSteps);
-        plt::text(-0.05, -0.95, label);
-
-        plt::set_aspect_equal();
+        // Start/goal markers ON TOP
+        drawMarkers(startX, startY, startYaw, goalX, goalY, goalYaw);
 
         std::ostringstream fname;
         fname << outDir << "/frame_" << std::setw(3) << std::setfill('0') << n << ".png";
         plt::save(fname.str());
         plt::close();
 
-        if (n % 5 == 0 || n == totalSteps)
-            std::cout << "  Frame " << n << "/" << totalSteps << std::endl;
+        if (n % 5 == 0 || n == totalFrames - 1)
+            std::cout << "  Frame " << n << "/" << totalFrames - 1 << std::endl;
     }
 
-    std::cout << "All frames saved to " << outDir << "/" << std::endl;
+    std::cout << "Done!" << std::endl;
     return 0;
 }
