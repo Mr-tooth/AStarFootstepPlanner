@@ -39,17 +39,24 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
 
 <table>
 <tr>
-<td align="center" width="33%"><b>Flat Terrain</b><br><img src="assets/flat_terrain.gif" alt="Flat terrain" width="100%"></td>
-<td align="center" width="33%"><b>Obstacle Avoidance</b><br><img src="assets/obstacle_avoidance.gif" alt="Obstacle avoidance" width="100%"></td>
-<td align="center" width="33%"><b>Stepping Stones</b><br><img src="assets/stairs.gif" alt="Stepping stones" width="100%"></td>
+<td align="center" width="50%"><b>Flat Terrain</b><br><img src="assets/flat.gif" alt="Flat terrain" width="100%"></td>
+<td align="center" width="50%"><b>Obstacle Avoidance</b><br><img src="assets/obstacle.gif" alt="Obstacle avoidance" width="100%"></td>
+</tr>
+<tr>
+<td colspan="2" align="center"><b>Stepping Stones</b><br><img src="assets/stairs.gif" alt="Stepping stones" width="70%"></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+
+| Demo | Steps | Description |
+|------|-------|-------------|
+| **Flat** | 25 | A* with ellipsoid body path guidance |
+| **Obstacle** | 23 | Footsteps detour around an obstacle polygon |
+| **Stones** | 11 | Base plane (h=0) + elevated stepping stones (5–15 cm) |
+
+</td>
 </tr>
 </table>
-
-| Demo | Description | Steps |
-|------|-------------|-------|
-| **Flat Terrain** | A* from start to goal with ellipsoid body path guidance. Red = left foot, orange = right foot. | 25 |
-| **Obstacle Avoidance** | Footsteps navigate around an obstacle polygon, producing a natural detour. | 24 |
-| **Stepping Stones** | Base plane (h=0) + elevated stepping stones (5–15 cm). Blue gradient = taller stones. Landing zone constraint keeps feet on valid terrain. | 11 |
 
 ## Quick Start
 
