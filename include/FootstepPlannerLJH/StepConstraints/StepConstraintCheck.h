@@ -140,6 +140,31 @@ public:
      * @return true if collision detected, false otherwise
      */
     bool isGoalPoseCollidedWithStairRegion(ljh::heuclid::Pose3D<double> _goalPose,ljh::heuclid::ConvexPolygon2D stairPolygon);
+
+    /**
+     * @brief Check if a foot polygon overlaps with an obstacle polygon (full polygon-polygon intersection).
+     *
+     * Uses isConvexPolygonIntersect: checks foot vertices in obstacle AND obstacle vertices in foot
+     * AND edge midpoints — more robust than just checking foot vertices inside obstacle.
+     * Used for obstacle avoidance in stair/obstacle mode.
+     */
+    bool isFootPolygonCollidedWithPolygon(double stepX, double stepY, double stepYaw, enum StepFlag stepFlag,
+                                          ljh::heuclid::ConvexPolygon2D obstaclePolygon);
+
+    /**
+     * @brief Check if a foot polygon is fully contained within a terrain polygon.
+     *
+     * Uses isConvexPolygonContained: all foot vertices must be inside terrain polygon.
+     * Used for stair climbing where each foot must land on a single terrain patch.
+     */
+    bool isFootPolygonContainedInPolygon(double stepX, double stepY, double stepYaw, enum StepFlag stepFlag,
+                                         ljh::heuclid::ConvexPolygon2D terrainPolygon);
+
+    /** @brief DiscreteFootstep overload */
+    bool isFootPolygonCollidedWithPolygon(DiscreteFootstep stepToCheck, ljh::heuclid::ConvexPolygon2D obstaclePolygon);
+
+    /** @brief DiscreteFootstep overload */
+    bool isFootPolygonContainedInPolygon(DiscreteFootstep stepToCheck, ljh::heuclid::ConvexPolygon2D terrainPolygon);
 };
 
 

@@ -42,71 +42,43 @@ bool StepConstraintCheck::isAnyVertexOfFootInsideStairRegion(DiscreteFootstep st
                                                     stairPolygon.getVertexBuffer(),stairPolygon.getNumOfVertices(),stairPolygon.getClockwiseOrder());
 }
 
+// ============================================================================
+// Helper: Build foot ConvexPolygon2D from pose + side
+// ============================================================================
+
+static ljh::heuclid::ConvexPolygon2D buildFootPolygon(double x, double y, double yaw,
+                                                        enum StepFlag flag,
+                                                        const parameters& param)
+{
+    ljh::heuclid::Pose2D<double> pose;
+    pose.setPosition(x, y);
+    pose.setOrientation(yaw);
+
+    std::vector<double> vx, vy;
+    getExtendedFootVertex2D(pose, flag, vx, vy, param.footPolygonExtendedLength);
+
+    std::vector<ljh::heuclid::Point2D<double>> pts(4);
+    for(int i = 0; i < 4; i++)
+    {
+        pts[i].setPoint2D(vx.at(i), vy.at(i));
+    }
+
+    ljh::heuclid::ConvexPolygon2D poly(4);
+    poly.setVertexBuffer(pts);
+    poly.setClockwiseOrder(true);
+    return poly;
+}
+
+// ============================================================================
+// Refactored: Foot-foot collision using Heuclid isConvexPolygonIntersect
+// ============================================================================
+
 bool StepConstraintCheck::isTwoFootCollided(double stanceX, double stanceY, double stanceYaw, enum StepFlag stanceFlag,
                         double swingX,  double swingY,  double swingYaw,  enum StepFlag swingFlag)
-{   
-    //calculate and load the vertex2d(in clockwiseorder) of the stanceStep as polygon
-    this->stepPose.setPosition(stanceX,stanceY);
-    this->stepPose.setOrientation(stanceYaw);
-    getExtendedFootVertex2D(this->stepPose,stanceFlag,this->vertexX8,this->vertexY8,this->param.footPolygonExtendedLength);
-
-    this->stanceBuffer.resize(4);
-    for(int i=0;i<4;i++)
-    {
-        this->vertex.setPoint2D(this->vertexX8.at(i),this->vertexY8.at(i));
-        this->stanceBuffer[i] = this->vertex;
-    }
-    // calculate the vertex2d of the swingStep
-    this->stepPose.setPosition(swingX,swingY);
-    this->stepPose.setOrientation(swingYaw);
-    getExtendedFootVertex2D(this->stepPose,swingFlag,this->vertexX,this->vertexY,this->param.footPolygonExtendedLength);
-    // Four Vertex is not enough, need Eight Vertices
-    //this->vertexX8.clear(); this->vertexY8.clear();
-
-    // check each vertex of swingStep Whether in stanceStep polygon
-    for(int i=0;i<4;i++)
-    {
-        // getFootVertex2D would make an clockwise order
-        if(this->polygonTools.isPoint2DInsideConvexPolygon2D(this->vertexX.at(i),this->vertexY.at(i),this->stanceBuffer,4,1))
-            return true;
-    }
-    // check 4 middle points of edge
-    for(int i=0;i<4;i++)
-    {
-        if(this->polygonTools.isPoint2DInsideConvexPolygon2D(0.5*(this->vertexX.at(i)+this->vertexX.at((i+1)%4)),0.5*(this->vertexY.at(i)+this->vertexY.at((i+1)%4)),this->stanceBuffer,4,1))
-            return true;
-    }
-
-
-    // check each vertex of stanceStep Whether in swingStep polygon
-    this->stanceBuffer.resize(4);
-    for(int i=0;i<4;i++)
-    {
-        this->vertex.setPoint2D(this->vertexX.at(i),this->vertexY.at(i));
-        this->stanceBuffer[i] = this->vertex;
-    }
-
-    for(int i=0;i<4;i++)
-    {
-        // getFootVertex2D would make an clockwise order
-        if(this->polygonTools.isPoint2DInsideConvexPolygon2D(this->vertexX8.at(i),this->vertexY8.at(i),this->stanceBuffer,4,1))
-            return true;
-    }
-
-    // check 4 middle points of edge
-    for(int i=0;i<4;i++)
-    {
-        if(this->polygonTools.isPoint2DInsideConvexPolygon2D(0.5*(this->vertexX8.at(i)+this->vertexX8.at((i+1)%4)),0.5*(this->vertexY8.at(i)+this->vertexY8.at((i+1)%4)),this->stanceBuffer,4,1))
-            return true;
-    }
-
-
-
-
-    return false;
-
-
-
+{
+    auto stancePoly = buildFootPolygon(stanceX, stanceY, stanceYaw, stanceFlag, this->param);
+    auto swingPoly  = buildFootPolygon(swingX,  swingY,  swingYaw,  swingFlag,  this->param);
+    return this->polygonTools.isConvexPolygonIntersect(stancePoly, swingPoly);
 }   
 
 bool StepConstraintCheck::isTwoFootCollided(DiscreteFootstep stanceStep, DiscreteFootstep swingStep)
@@ -229,4 +201,39 @@ bool StepConstraintCheck::isGoalPoseCollidedWithStairRegion(ljh::heuclid::Pose3D
     double length = std::sqrt(std::pow(centralPoint.getX()-_goalPose.getPosition().getX(),2) + std::pow(centralPoint.getX()-_goalPose.getPosition().getX(),2));
     return false;   
 }
+
+// ============================================================================
+// New: Foot-obstacle collision (full polygon-polygon intersection)
+// ============================================================================
+
+bool StepConstraintCheck::isFootPolygonCollidedWithPolygon(double stepX, double stepY, double stepYaw, enum StepFlag stepFlag,
+                                                           ljh::heuclid::ConvexPolygon2D obstaclePolygon)
+{
+    auto footPoly = buildFootPolygon(stepX, stepY, stepYaw, stepFlag, this->param);
+    return this->polygonTools.isConvexPolygonIntersect(footPoly, obstaclePolygon);
+}
+
+bool StepConstraintCheck::isFootPolygonCollidedWithPolygon(DiscreteFootstep stepToCheck, ljh::heuclid::ConvexPolygon2D obstaclePolygon)
+{
+    return this->isFootPolygonCollidedWithPolygon(stepToCheck.getX(), stepToCheck.getY(), stepToCheck.getYaw(),
+                                                   stepToCheck.getRobotSide().getStepFlag(), obstaclePolygon);
+}
+
+// ============================================================================
+// New: Foot-terrain containment (all foot vertices must be inside terrain)
+// ============================================================================
+
+bool StepConstraintCheck::isFootPolygonContainedInPolygon(double stepX, double stepY, double stepYaw, enum StepFlag stepFlag,
+                                                          ljh::heuclid::ConvexPolygon2D terrainPolygon)
+{
+    auto footPoly = buildFootPolygon(stepX, stepY, stepYaw, stepFlag, this->param);
+    return this->polygonTools.isConvexPolygonContained(footPoly, terrainPolygon);
+}
+
+bool StepConstraintCheck::isFootPolygonContainedInPolygon(DiscreteFootstep stepToCheck, ljh::heuclid::ConvexPolygon2D terrainPolygon)
+{
+    return this->isFootPolygonContainedInPolygon(stepToCheck.getX(), stepToCheck.getY(), stepToCheck.getYaw(),
+                                                  stepToCheck.getRobotSide().getStepFlag(), terrainPolygon);
+}
+
 _FOOTSTEP_PLANNER_END
