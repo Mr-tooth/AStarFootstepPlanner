@@ -1,10 +1,11 @@
 /**
  * Demo: Obstacle avoidance footstep planning.
- * No body path guidance — pure A* collision avoidance around an obstacle polygon.
- * Uses full polygon-polygon intersection (isConvexPolygonIntersect) for collision.
+ * Body path provides directional guide; obstacle forces detour.
+ * Uses full polygon-polygon intersection for collision detection.
  */
 #include <FootstepPlannerLJH/AStarFootstepPlanner.h>
 #include <FootstepPlannerLJH/parameters.h>
+#include <FootstepPlannerLJH/SimpleBodyPathPlanner/simple2DBodyPathHolder.h>
 #include <FootstepPlannerLJH/StepConstraints/StepConstraintCheck.h>
 #include <FootstepPlannerLJH/PlotCheck/FootPolygon.h>
 
@@ -17,18 +18,35 @@ using namespace ljh::path::footstep_planner;
 
 int main()
 {
-    // === Obstacle avoidance scenario ===
-    // Diagonal path with obstacle blocking the middle
-    double startX = 0.0, startY = 0.0, startZ = 0.0, startYaw = 0.0;
-    double goalX  = 0.8, goalY  = -0.8, goalZ = 0.0, goalYaw = -M_PI / 2.0;
+    // === Diagonal path with obstacle blocking the middle ===
+    double startX = 0.015, startY = 0.0, startZ = 0.0, startYaw = 0.0;
+    double goalX  = 0.815, goalY  = -0.8, goalZ = 0.0, goalYaw = -M_PI / 2.0;
 
     Pose2D<double> goalPose2D(goalX, goalY, goalYaw);
     Pose3D<double> goalPose(goalX, goalY, goalZ, goalYaw, 0.0, 0.0);
     Pose3D<double> startPose(startX, startY, startZ, startYaw, 0.0, 0.0);
 
-    // === Obstacle polygon — blocking the direct path ===
-    double obsX = 0.38, obsY = -0.38;
-    double obsW = 0.10, obsH = 0.10; // 10cm x 10cm obstacle
+    // === Body path (ellipsoid) for directional guidance ===
+    Simple2DBodyPathHolder pathHolder;
+    pathHolder.initialize({startX, startY, startYaw}, goalPose2D);
+    auto waypoints = pathHolder.getWayPointPath();
+
+    {
+        std::ofstream fout("demo/body_path.csv");
+        fout << "idx,x,y,yaw" << std::endl;
+        for (size_t i = 0; i < waypoints.size(); i++)
+        {
+            fout << i << ","
+                 << waypoints[i].getPosition().getX() << ","
+                 << waypoints[i].getPosition().getY() << ","
+                 << waypoints[i].getOrientation().getYaw() << std::endl;
+        }
+        fout.close();
+    }
+
+    // === Obstacle — blocking the direct path ===
+    double obsX = 0.35, obsY = -0.38;
+    double obsW = 0.12, obsH = 0.12;
     std::vector<Point2D<double>> obstacle({
         {obsX - obsW/2, obsY - obsH/2},
         {obsX + obsW/2, obsY - obsH/2},
@@ -57,10 +75,10 @@ int main()
     param.SetGoalYawProximity(param, 4.0 / 180.0 * pi);
     param.SetFootPolygonExtendedLength(param, 0.025);
 
-    // HWP weights — simple distance heuristic, NO body path
+    // HWP — body path following for directional guide
     param.SetHWPOfWalkDistacne(param, 1.30);
-    param.SetHWPOfPathDistance(param, 0.0);     // No body path heuristic
-    param.SetEdgeCostPathDev(param, 0.0);       // No path deviation penalty
+    param.SetHWPOfPathDistance(param, 1.0);
+    param.SetEdgeCostPathDev(param, 0.0);
     param.SetHWPOfInitialTurnDistacne(param, 1.0);
     param.SetHWPOfFinalTurnDistacne(param, 1.30);
     param.SetHWPOfFinalWalkDistacne(param, 1.30);
@@ -72,11 +90,10 @@ int main()
     param.SetMinStepWidth(param, 0.16);
     param.SetMaxStepReach(param, sqrt(pow(0.22 - 0.16, 2) + 0.08 * 0.08));
 
-    // NO body path following
-    param.SetFollowBodyPath(param, false);
+    // Enable body path following
+    param.SetFollowBodyPath(param, true);
 
-    // Enable obstacle blocking via stair polygon mechanism
-    // Uses polygon-polygon intersection (isFootPolygonCollidedWithPolygon)
+    // Obstacle blocking — uses polygon-polygon intersection
     param.SetStairAlignMode(param, true);
     param.SetStairPolygon(param, obstacle, 4, 0);
 
