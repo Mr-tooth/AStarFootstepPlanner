@@ -39,8 +39,8 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
 
 <table>
 <tr>
-<td align="center" width="33%"><b>Flat Terrain</b><br><img src="assets/flat_terrain.gif" alt="Flat terrain" width="100%"></td>
-<td align="center" width="33%"><b>Obstacle Avoidance</b><br><img src="assets/obstacle_avoidance.gif" alt="Obstacle avoidance" width="100%"></td>
+<td align="center" width="33%"><b>Flat Terrain</b><br><img src="assets/flat.gif" alt="Flat terrain" width="100%"></td>
+<td align="center" width="33%"><b>Obstacle Avoidance</b><br><img src="assets/obstacle.gif" alt="Obstacle avoidance" width="100%"></td>
 <td align="center" width="33%"><b>Stepping Stones</b><br><img src="assets/stairs.gif" alt="Stepping stones" width="100%"></td>
 </tr>
 </table>

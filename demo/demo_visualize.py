@@ -28,6 +28,15 @@ def load_csv(path):
     with open(path) as f:
         return list(csv.DictReader(f))
 
+def load_body_path(path="demo/body_path.csv"):
+    """Load body path waypoints. Returns empty list if file not found."""
+    try:
+        with open(path) as f:
+            rows = list(csv.DictReader(f))
+        return rows
+    except FileNotFoundError:
+        return []
+
 
 def load_terrain_patches(pattern="demo/terrain_*.csv"):
     """Load all terrain_*.csv files and return list of (x_list, y_list) polygons."""
@@ -78,7 +87,7 @@ def main(mode="flat"):
     """
     # Load planner data
     footsteps_raw = load_csv("demo/footsteps.csv")
-    body_path_raw = load_csv("demo/body_path.csv")
+    body_path_raw = load_body_path()
     foot_poly_raw = load_csv("demo/foot_polygons.csv")
     sg_raw = load_csv("demo/start_goal.csv")
 
@@ -95,13 +104,13 @@ def main(mode="flat"):
     n_steps = len(footsteps)
     print(f"Loaded {n_steps} footsteps")
 
-    # Parse body path
-    body_x = [float(r['x']) for r in body_path_raw]
-    body_y = [float(r['y']) for r in body_path_raw]
-    if 'yaw' in body_path_raw[0]:
+    # Parse body path (optional)
+    body_x = [float(r['x']) for r in body_path_raw] if body_path_raw else []
+    body_y = [float(r['y']) for r in body_path_raw] if body_path_raw else []
+    body_yaw = []
+    if body_path_raw and 'yaw' in body_path_raw[0]:
         body_yaw = [float(r['yaw']) for r in body_path_raw]
-    else:
-        body_yaw = []
+    elif body_x:
         for i in range(len(body_x)):
             if i < len(body_x) - 1:
                 body_yaw.append(np.arctan2(body_y[i+1] - body_y[i], body_x[i+1] - body_x[i]))
@@ -168,7 +177,7 @@ def main(mode="flat"):
     for tx, ty in terrain_patches:
         all_x.extend(tx)
         all_y.extend(ty)
-    margin = 0.20
+    margin = 0.10
     x_min, x_max = min(all_x) - margin, max(all_x) + margin
     y_min, y_max = min(all_y) - margin, max(all_y) + margin
 
@@ -183,11 +192,12 @@ def main(mode="flat"):
     total_frames = n_steps + 1  # frame 0 = no footsteps, then add one per frame
 
     for frame in range(total_frames):
-        fig, ax = plt.subplots(1, 1, figsize=(12, 7))
+        fig, ax = plt.subplots(1, 1, figsize=(14, 6))
         ax.set_aspect('equal')
         ax.set_xlim(x_min, x_max)
         ax.set_ylim(y_min, y_max)
         ax.set_axis_off()
+        plt.subplots_adjust(left=0.01, right=0.99, top=0.93, bottom=0.05)
 
         height_map = {h['index']: h['height_m'] for h in terrain_heights}
         label_map = {h['index']: h['label'] for h in terrain_heights}
@@ -231,7 +241,7 @@ def main(mode="flat"):
                     ha="center", va="center", fontweight="bold", zorder=5)
 
         # --- Layer 4: Body path (zorder=4) — hidden in stairs mode ---
-        if mode != "stairs":
+        if mode != "stairs" and body_x:
             ax.plot(body_x, body_y, color=COLOR_BODY, linewidth=1.5, alpha=0.5, linestyle='-',
                     zorder=4)
             arrow_step = max(1, len(body_path_raw) // 8)
@@ -257,14 +267,14 @@ def main(mode="flat"):
         for i in range(frame):
             s = footsteps[i]
             offset_y = 0.04 if s['side'] == 'L' else -0.04
-            ax.text(s['x'] + 0.03, s['y'] + offset_y, str(i), fontsize=8,
+            ax.text(s['x'] + 0.03, s['y'] + offset_y, str(i), fontsize=10,
                     color='#2c3e50', fontweight='bold', zorder=6,
-                    bbox=dict(boxstyle='round,pad=0.1', facecolor='white',
-                              edgecolor='none', alpha=0.8))
+                    bbox=dict(boxstyle='round,pad=0.12', facecolor='white',
+                              edgecolor='none', alpha=0.85))
 
         # --- Layer 7: Stone height labels (zorder=7) ---
         for cx, cy, h in stone_positions:
-            ax.text(cx, cy, f'{h*100:.0f}cm', fontsize=7,
+            ax.text(cx, cy, f'{h*100:.0f}cm', fontsize=9,
                     color='white', fontweight='bold', ha='center', va='center', zorder=7,
                     bbox=dict(boxstyle='round,pad=0.15', facecolor='#000000',
                               edgecolor='none', alpha=0.35))
@@ -291,14 +301,14 @@ def main(mode="flat"):
                 bbox=dict(boxstyle='round,pad=0.2', facecolor='white', edgecolor=COLOR_GOAL, alpha=0.9))
 
         # --- Title ---
-        ax.set_title(title, fontsize=15, fontweight='bold', pad=12)
+        ax.set_title(title, fontsize=17, fontweight='bold', pad=8)
 
         # --- Legend ---
         legend_elements = [
             Line2D([0], [0], color=COLOR_L, linewidth=3, label='Left foot', solid_capstyle='round'),
             Line2D([0], [0], color=COLOR_R, linewidth=3, label='Right foot', solid_capstyle='round'),
         ]
-        if mode != "stairs":
+        if mode != "stairs" and body_x:
             legend_elements.insert(0, Line2D([0], [0], color=COLOR_BODY, linewidth=1.5, label='Body path'))
         if terrain_patches and mode == "stairs":
             # Height legend: 3 reference stones
@@ -311,17 +321,17 @@ def main(mode="flat"):
         if obstacle_x:
             legend_elements.append(
                 Line2D([0], [0], color="#c0392b", linewidth=2, label="Obstacle", alpha=0.5))
-        ax.legend(handles=legend_elements, loc='lower right', fontsize=9,
+        ax.legend(handles=legend_elements, loc='lower right', fontsize=11,
                   framealpha=0.95, edgecolor='#ddd')
 
         # --- Step counter ---
         step_label = f"{frame} / {n_steps}" if frame > 0 else f"0 / {n_steps}"
         ax.text(0.02, 0.98, f"Step {step_label}", transform=ax.transAxes,
-                fontsize=11, color='#7f8c8d', fontfamily='monospace',
+                fontsize=13, color='#7f8c8d', fontfamily='monospace',
                 ha='left', va='top')
 
         fname = f"{outDir}/frame_{frame:03d}.png"
-        plt.savefig(fname, dpi=100, bbox_inches='tight', facecolor='white')
+        plt.savefig(fname, dpi=120, bbox_inches='tight', facecolor='white', pad_inches=0.05)
         plt.close()
 
         if frame % 5 == 0 or frame == total_frames - 1:
