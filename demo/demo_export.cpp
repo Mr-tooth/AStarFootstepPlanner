@@ -1,6 +1,7 @@
 /**
  * Demo: Flat terrain footstep planning with body path.
- * Runs the planner and exports real data to CSV for Python visualization.
+ * Uses test7 tuned parameters for optimal body path following.
+ * Exports real planner data to CSV for Python visualization.
  */
 #include <FootstepPlannerLJH/AStarFootstepPlanner.h>
 #include <FootstepPlannerLJH/parameters.h>
@@ -17,9 +18,9 @@ using namespace ljh::path::footstep_planner;
 
 int main()
 {
-    // === Flat terrain scenario (same as test.cpp Test 7) ===
+    // === Flat terrain scenario (test7) ===
     double startX = 0.015, startY = 0.0, startZ = 0.0, startYaw = 0.0;
-    double goalX  = 0.815, goalY  = -0.8, goalZ = 0.0, goalYaw = -M_PI / 2.0;
+    double goalX  = 0.663, goalY  = -0.962, goalZ = 0.0, goalYaw = -1.554;
 
     Pose2D<double> goalPose2D(goalX, goalY, goalYaw);
     Pose3D<double> goalPose(goalX, goalY, goalZ, goalYaw, 0.0, 0.0);
@@ -41,11 +42,39 @@ int main()
                  << waypoints[i].getOrientation().getYaw() << std::endl;
         }
         fout.close();
-        std::cout << "Wrote " << waypoints.size() << " body path waypoints to demo/body_path.csv" << std::endl;
+        std::cout << "Wrote " << waypoints.size() << " body path waypoints" << std::endl;
     }
 
-    // === Run planner ===
     AStarFootstepPlanner planner;
+
+    // Apply test7 tuned parameters
+    parameters param;
+    param.SetEdgeCostDistance(param, 4.0);
+    param.SetEdgeCostYaw(param, 4.0);
+    param.SetEdgeCostStaticPerStep(param, 1.4);
+    param.SetMaxStepYaw(param, pi / 12.0);
+    param.SetMinStepYaw(param, -pi / 12.0);
+    param.SetFinalTurnProximity(param, 0.3);
+    param.SetGoalDistanceProximity(param, 0.04);
+    param.SetGoalYawProximity(param, 4.0 / 180.0 * pi);
+    param.SetFootPolygonExtendedLength(param, 0.025);
+
+    // HWP weights — test7 tuned values
+    param.SetHWPOfWalkDistacne(param, 1.30);
+    param.SetHWPOfPathDistance(param, 2.50);      // Strong body path following
+    param.SetHWPOfInitialTurnDistacne(param, 1.0);
+    param.SetHWPOfFinalTurnDistacne(param, 1.30);
+    param.SetHWPOfFinalWalkDistacne(param, 1.30);
+
+    // Step size constraints
+    param.SetMaxStepLength(param, 0.08);
+    param.SetMinStepLength(param, -0.08);
+    param.SetMaxStepWidth(param, 0.22);
+    param.SetMinStepWidth(param, 0.16);
+    param.SetMaxStepReach(param, sqrt(pow(0.22 - 0.16, 2) + 0.08 * 0.08));
+
+    // Params are static members — set once, used everywhere
+
     planner.initialize(goalPose2D, goalPose, startPose);
     planner.doAStarSearch();
     planner.calFootstepSeries();
@@ -61,14 +90,11 @@ int main()
         {
             auto& s = accurateSteps[i];
             std::string side = (s.getStepFlag() == stepL) ? "L" : "R";
-            fout << i << ","
-                 << s.getX() << ","
-                 << s.getY() << ","
-                 << s.getYaw() << ","
-                 << side << std::endl;
+            fout << i << "," << s.getX() << "," << s.getY() << ","
+                 << s.getYaw() << "," << side << std::endl;
         }
         fout.close();
-        std::cout << "Wrote " << accurateSteps.size() << " footsteps to demo/footsteps.csv" << std::endl;
+        std::cout << "Wrote " << accurateSteps.size() << " footsteps" << std::endl;
     }
 
     // === Export foot polygon vertices ===
@@ -86,12 +112,10 @@ int main()
             getFootVertex2D(pose, s.getStepFlag(), vx, vy);
 
             for (size_t j = 0; j < vx.size(); j++)
-            {
                 fout << i << "," << j << "," << vx[j] << "," << vy[j] << std::endl;
-            }
         }
         fout.close();
-        std::cout << "Wrote foot polygons to demo/foot_polygons.csv" << std::endl;
+        std::cout << "Wrote foot polygons" << std::endl;
     }
 
     // === Export start/goal ===
@@ -103,6 +127,6 @@ int main()
         fout.close();
     }
 
-    std::cout << "All data exported. Run: python3 demo/demo_visualize.py" << std::endl;
+    std::cout << "All data exported." << std::endl;
     return 0;
 }
