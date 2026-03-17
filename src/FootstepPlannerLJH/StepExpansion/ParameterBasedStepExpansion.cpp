@@ -124,9 +124,25 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
         if(this->param.isStairAlignMode)
         {
             if(this->stepConstraintChecker.isAnyVertexOfFootInsideStairRegion(childStep,this->param.stairPolygon))
-                continue; //drop the childstep if it collides with the obstacle polygon
+                continue;
         }
 
+        // Landing zone containment check — foot must be fully inside at least one terrain patch
+        if(this->param.getUseLandingZoneCheck(this->param))
+        {
+            const auto& zones = this->param.getLandingZonePolygons(this->param);
+            bool footInZone = false;
+            for(const auto& zone : zones)
+            {
+                if(this->stepConstraintChecker.isFootPolygonContainedInPolygon(childStep, zone))
+                {
+                    footInZone = true;
+                    break;
+                }
+            }
+            if(!footInZone)
+                continue;
+        }
 
         childNode.setNode(nodeToExpand.getSecondStep(),childStep);
         double yawDistance = (childNode.getSecondStep().getYaw()-childNode.getFirstStep().getYaw() );

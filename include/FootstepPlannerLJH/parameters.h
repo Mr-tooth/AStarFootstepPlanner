@@ -103,6 +103,25 @@ public:
      *  @note Requires Simple2DBodyPathHolder to be initialized via HeuristicCalculator. */
     static CONST bool followBodyPath;
     static CONST ljh::heuclid::ConvexPolygon2D stairPolygon;
+
+    /** @brief Landing zone polygons — terrain patches where each foot must be fully contained.
+     *  When useLandingZoneCheck is true, each candidate footstep is validated
+     *  using isConvexPolygonContained: ALL foot vertices must be inside at least
+     *  one of these polygons. If the foot straddles two patches or extends
+     *  beyond the terrain boundary, the step is rejected.
+     *
+     *  Use cases:
+     *  - Stair climbing: each step is a small terrain patch, foot must land entirely on it
+     *  - Stepping stones: narrow terrain patches, foot must not overhang
+     *  - Obstacle avoidance: combined with stairPolygon for forbidden zone rejection
+     *
+     *  Distinction from stairPolygon:
+     *  - stairPolygon + isStairAlignMode = forbidden zone (foot vertices rejected if inside)
+     *  - landingZonePolygon + useLandingZoneCheck = valid zone (foot must be fully inside)
+     */
+    static CONST std::vector<ljh::heuclid::ConvexPolygon2D> landingZonePolygons;
+    static CONST bool useLandingZoneCheck;
+
     static CONST double footPolygonExtendedLength;
     
 
@@ -137,6 +156,8 @@ public:
     /** @brief Check if body path following heuristic is enabled. */
     bool   getFollowBodyPath(const parameters& param);
     ljh::heuclid::ConvexPolygon2D getStairPolygon(const parameters& param);
+    const std::vector<ljh::heuclid::ConvexPolygon2D>& getLandingZonePolygons(const parameters& param);
+    bool   getUseLandingZoneCheck(const parameters& param);
     double getFootPolygonExtendedLength(const parameters& param);
     double getHWPOfWalkDistacne(const parameters& param);
     double getHWPOfInitialTurnDistacne(const parameters& param);
@@ -172,6 +193,8 @@ public:
     /** @brief Enable/disable body path following heuristic (independent of stair mode). */
     void SetFollowBodyPath(parameters& param, const bool& change);
     void SetStairPolygon(parameters& param, std::vector<Point2D<double> > stairBuffer, int numOfVertices, bool clockwiseOrdered);
+    void SetLandingZonePolygons(parameters& param, const std::vector<ljh::heuclid::ConvexPolygon2D>& polygons);
+    void SetUseLandingZoneCheck(parameters& param, const bool& change);
     void SetFootPolygonExtendedLength(const parameters& param, const double& change);
     void SetHWPOfWalkDistacne(const parameters& param, const double& change);
     void SetHWPOfInitialTurnDistacne(const parameters& param, const double& change);

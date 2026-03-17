@@ -30,3 +30,11 @@
 - **User requirement**: Full polygon-polygon collision detection (similar to `isTwoFootCollided` algorithm)
 - **Solution proposed**: Add `isPolygonCollided()` in `StepConstraintCheck` using 16-point mutual containment test (4 vertices + 4 edge midpoints × 2 directions)
 - **Lesson**: Point-in-polygon is necessary but NOT sufficient for convex polygon intersection. Need mutual containment + edge intersection for robustness.
+
+### Phase 3: Terrain Patch Sizing for Landing Zone Demo
+- **Issue**: Landing zone patches centered on footsteps still fail containment check
+- **Root cause**: Foot polygon dimensions (ForwardLength=0.16m + BackwardLength=0.11m = 0.27m total length) exceed patch width when patch HW=0.15m
+- **Key insight**: `ForwardLength`, `BackwardLength`, `WideWidth`, `NarrowWidth` are single-side half-dimensions from foot center — total foot size = sum of both sides
+- **Rule**: patch half-width must be ≥ max(ForwardLength, BackwardLength) + footPolygonExtendedLength (≥ 0.185m)
+- **"Shoot first, aim later"**: User suggested defining ideal footstep positions first, then building patches around them — simpler than tuning patches to make planner succeed
+- **Lesson**: For demo purposes, "center patches on known-good footsteps" is much easier than "tune patch dimensions until planner finds path"
