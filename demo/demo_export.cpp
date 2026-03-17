@@ -61,7 +61,10 @@ int main()
 
     // HWP weights — test7 tuned values
     param.SetHWPOfWalkDistacne(param, 1.30);
-    param.SetHWPOfPathDistance(param, 2.50);      // Strong body path following
+    // Enable body path following via heuristic
+    param.SetFollowBodyPath(param, true);
+    param.SetHWPOfPathDistance(param, 1.0);       // Body path heuristic weight
+    param.SetEdgeCostPathDev(param, 0.0);         // No edge penalty needed — heuristic handles it
     param.SetHWPOfInitialTurnDistacne(param, 1.0);
     param.SetHWPOfFinalTurnDistacne(param, 1.30);
     param.SetHWPOfFinalWalkDistacne(param, 1.30);

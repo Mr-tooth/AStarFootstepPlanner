@@ -50,6 +50,7 @@ public:
     static CONST double edgecost_w_h;
     static CONST double edgecost_w_area;
     static CONST double edgecost_w_static;
+    static CONST double edgecost_w_pathdev;
 
     //StepNodeExpansionCheck
     static CONST double MaxStepReach;
@@ -92,6 +93,7 @@ public:
 
     // constraints for stair alignment// load in the step expansion
     static CONST bool isStairAlignMode;
+    static CONST bool followBodyPath;
     static CONST ljh::heuclid::ConvexPolygon2D stairPolygon;
     static CONST double footPolygonExtendedLength;
     
@@ -105,6 +107,7 @@ public:
     double getEdgeCostHeight(const parameters& param);
     double getEdgeCostArea(const parameters& param);
     double getEdgeCostStaticPerStep(const parameters& param);
+    double getEdgeCostPathDev(const parameters& param);
     double getMaxStepReach(const parameters& param);
     double getMinStepLength(const parameters& param);
     double getMaxStepLength(const parameters& param);
@@ -122,6 +125,7 @@ public:
     double getGoalYawProximity(const parameters& param);
     bool   getDebugFlag(const parameters& param);
     bool   getStairAlignMode(const parameters& param);
+    bool   getFollowBodyPath(const parameters& param);
     ljh::heuclid::ConvexPolygon2D getStairPolygon(const parameters& param);
     double getFootPolygonExtendedLength(const parameters& param);
     double getHWPOfWalkDistacne(const parameters& param);
@@ -136,6 +140,7 @@ public:
     void SetEdgeCostHeight(parameters& param, const double& change);
     void SetEdgeCostArea(parameters& param, const double& change);
     void SetEdgeCostStaticPerStep(parameters& param, const double& change);
+    void SetEdgeCostPathDev(parameters& param, const double& change);
     void SetMaxStepReach(parameters& param, const double& change);
     void SetMinStepLength(parameters& param, const double& change);
     void SetMaxStepLength(parameters& param, const double& change);
@@ -153,6 +158,7 @@ public:
     void SetGoalYawProximity(parameters& param, const double& change);
     void SetDebugFlag(parameters& param, const bool& change);
     void SetStairAlignMode(parameters& param, const bool& change);
+    void SetFollowBodyPath(parameters& param, const bool& change);
     void SetStairPolygon(parameters& param, std::vector<Point2D<double> > stairBuffer, int numOfVertices, bool clockwiseOrdered);
     void SetFootPolygonExtendedLength(const parameters& param, const double& change);
     void SetHWPOfWalkDistacne(const parameters& param, const double& change);

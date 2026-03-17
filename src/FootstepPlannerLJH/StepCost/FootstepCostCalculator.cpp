@@ -3,6 +3,7 @@
 
 
 #include <FootstepPlannerLJH/StepCost/FootstepCostCalculator.h>
+#include <FootstepPlannerLJH/SimpleBodyPathPlanner/simple2DBodyPathHolder.h>
 
 _FOOTSTEP_PLANNER_BEGIN
 
@@ -30,6 +31,14 @@ cost_t FootstepCostCalculator::computeEdgeCost(Location candidateNode, Location 
                     +this->yawOffset * this->param.edgecost_w_yaw
                     //+this->zOffset   * this->param.edgecost_w_h
                     +this->param.edgecost_w_static;
+
+    // Add body path deviation penalty to edge cost (always when weight > 0)
+    if(this->param.edgecost_w_pathdev > 0.0)
+    {
+        PointFromPathInfo pfp;
+        this->heuristicCalculator.pathHolder.getClosestdPointsYawfromPathToGivenPoint(candidateNode, pfp);
+        this->edgeCost += this->param.edgecost_w_pathdev * pfp.distance;
+    }
 
     return this->edgeCost;
 }
