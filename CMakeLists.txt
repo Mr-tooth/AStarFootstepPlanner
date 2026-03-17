@@ -140,6 +140,8 @@ if(MATPLOTLIB_CPP_AVAILABLE)
     # --- Demo GIF generator (data export only, visualization in Python) ---
     add_executable(demo_export demo/demo_export.cpp)
     target_link_libraries(demo_export PRIVATE ${PROJECT_NAME})
+    add_executable(demo_obstacle demo/demo_obstacle.cpp)
+    target_link_libraries(demo_obstacle PRIVATE ${PROJECT_NAME})
 else()
     message(STATUS "matplotlib_cpp not found — PlotCheck module disabled")
 endif()

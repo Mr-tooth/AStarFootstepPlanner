@@ -61,6 +61,15 @@ def main():
         foot_poly[sid]['x'].append(float(row['x']))
         foot_poly[sid]['y'].append(float(row['y']))
 
+    # Load obstacle polygon (optional)
+    obstacle_x, obstacle_y = [], []
+    if os.path.exists("demo/obstacle.csv"):
+        with open("demo/obstacle.csv") as f:
+            for row in csv.DictReader(f):
+                obstacle_x.append(float(row["x"]))
+                obstacle_y.append(float(row["y"]))
+        print(f"Loaded obstacle polygon ({len(obstacle_x)} vertices)")
+
     # Parse start/goal
     start_x, start_y, start_yaw = 0, 0, 0
     goal_x, goal_y, goal_yaw = 0, 0, 0
@@ -95,6 +104,16 @@ def main():
         ax.set_xlim(x_min, x_max)
         ax.set_ylim(y_min, y_max)
         ax.set_axis_off()
+
+        # Draw obstacle polygon
+        if obstacle_x and obstacle_y:
+            obs_patch = MplPolygon(list(zip(obstacle_x, obstacle_y)),
+                                  closed=True, facecolor="#2c3e50", edgecolor="#c0392b",
+                                  alpha=0.4, linewidth=2, zorder=2.5, label="Obstacle")
+            ax.add_patch(obs_patch)
+            obs_cx, obs_cy = sum(obstacle_x)/len(obstacle_x), sum(obstacle_y)/len(obstacle_y)
+            ax.text(obs_cx, obs_cy, "✕", fontsize=14, color="white",
+                    ha="center", va="center", fontweight="bold", zorder=3)
 
         # Draw body path (ellipsoid)
         ax.plot(body_x, body_y, color=COLOR_BODY, linewidth=1.5, alpha=0.6, linestyle='-',
@@ -157,6 +176,7 @@ def main():
             Line2D([0], [0], color=COLOR_BODY, linewidth=1.5, label='Body path (ellipsoid)'),
             Line2D([0], [0], color=COLOR_L, linewidth=2, label='Left foot'),
             Line2D([0], [0], color=COLOR_R, linewidth=2, label='Right foot'),
+            Line2D([0], [0], color="#c0392b", linewidth=2, label="Obstacle", fill=True, alpha=0.4),
         ]
         ax.legend(handles=legend_elements, loc='lower left', fontsize=9, framealpha=0.9)
 
