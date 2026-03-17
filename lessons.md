@@ -21,3 +21,12 @@
 - **Problem**: `edgecost_w_pathdev = 3.0` added only ~0.18 per step vs walk cost of ~0.32 — negligible
 - **Insight**: Edge cost penalty has limited leverage. The heuristic is what truly guides the search.
 - **Lesson**: Fix the heuristic, not the edge cost, for path following behavior.
+
+### Issue 5: `isAnyVertexOfFootInsideStairRegion` incomplete for obstacle avoidance
+- **Problem**: Only checks if foot vertices are inside the obstacle polygon. Misses:
+  1. Obstacle vertices inside foot rectangle (small obstacle near foot edge)
+  2. Edge-edge intersection (foot straddles obstacle boundary — no vertex inside either polygon)
+- **Impact**: Foot and obstacle visually overlap in demo GIF but planner doesn't reject the step
+- **User requirement**: Full polygon-polygon collision detection (similar to `isTwoFootCollided` algorithm)
+- **Solution proposed**: Add `isPolygonCollided()` in `StepConstraintCheck` using 16-point mutual containment test (4 vertices + 4 edge midpoints × 2 directions)
+- **Lesson**: Point-in-polygon is necessary but NOT sufficient for convex polygon intersection. Need mutual containment + edge intersection for robustness.

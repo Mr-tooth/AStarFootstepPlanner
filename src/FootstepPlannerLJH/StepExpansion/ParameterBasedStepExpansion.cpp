@@ -123,7 +123,7 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
         // Full polygon-polygon collision check against obstacle
         if(this->param.isStairAlignMode)
         {
-            if(this->stepConstraintChecker.isFootPolygonCollidedWithPolygon(childStep,this->param.stairPolygon))
+            if(this->stepConstraintChecker.isAnyVertexOfFootInsideStairRegion(childStep,this->param.stairPolygon))
                 continue; //drop the childstep if it collides with the obstacle polygon
         }
 
