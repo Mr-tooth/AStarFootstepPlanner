@@ -34,3 +34,7 @@
 # Cmake Build Folders
 build/
 test/build/
+
+# Demo generated files
+demo/*.csv
+demo/frames_flat/
