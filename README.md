@@ -46,8 +46,16 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
 
 > A* footstep planning from start (blue dot) to goal (red diamond). Red = left foot, orange = right foot. 25 discrete footsteps evenly straddling the ellipsoid body path (blue line with direction arrows).
 
+### Obstacle Avoidance
+
+<p align="center">
+  <img src="assets/obstacle_avoidance.gif" alt="Obstacle avoidance footstep planning" width="640">
+</p>
+
+> Footsteps navigate around a gray obstacle block placed on the body path. The planner rejects footsteps intersecting the obstacle polygon, producing a natural detour (24 steps).
+
 - ✅ Flat terrain: start → goal footstep sequence
-- ⏳ Obstacle avoidance: navigating around forbidden regions
+- ✅ Obstacle avoidance: navigating around forbidden regions
 - ⏳ Stair climbing: constrained footstep planning on stairs
 
 ## Quick Start
