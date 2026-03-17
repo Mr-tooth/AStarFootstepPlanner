@@ -37,4 +37,4 @@ test/build/
 
 # Demo generated files
 demo/*.csv
-demo/frames_flat/
+demo/frames_flat/external/matplotlib-cpp/

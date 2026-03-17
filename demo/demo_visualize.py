@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-Flat terrain demo: generates progressive footstep planning GIF.
-Uses real planner data exported by demo_export.cpp.
+A* Footstep Planner demo visualization — supports flat terrain, obstacle, and stairs demos.
+Uses real planner data exported by demo_export.cpp / demo_obstacle.cpp / demo_stairs.cpp.
 """
 import os
 import sys
 import csv
+import glob
 import numpy as np
 
 try:
@@ -28,7 +29,26 @@ def load_csv(path):
         return list(csv.DictReader(f))
 
 
-def main():
+def load_terrain_patches(pattern="demo/terrain_*.csv"):
+    """Load all terrain_*.csv files and return list of (x_list, y_list) polygons."""
+    patches = []
+    files = sorted(glob.glob(pattern))
+    for fpath in files:
+        with open(fpath) as f:
+            reader = csv.DictReader(f)
+            x, y = [], []
+            for row in reader:
+                x.append(float(row['x']))
+                y.append(float(row['y']))
+            if len(x) >= 3:
+                patches.append((x, y))
+    return patches
+
+
+def main(mode="flat"):
+    """
+    mode: "flat", "obstacle", or "stairs"
+    """
     # Load planner data
     footsteps_raw = load_csv("demo/footsteps.csv")
     body_path_raw = load_csv("demo/body_path.csv")
@@ -48,9 +68,19 @@ def main():
     n_steps = len(footsteps)
     print(f"Loaded {n_steps} footsteps")
 
-    # Parse body path
+    # Parse body path (may or may not have yaw column)
     body_x = [float(r['x']) for r in body_path_raw]
     body_y = [float(r['y']) for r in body_path_raw]
+    if 'yaw' in body_path_raw[0]:
+        body_yaw = [float(r['yaw']) for r in body_path_raw]
+    else:
+        # Compute yaw from consecutive points
+        body_yaw = []
+        for i in range(len(body_x)):
+            if i < len(body_x) - 1:
+                body_yaw.append(np.arctan2(body_y[i+1] - body_y[i], body_x[i+1] - body_x[i]))
+            else:
+                body_yaw.append(body_yaw[-1] if body_yaw else 0)
 
     # Parse foot polygons (group by step)
     foot_poly = {}
@@ -58,8 +88,12 @@ def main():
         sid = int(row['step'])
         if sid not in foot_poly:
             foot_poly[sid] = {'x': [], 'y': []}
-        foot_poly[sid]['x'].append(float(row['x']))
-        foot_poly[sid]['y'].append(float(row['y']))
+        foot_poly[sid]['x'].append(float(row['x' if 'x' in row else f'x1']))
+        foot_poly[sid]['y'].append(float(row['y' if 'y' in row else 'y1']))
+        # For multi-column format (x1,y1,x2,y2,...)
+        if 'x4' in row:
+            foot_poly[sid]['x'] = [float(row[f'x{i}']) for i in range(1, 5)]
+            foot_poly[sid]['y'] = [float(row[f'y{i}']) for i in range(1, 5)]
 
     # Load obstacle polygon (optional)
     obstacle_x, obstacle_y = [], []
@@ -70,14 +104,22 @@ def main():
                 obstacle_y.append(float(row["y"]))
         print(f"Loaded obstacle polygon ({len(obstacle_x)} vertices)")
 
-    # Parse start/goal
+    # Load terrain patches (for stairs demo)
+    terrain_patches = load_terrain_patches()
+    if terrain_patches:
+        print(f"Loaded {len(terrain_patches)} terrain patches")
+
+    # Parse start/goal (handle both 'pose' and 'type' column names)
     start_x, start_y, start_yaw = 0, 0, 0
     goal_x, goal_y, goal_yaw = 0, 0, 0
     for row in sg_raw:
-        if row['pose'] == 'start':
-            start_x, start_y, start_yaw = float(row['x']), float(row['y']), float(row['yaw'])
-        else:
-            goal_x, goal_y, goal_yaw = float(row['x']), float(row['y']), float(row['yaw'])
+        label = row.get('pose', row.get('type', ''))
+        if label == 'start':
+            start_x, start_y = float(row['x']), float(row['y'])
+            start_yaw = float(row.get('yaw', 0))
+        elif label == 'goal':
+            goal_x, goal_y = float(row['x']), float(row['y'])
+            goal_yaw = float(row.get('yaw', 0))
 
     # Colors
     COLOR_L = '#e74c3c'   # red
@@ -85,6 +127,8 @@ def main():
     COLOR_BODY = '#3498db'
     COLOR_START = '#2ecc71'
     COLOR_GOAL = '#e74c3c'
+    COLOR_TERRAIN = '#b8d4e3'    # light blue-grey
+    COLOR_TERRAIN_EDGE = '#7f8c8d'
 
     outDir = "demo/frames_flat"
     os.makedirs(outDir, exist_ok=True)
@@ -92,9 +136,21 @@ def main():
     # Determine axis limits from data
     all_x = body_x + [s['x'] for s in footsteps] + [start_x, goal_x]
     all_y = body_y + [s['y'] for s in footsteps] + [start_y, goal_y]
+    # Include terrain patches in axis limits
+    for tx, ty in terrain_patches:
+        all_x.extend(tx)
+        all_y.extend(ty)
     margin = 0.15
     x_min, x_max = min(all_x) - margin, max(all_x) + margin
     y_min, y_max = min(all_y) - margin, max(all_y) + margin
+
+    # Title per mode
+    titles = {
+        "flat": "A* Footstep Planning — Flat Terrain",
+        "obstacle": "A* Footstep Planning — Obstacle Avoidance",
+        "stairs": "A* Footstep Planning — Multi-Level Stair Climbing",
+    }
+    title = titles.get(mode, titles["flat"])
 
     total_frames = n_steps + 1  # frame 0 = no footsteps, then add one per frame
 
@@ -104,6 +160,14 @@ def main():
         ax.set_xlim(x_min, x_max)
         ax.set_ylim(y_min, y_max)
         ax.set_axis_off()
+
+        # Draw terrain patches (stairs mode)
+        for i, (tx, ty) in enumerate(terrain_patches):
+            patch = MplPolygon(list(zip(tx, ty)),
+                              closed=True, facecolor=COLOR_TERRAIN,
+                              edgecolor=COLOR_TERRAIN_EDGE, alpha=0.45,
+                              linewidth=1.5, zorder=1.5, linestyle='--')
+            ax.add_patch(patch)
 
         # Draw obstacle polygon
         if obstacle_x and obstacle_y:
@@ -115,9 +179,9 @@ def main():
             ax.text(obs_cx, obs_cy, "✕", fontsize=14, color="white",
                     ha="center", va="center", fontweight="bold", zorder=3)
 
-        # Draw body path (ellipsoid)
+        # Draw body path
         ax.plot(body_x, body_y, color=COLOR_BODY, linewidth=1.5, alpha=0.6, linestyle='-',
-                label='Body path (ellipsoid)', zorder=1)
+                label='Body path', zorder=1)
 
         # Draw body path direction arrows
         arrow_step = max(1, len(body_path_raw) // 8)
@@ -125,7 +189,7 @@ def main():
         for i in range(0, len(body_path_raw), arrow_step):
             bx = float(body_path_raw[i]['x'])
             by = float(body_path_raw[i]['y'])
-            byaw = float(body_path_raw[i]['yaw'])
+            byaw = body_yaw[i]
             ax.plot([bx, bx + np.cos(byaw)*bw],
                     [by, by + np.sin(byaw)*bw],
                     color=COLOR_BODY, lw=1.8, alpha=0.7, zorder=2)
@@ -169,15 +233,21 @@ def main():
                 bbox=dict(boxstyle='round,pad=0.15', facecolor='white', edgecolor='none', alpha=0.85))
 
         # Title
-        ax.set_title('A* Footstep Planning — Flat Terrain', fontsize=14, fontweight='bold', pad=10)
+        ax.set_title(title, fontsize=14, fontweight='bold', pad=10)
 
         # Legend
         legend_elements = [
-            Line2D([0], [0], color=COLOR_BODY, linewidth=1.5, label='Body path (ellipsoid)'),
+            Line2D([0], [0], color=COLOR_BODY, linewidth=1.5, label='Body path'),
             Line2D([0], [0], color=COLOR_L, linewidth=2, label='Left foot'),
             Line2D([0], [0], color=COLOR_R, linewidth=2, label='Right foot'),
-            Line2D([0], [0], color="#c0392b", linewidth=2, label="Obstacle", fill=True, alpha=0.4),
         ]
+        if terrain_patches:
+            legend_elements.append(
+                Line2D([0], [0], color=COLOR_TERRAIN_EDGE, linewidth=1.5,
+                       linestyle='--', label='Terrain patches', fillstyle='bottom', alpha=0.45))
+        if obstacle_x:
+            legend_elements.append(
+                Line2D([0], [0], color="#c0392b", linewidth=2, label="Obstacle", fill=True, alpha=0.4))
         ax.legend(handles=legend_elements, loc='lower left', fontsize=9, framealpha=0.9)
 
         # Step counter
@@ -190,7 +260,7 @@ def main():
         plt.savefig(fname, dpi=100, bbox_inches='tight', facecolor='white')
         plt.close()
 
-        if frame % 3 == 0 or frame == total_frames - 1:
+        if frame % 5 == 0 or frame == total_frames - 1:
             print(f"  Frame {frame}/{total_frames - 1}")
 
     # Generate GIF
@@ -199,7 +269,7 @@ def main():
     images = [Image.open(os.path.join(outDir, f)) for f in frames]
 
     durations = [300] * (len(images) - 1) + [2000]
-    gif_path = "demo/flat_terrain.gif"
+    gif_path = f"demo/{mode}.gif"
     images[0].save(gif_path, save_all=True, append_images=images[1:],
                    duration=durations, loop=0, optimize=True)
 
@@ -208,5 +278,6 @@ def main():
 
 
 if __name__ == "__main__":
-    print("=== A* Footstep Planner - Flat Terrain Demo (Real Planner Data) ===")
-    main()
+    mode = sys.argv[1] if len(sys.argv) > 1 else "stairs"
+    print(f"=== A* Footstep Planner - {mode.capitalize()} Demo (Real Planner Data) ===")
+    main(mode)

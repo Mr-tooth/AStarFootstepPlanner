@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg)](https://en.cppreference.com/w/cpp/11)
 [![CMake](https://img.shields.io/badge/CMake-3.22%2B-blue.svg)](https://cmake.org/)
-[![Heuclid](https://img.shields.io/badge/Heuclid-v2.0-blue.svg)](https://github.com/Mr-tooth/Heuclid)
+[![Heuclid v2.2-blue.svg)](https://github.com/Mr-tooth/Heuclid)
 
 [English](README.md)
 
@@ -56,7 +56,15 @@
 
 - ✅ 平地：起点 → 终点落脚点序列
 - ✅ 障碍物回避：绕开禁止区域
-- ⏳ 楼梯攀爬：楼梯约束下的落脚点规划
+- ✅ 楼梯攀爬：楼梯约束下的落脚点规划（落地面约束）
+
+### 多级楼梯攀爬
+
+<p align="center">
+  <img src="assets/stairs.gif" alt="多级楼梯攀爬落脚点规划" width="640">
+</p>
+
+> 落地面约束：每个落脚点必须完全在地形补丁内（蓝色虚线方块）。22 步沿 L 形楼梯路径从起点到终点，展示离散地形区域的约束规划。
 > - 障碍物避让：绕过禁区的路径规划
 > - 楼梯场景：约束条件下的楼梯落脚点规划
 
@@ -135,7 +143,7 @@ int main()
 │              Simple2DBodyPathPlanner                        │
 │                 (身体路径引导)                                │
 ├─────────────────────────────────────────────────────────────┤
-│                      Heuclid v2.0                           │
+│                      Heuclid v2.2                           │
 │           (Pose, Vector, ConvexPolygon, Tools)              │
 ├─────────────────────────────────────────────────────────────┤
 │                   Eigen3 (线性代数)                          │
@@ -163,7 +171,7 @@ int main()
 
 | 依赖 | 版本 | 必需 | 自动获取 |
 |------|------|------|----------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ | ✅ (GitHub) |
+| [Heuclid v2.2+ | ✅ | ✅ (GitHub) |
 | [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ | ✅ (GitLab) |
 | [LBlocks](https://github.com/hexb66/LBlocks) | 最新 | ✅ | ✅ (submodule) |
 | [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ 可选 | ❌ (需 Python) |
