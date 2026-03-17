@@ -168,7 +168,7 @@ def main(mode="flat"):
     COLOR_START = '#27ae60'
     COLOR_GOAL = '#c0392b'
 
-    outDir = "demo/frames_flat"
+    outDir = f"demo/frames_{mode}"
     os.makedirs(outDir, exist_ok=True)
 
     # Axis limits
