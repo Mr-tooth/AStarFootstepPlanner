@@ -37,11 +37,18 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
 
 ## Demo
 
-> 🎥 **TODO**: GIF demonstrations will be added here.
->
-> - Flat terrain: start → goal footstep sequence
-> - Obstacle avoidance: navigating around forbidden regions
-> - Stair climbing: constrained footstep planning on stairs
+
+### Flat Terrain
+
+<p align="center">
+  <img src="assets/flat_terrain.gif" alt="Flat terrain footstep planning" width="640">
+</p>
+
+> A* footstep planning from start (blue dot) to goal (red arrow). Red = left foot, orange = right foot. 19 discrete footsteps with body path (green dashed line).
+
+- ✅ Flat terrain: start → goal footstep sequence
+- ⏳ Obstacle avoidance: navigating around forbidden regions
+- ⏳ Stair climbing: constrained footstep planning on stairs
 
 ## Quick Start
 
