@@ -78,6 +78,7 @@ cost_t HeuristicCalculator::computeFollowEllipsoidPath(FootstepGraphNode& node)
             this->midFootPose.getOrientation().getYaw()-this->goalPose.getOrientation().getYaw())) * 0.5 * PI * this->param.IdealStepWidth;
         
         this->desireHeading = this->pathHolder.getClosestdPointsYawfromPathToGivenPoint(node,this->pfp);
+        // pfp.distance is squared Euclidean distance; sqrt() required for actual distance
         this->pathDistance = std::abs(std::sqrt(this->pfp.distance)-this->param.IdealStepWidth);
 
         //this->heuristicCost = cost_t(this->param.AStarHeuristicWeight * (this->finalTurnDistance+this->walkDistance));
@@ -93,6 +94,7 @@ cost_t HeuristicCalculator::computeFollowEllipsoidPath(FootstepGraphNode& node)
         // double x = (goalPose.getPosition().getX()-startPose.getPosition().getX());
         // this->desireHeading = this->midFootPose.getOrientation().shiftProperYaw(atan2(y,x));
         this->desireHeading = this->pathHolder.getClosestdPointsYawfromPathToGivenPoint(node,this->pfp);
+        // pfp.distance is squared Euclidean distance; sqrt() required for actual distance
         this->pathDistance = std::abs(std::sqrt(this->pfp.distance)-this->param.IdealStepWidth);
         // this->initialTurnDistance = std::abs(this->midFootPose.getOrientation().shiftProperYaw(
         //     this->midFootPose.getOrientation().getYaw()-this->desireHeading)) * 0.5 * PI * this->param.IdealStepWidth;
