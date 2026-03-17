@@ -42,18 +42,17 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
 <td align="center" width="50%"><b>Flat Terrain</b><br><img src="assets/flat.gif" alt="Flat terrain" width="100%"></td>
 <td align="center" width="50%"><b>Obstacle Avoidance</b><br><img src="assets/obstacle.gif" alt="Obstacle avoidance" width="100%"></td>
 </tr>
-</table>
-
-<table>
 <tr>
-<td align="center" width="50%"><b>Stepping Stones</b><br><img src="assets/stairs.gif" alt="Stepping stones" width="100%"></td>
-<td align="center" width="50%" valign="middle"><br>
+<td colspan="2" align="center"><b>Stepping Stones</b><br><img src="assets/stairs.gif" alt="Stepping stones" width="70%"></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
 
 | Demo | Steps | Description |
 |------|-------|-------------|
-| **Flat** | 25 | A* with body path guidance |
-| **Obstacle** | 23 | Detour around obstacle polygon |
-| **Stones** | 11 | Base plane + elevated stepping stones |
+| **Flat** | 25 | A* with ellipsoid body path guidance |
+| **Obstacle** | 23 | Footsteps detour around an obstacle polygon |
+| **Stones** | 11 | Base plane (h=0) + elevated stepping stones (5–15 cm) |
 
 </td>
 </tr>

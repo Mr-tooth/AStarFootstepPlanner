@@ -42,18 +42,17 @@
 <td align="center" width="50%"><b>平地行走</b><br><img src="assets/flat.gif" alt="平地" width="100%"></td>
 <td align="center" width="50%"><b>障碍物避让</b><br><img src="assets/obstacle.gif" alt="障碍物避让" width="100%"></td>
 </tr>
-</table>
-
-<table>
 <tr>
-<td align="center" width="50%"><b>踏石行走</b><br><img src="assets/stairs.gif" alt="踏石行走" width="100%"></td>
-<td align="center" width="50%" valign="middle"><br>
+<td colspan="2" align="center"><b>踏石行走</b><br><img src="assets/stairs.gif" alt="踏石行走" width="70%"></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
 
 | 演示 | 步数 | 说明 |
 |------|------|------|
-| **平地** | 25 | 身体路径引导 A* |
-| **避障** | 23 | 绕过障碍物多边形 |
-| **踏石** | 11 | 底面平面 + 高起踏石 |
+| **平地** | 25 | 椭圆身体路径引导 A* 规划 |
+| **避障** | 23 | 落脚点绕过障碍物多边形 |
+| **踏石** | 11 | 底面平面 + 高起踏石 (5–15 cm) |
 
 </td>
 </tr>
