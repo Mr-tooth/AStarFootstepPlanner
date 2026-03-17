@@ -39,8 +39,8 @@
 
 <table>
 <tr>
-<td align="center" width="33%"><b>平地行走</b><br><img src="assets/flat_terrain.gif" alt="平地" width="100%"></td>
-<td align="center" width="33%"><b>障碍物避让</b><br><img src="assets/obstacle_avoidance.gif" alt="障碍物避让" width="100%"></td>
+<td align="center" width="33%"><b>平地行走</b><br><img src="assets/flat.gif" alt="平地" width="100%"></td>
+<td align="center" width="33%"><b>障碍物避让</b><br><img src="assets/obstacle.gif" alt="障碍物避让" width="100%"></td>
 <td align="center" width="33%"><b>踏石行走</b><br><img src="assets/stairs.gif" alt="踏石行走" width="100%"></td>
 </tr>
 </table>
