@@ -36,10 +36,11 @@ void AStarFootstepPlanner::initialize(Pose2D<double> _goalPose2D, Pose3D<double>
                 this->param.goalYawProximity,this->stepCostCalculator.heuristicCalculator);
 
     this->solutionFoundFlag = GOAL_NO_REACHED;
-    this->heuclidCoreTool = HeuclidCoreTool();
     this->path.clear();
     this->accuratePath.clear();
+#ifdef HAS_MATPLOTLIB
     this->plotChecker = PlotChecker();
+#endif
     this->countSearch = 0;
 }
 
@@ -66,15 +67,22 @@ void AStarFootstepPlanner::doAStarSearch()
 
         if(this->param.getDebugFlag(this->param))
         {
+#ifdef HAS_MATPLOTLIB
             this->plotChecker.plotExpansion(current,this->neighbors);
+#endif
+#ifdef HAS_MATPLOTLIB
             this->plotChecker.plotFrontier(this->frontier);
+#endif
             if(this->param.isStairAlignMode)
+#ifdef HAS_MATPLOTLIB
                 this->plotChecker.plotGoalposeAndStair(this->goalPose); 
+#endif
+        (void)0;
         }
         
 
         // Node Stop Check
-        this->solutionFoundFlag= this->stepOverChecker.checkIfGoalReached(current,this->neighbors,this->heuclidCoreTool,this->goalL,this->goalR);
+        this->solutionFoundFlag= this->stepOverChecker.checkIfGoalReached(current,this->neighbors,this->goalL,this->goalR);
         
         // Node Cost Cal and Reorder
         if(this->solutionFoundFlag == GOAL_NO_REACHED)
@@ -224,6 +232,8 @@ void AStarFootstepPlanner::plotAccurateSearchOutcome()
     if(this->accuratePath.empty())
         this->calAccurateFootstepSeries();
 
+#ifdef HAS_MATPLOTLIB
     this->plotChecker.plotAccurateSearchOutcome2(this->accuratePath,this->goalPose,this->startPose,this->stepCostCalculator.heuristicCalculator.pathHolder);
+#endif
 }
 _FOOTSTEP_PLANNER_END

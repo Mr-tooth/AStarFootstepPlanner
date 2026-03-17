@@ -174,7 +174,9 @@ int main()
 
     ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder1;
     pathHolder1.initialize({startX,startY,startYaw},goalPose2D);
+#ifdef HAS_MATPLOTLIB
     pathHolder1.plotEllipsoidPath();
+#endif
 
     double xFromGoalToStair = 0.16+0.005;
     double xLenOfStair = 0.5;
@@ -235,10 +237,14 @@ int main()
     
 
     auto accurateOut = footstepPlanner.getOrCalAccurateFootstepSeries();
+#ifdef HAS_MATPLOTLIB
     ljh::path::footstep_planner::PlotChecker pltChecker;
+#endif
     
+#ifdef HAS_MATPLOTLIB
     pltChecker.plotSearchOutcome2(Out,goalPose,startPose);
     pltChecker.plotAccurateSearchOutcome(accurateOut,goalPose,startPose);
+#endif
     footstepPlanner.plotAccurateSearchOutcome();
     // std::cout<<"Collide 1:"<<checker.isTwoFootCollidedAndPlot(Out.at(7))<<std::endl;
     // std::cout<<"Distance of last two: "<<
@@ -287,7 +293,9 @@ int main()
 
     ljh::path::footstep_planner::Simple2DBodyPathHolder pathHolder;
     pathHolder.initialize({startX,startY,startYaw},goalPose2D);
+#ifdef HAS_MATPLOTLIB
     pathHolder.plotEllipsoidPath();
+#endif
 
     // Point2D<double> p10(xFromGoalToStair,yLenOfStair/2);
     // Point2D<double> p11(xFromGoalToStair+xLenOfStair,yLenOfStair/2);
@@ -327,7 +335,9 @@ int main()
     footstepPlanner.calFootstepSeries();
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out2 = footstepPlanner.getFootstepSeries();
     auto accurateOut2 = footstepPlanner.getOrCalAccurateFootstepSeries();
+#ifdef HAS_MATPLOTLIB
     pltChecker.plotSearchOutcome2(Out2,goalPose,startPose);
+#endif
     //pltChecker.plotAccurateSearchOutcome(accurateOut2,goalPose,startPose);
     footstepPlanner.plotAccurateSearchOutcome();
     //pltChecker.plotAccurateSearchOutcome2(accurateOut2,goalPose,startPose,);
@@ -335,7 +345,9 @@ int main()
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out3;
        Out3.push_back(Out2.at(7));
     Out3.push_back(Out2.at(8));
+#ifdef HAS_MATPLOTLIB
     pltChecker.plotSearchOutcome(Out3,goalPose,startPose);
+#endif
 
     std::cout<<"Collide 1:"<<checker.isTwoFootCollided(Out2.at(7))<<std::endl;
     std::cout<<"Collide 2:"<<checker.isTwoFootCollided(Out2.at(8))<<std::endl;

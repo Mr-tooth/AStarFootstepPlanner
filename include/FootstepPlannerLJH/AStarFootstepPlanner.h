@@ -16,6 +16,7 @@
 #include <FootstepPlannerLJH/StepExpansion/ParameterBasedStepExpansion.h>
 #include <FootstepPlannerLJH/StepCheck/FootstepPlannerCompletionChecker.h>
 #include <FootstepPlannerLJH/PlotCheck/PlotChecker.h>
+#include <Heuclid/euclid/tools/HeuclidCoreTool.h>
 
 _FOOTSTEP_PLANNER_BEGIN
 
@@ -61,7 +62,6 @@ private:
     Location start;
     FootstepCompletionChecker stepOverChecker;
     int solutionFoundFlag;
-    HeuclidCoreTool heuclidCoreTool;
 
     std::vector<Location> path;
     std::vector<AccurateFootstep> accuratePath;
@@ -70,11 +70,11 @@ private:
 
 public:
     AStarFootstepPlanner():goalPose2D(),goalPose(),startPose(),startL(),startR(),goalL(),goalR(),stepCostCalculator(),stepExpander(),frontier(),neighbors(),cameFromMap(),costSoFarMap(),wallMap(),param(),startFlag(false),
-         start(),stepOverChecker(),solutionFoundFlag(GOAL_NO_REACHED),heuclidCoreTool(),path(),accuratePath(),countSearch(0),plotChecker() {};
+         start(),stepOverChecker(),solutionFoundFlag(GOAL_NO_REACHED),path(),accuratePath(),countSearch(0),plotChecker() {};
 
     AStarFootstepPlanner(Pose2D<double> _goalPose2D, Pose3D<double> _goalPose, Pose3D<double> _startPose)
         :goalPose2D(_goalPose2D),goalPose(_goalPose),startPose(_startPose),startL(),startR(),goalL(),goalR(),stepCostCalculator(_goalPose,_startPose),stepExpander(),frontier(),neighbors(),cameFromMap(),costSoFarMap(),wallMap(),param(),startFlag(false),
-         start(),stepOverChecker(),solutionFoundFlag(GOAL_NO_REACHED),heuclidCoreTool(),path(),accuratePath(),countSearch(0),plotChecker()
+         start(),stepOverChecker(),solutionFoundFlag(GOAL_NO_REACHED),path(),accuratePath(),countSearch(0),plotChecker()
         {
             this->calLocationFromPose(_startPose, this->startL, this->startR);
             this->calLocationFromPose(_goalPose, this->goalL, this->goalR);

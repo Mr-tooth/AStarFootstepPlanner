@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include <FootstepPlannerLJH/Block/Block.h>
+#ifdef _WIN32
 #include <conio.h>
+#endif
 int main()
 {
     // prepare input 

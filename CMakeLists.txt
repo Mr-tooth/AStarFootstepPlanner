@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.22)
 set(PROJECT_AUTO_RUN_FINALIZE FALSE)
 project(FootstepPlannerLJH VERSION 2.0.0 LANGUAGES CXX)
 
+# --- jrl-cmakemodules required variables ---
+set(PROJECT_URL "https://github.com/Mr-tooth/AStarFootstepPlanner")
+set(PROJECT_DESCRIPTION "A* algorithm-based footstep planner for humanoid robots")
+
 # --- jrl-cmakemodules: three-tier lookup ---
 set(JRL_CMAKE_MODULES "${CMAKE_CURRENT_LIST_DIR}/cmake/jrl-cmakemodules")
 if(EXISTS "${JRL_CMAKE_MODULES}/base.cmake")
@@ -14,12 +18,13 @@ else()
     include(FetchContent)
     FetchContent_Declare("jrl-cmakemodules"
       GIT_REPOSITORY "https://github.com/jrl-umi3218/jrl-cmakemodules.git"
-      GIT_TAG "v0.8.0")
+      GIT_SHALLOW TRUE)
     FetchContent_MakeAvailable("jrl-cmakemodules")
     FetchContent_GetProperties("jrl-cmakemodules" SOURCE_DIR JRL_CMAKE_MODULES)
   endif()
 endif()
 include("${JRL_CMAKE_MODULES}/base.cmake")
+include(GNUInstallDirs)
 
 # --- C++11 ---
 check_minimal_cxx_standard(11 ENFORCE)
@@ -33,7 +38,7 @@ if(NOT Heuclid_FOUND)
   include(FetchContent)
   FetchContent_Declare(Heuclid
     GIT_REPOSITORY "https://github.com/Mr-tooth/Heuclid.git"
-    GIT_TAG "main"
+    GIT_TAG "v2.1"
     GIT_SHALLOW TRUE)
   set(BUILD_TESTING_HEUCID OFF CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(Heuclid)
@@ -42,27 +47,33 @@ else()
   message(STATUS "Heuclid found: ${Heuclid_DIR}")
 endif()
 
-# Eigen3: three-tier lookup (find_package → FetchContent)
-find_package(Eigen3 3.3 QUIET)
-if(NOT Eigen3_FOUND)
-  message(STATUS "Eigen3 not found, fetching...")
+# Eigen3: header-only, INTERFACE target. Follow Heuclid's proven pattern.
+find_package(Eigen3 3.3 QUIET CONFIG)
+if(NOT TARGET Eigen3::Eigen)
+  message(STATUS "Eigen3 not found, fetching 3.4.0 via FetchContent")
   include(FetchContent)
-  FetchContent_Declare(Eigen3
+  FetchContent_Declare(
+    Eigen3
     GIT_REPOSITORY "https://gitlab.com/libeigen/eigen.git"
     GIT_TAG "3.4.0"
-    GIT_SHALLOW TRUE)
-  set(EIGEN_BUILD_TESTING OFF CACHE BOOL "" FORCE)
-  set(EIGEN_BUILD_DOC OFF CACHE BOOL "" FORCE)
-  set(EIGEN_BUILD_PKGCONFIG OFF CACHE BOOL "" FORCE)
-  FetchContent_MakeAvailable(Eigen3)
-  message(STATUS "Eigen3 3.4.0 fetched successfully")
+    GIT_SHALLOW TRUE
+  )
+  FetchContent_GetProperties(Eigen3)
+  if(NOT eigen3_POPULATED)
+    FetchContent_Populate(Eigen3)
+  endif()
+  add_library(Eigen3::Eigen INTERFACE IMPORTED)
+  set_target_properties(Eigen3::Eigen PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${eigen3_SOURCE_DIR}"
+  )
+  set(Eigen3_FOUND TRUE)
+  message(STATUS "Eigen3 fetched: ${eigen3_SOURCE_DIR}")
 else()
-  message(STATUS "Eigen3 found: ${Eigen3_DIR}")
+  message(STATUS "Eigen3 found: ${Eigen3_VERSION}")
 endif()
 
-# LBlocks: header-only, use submodule path
-set(LBlocks_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/LBlocks")
-find_package(LBlocks REQUIRED PATHS ${LBlocks_DIR} NO_DEFAULT_PATH)
+# LBlocks: header-only, use submodule path directly (no find_package needed)
+set(LBlocks_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/LBlocks/include")
 
 # matplotlib_cpp: optional (for visualization)
 find_package(matplotlib_cpp QUIET)
@@ -95,8 +106,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
-target_link_libraries(${PROJECT_NAME} PUBLIC Heuclid Eigen3::Eigen)
-target_include_directories(${PROJECT_NAME} PRIVATE ${LBlocks_DIR}/include)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC heuclid Eigen3::Eigen)
+target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${LBlocks_INCLUDE_DIR}>)
 
 # --- matplotlib_cpp: 条件启用 ---
 if(matplotlib_cpp_FOUND)
@@ -127,6 +139,12 @@ if(BUILD_TESTING)
     target_link_libraries(block_test PRIVATE ${PROJECT_NAME})
     add_test(NAME block_test COMMAND block_test)
 endif()
+
+# --- 安装 ---
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets)
+install(DIRECTORY include/FootstepPlannerLJH
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
 
 # --- jrl-cmakemodules finalize ---
 setup_project_finalize()
