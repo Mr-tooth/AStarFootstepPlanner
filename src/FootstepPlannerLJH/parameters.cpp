@@ -57,7 +57,7 @@ CONST double parameters:: HWPOfFinalFinalTurnDistacne = 1.0;
 CONST double parameters:: goalDistanceProximity = 0.03;
 CONST double parameters:: goalYawProximity = 5*pi/180;
 
-CONST bool parameters:: debugFlag = true;
+CONST bool parameters:: debugFlag = false;
 CONST bool parameters:: isStairAlignMode = false;
 CONST bool parameters:: followBodyPath = false;
 CONST ljh::heuclid::ConvexPolygon2D parameters:: stairPolygon;
