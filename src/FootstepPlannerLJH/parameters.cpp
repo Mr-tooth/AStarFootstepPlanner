@@ -61,6 +61,8 @@ CONST bool parameters:: debugFlag = true;
 CONST bool parameters:: isStairAlignMode = false;
 CONST bool parameters:: followBodyPath = false;
 CONST ljh::heuclid::ConvexPolygon2D parameters:: stairPolygon;
+CONST std::vector<ljh::heuclid::ConvexPolygon2D> parameters:: landingZonePolygons;
+CONST bool parameters:: useLandingZoneCheck = false;
 CONST double parameters:: footPolygonExtendedLength = 0.0;
 
 // parameters::parameters(/* args */)
@@ -92,6 +94,8 @@ bool   parameters:: getDebugFlag(const parameters& param){ return param.debugFla
 bool   parameters:: getStairAlignMode(const parameters& param){return param.isStairAlignMode; }
 bool   parameters:: getFollowBodyPath(const parameters& param){return param.followBodyPath; }
 ljh::heuclid::ConvexPolygon2D parameters:: getStairPolygon(const parameters& param){return param.stairPolygon;}
+const std::vector<ljh::heuclid::ConvexPolygon2D>& parameters::getLandingZonePolygons(const parameters& param){return param.landingZonePolygons;}
+bool parameters::getUseLandingZoneCheck(const parameters& param){return param.useLandingZoneCheck;}
 double parameters:: getFootPolygonExtendedLength(const parameters& param){return param.footPolygonExtendedLength;}
 double parameters:: getHWPOfWalkDistacne(const parameters& param){return param.HWPOfWalkDistacne;}
 double parameters:: getHWPOfInitialTurnDistacne(const parameters& param){return param.HWPOfInitialTurnDistacne;}
@@ -130,6 +134,16 @@ void parameters::SetStairPolygon(parameters& param, std::vector<Point2D<double> 
     param.stairPolygon.setVertexBuffer(stairBuffer);
     param.stairPolygon.setNumOfVertices(numOfVertices);
     param.stairPolygon.setClockwiseOrder(clockwiseOrdered);
+}
+
+void parameters::SetLandingZonePolygons(parameters& param, const std::vector<ljh::heuclid::ConvexPolygon2D>& polygons)
+{
+    param.landingZonePolygons = polygons;
+}
+
+void parameters::SetUseLandingZoneCheck(parameters& param, const bool& change)
+{
+    param.useLandingZoneCheck = change;
 }
 void parameters::SetFootPolygonExtendedLength(const parameters& param, const double& change)
 {

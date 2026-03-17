@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg)](https://en.cppreference.com/w/cpp/11)
 [![CMake](https://img.shields.io/badge/CMake-3.22%2B-blue.svg)](https://cmake.org/)
-[![Heuclid](https://img.shields.io/badge/Heuclid-v2.0-blue.svg)](https://github.com/Mr-tooth/Heuclid)
+[![Heuclid](https://img.shields.io/badge/Heuclid-v2.2-blue.svg)](https://github.com/Mr-tooth/Heuclid)
 
 [中文](README_CN.md)
 
@@ -56,7 +56,15 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
 
 - ✅ Flat terrain: start → goal footstep sequence
 - ✅ Obstacle avoidance: navigating around forbidden regions
-- ⏳ Stair climbing: constrained footstep planning on stairs
+- ✅ Stair climbing: constrained footstep planning on stairs (terrain patch landing zones)
+
+### Multi-Level Stair Climbing
+
+<p align="center">
+  <img src="assets/stairs.gif" alt="Multi-level stair climbing footstep planning" width="640">
+</p>
+
+> Landing zone constraint: each footstep must land fully inside a terrain patch (blue dashed squares). 22 steps navigate an L-shaped stair path from start to goal, demonstrating constrained planning with discrete terrain regions.
 
 ## Quick Start
 
