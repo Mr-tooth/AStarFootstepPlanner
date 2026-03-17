@@ -38,7 +38,7 @@ if(NOT Heuclid_FOUND)
   include(FetchContent)
   FetchContent_Declare(Heuclid
     GIT_REPOSITORY "https://github.com/Mr-tooth/Heuclid.git"
-    GIT_TAG "v2.1"
+    GIT_TAG "v2.2"
     GIT_SHALLOW TRUE)
   set(BUILD_TESTING_HEUCID OFF CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(Heuclid)
@@ -137,17 +137,11 @@ if(MATPLOTLIB_CPP_AVAILABLE)
     endif()
     message(STATUS "matplotlib_cpp enabled — PlotCheck module included")
 
-    # --- Demo GIF generator ---
-    add_executable(demo_flat demo/demo_flat.cpp)
-    target_link_libraries(demo_flat PRIVATE ${PROJECT_NAME})
-    target_compile_definitions(demo_flat PRIVATE HAS_MATPLOTLIB)
-    if(matplotlib_cpp_FOUND)
-        target_include_directories(demo_flat PRIVATE ${matplotlib_cpp_INCLUDE_DIRS})
-        target_link_libraries(demo_flat PRIVATE ${matplotlib_LIBS})
-    else()
-        target_include_directories(demo_flat PRIVATE ${MATPLOTLIB_CPP_INCLUDE})
-        target_link_libraries(demo_flat PRIVATE Python3::Python Python3::NumPy)
-    endif()
+    # --- Demo GIF generator (data export only, visualization in Python) ---
+    add_executable(demo_export demo/demo_export.cpp)
+    target_link_libraries(demo_export PRIVATE ${PROJECT_NAME})
+    add_executable(demo_obstacle demo/demo_obstacle.cpp)
+    target_link_libraries(demo_obstacle PRIVATE ${PROJECT_NAME})
 else()
     message(STATUS "matplotlib_cpp not found — PlotCheck module disabled")
 endif()
