@@ -39,17 +39,25 @@
 
 <table>
 <tr>
-<td align="center" width="33%"><b>平地行走</b><br><img src="assets/flat.gif" alt="平地" width="100%"></td>
-<td align="center" width="33%"><b>障碍物避让</b><br><img src="assets/obstacle.gif" alt="障碍物避让" width="100%"></td>
-<td align="center" width="33%"><b>踏石行走</b><br><img src="assets/stairs.gif" alt="踏石行走" width="100%"></td>
+<td align="center" width="50%"><b>平地行走</b><br><img src="assets/flat.gif" alt="平地" width="100%"></td>
+<td align="center" width="50%"><b>障碍物避让</b><br><img src="assets/obstacle.gif" alt="障碍物避让" width="100%"></td>
 </tr>
 </table>
 
-| 演示 | 说明 | 步数 |
+<table>
+<tr>
+<td align="center" width="50%"><b>踏石行走</b><br><img src="assets/stairs.gif" alt="踏石行走" width="100%"></td>
+<td align="center" width="50%" valign="middle"><br>
+
+| 演示 | 步数 | 说明 |
 |------|------|------|
-| **平地行走** | A* 从起点到终点，椭圆身体路径引导。红=左脚，橙=右脚。 | 25 |
-| **障碍物避让** | 落脚点绕过障碍物多边形，产生自然绕行。 | 24 |
-| **踏石行走** | 底面平面 (h=0) + 高起踏石 (5–15 cm)。蓝色渐变=更高的石块。落地约束确保脚踩在有效地形上。 | 11 |
+| **平地** | 25 | 身体路径引导 A* |
+| **避障** | 23 | 绕过障碍物多边形 |
+| **踏石** | 11 | 底面平面 + 高起踏石 |
+
+</td>
+</tr>
+</table>
 
 ## 快速开始
 
