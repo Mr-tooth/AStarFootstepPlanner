@@ -109,6 +109,11 @@ def main(mode="flat"):
     if terrain_patches:
         print(f"Loaded {len(terrain_patches)} terrain patches")
 
+    # Distinct colors for each terrain patch (like reference images)
+    PATCH_COLORS = ['#00ffcc', '#0088ff', '#ff00ff', '#ffcc00', '#00ff00',
+                    '#ff4444', '#8844ff', '#ff8800', '#44ddff', '#dd44ff',
+                    '#44ff44', '#ff4488']
+
     # Parse start/goal (handle both 'pose' and 'type' column names)
     start_x, start_y, start_yaw = 0, 0, 0
     goal_x, goal_y, goal_yaw = 0, 0, 0
@@ -161,12 +166,13 @@ def main(mode="flat"):
         ax.set_ylim(y_min, y_max)
         ax.set_axis_off()
 
-        # Draw terrain patches (stairs mode)
+        # Draw terrain patches (stairs mode) — distinct color per patch, like reference
         for i, (tx, ty) in enumerate(terrain_patches):
+            color = PATCH_COLORS[i % len(PATCH_COLORS)]
             patch = MplPolygon(list(zip(tx, ty)),
-                              closed=True, facecolor=COLOR_TERRAIN,
-                              edgecolor=COLOR_TERRAIN_EDGE, alpha=0.45,
-                              linewidth=1.5, zorder=1.5, linestyle='--')
+                              closed=True, facecolor=color,
+                              edgecolor='white', alpha=0.45,
+                              linewidth=2.0, zorder=1.5)
             ax.add_patch(patch)
 
         # Draw obstacle polygon
@@ -243,8 +249,8 @@ def main(mode="flat"):
         ]
         if terrain_patches:
             legend_elements.append(
-                Line2D([0], [0], color=COLOR_TERRAIN_EDGE, linewidth=1.5,
-                       linestyle='--', label='Terrain patches', fillstyle='bottom', alpha=0.45))
+                Line2D([0], [0], color='#00ffcc', linewidth=2,
+                       label='Terrain patches', alpha=0.7))
         if obstacle_x:
             legend_elements.append(
                 Line2D([0], [0], color="#c0392b", linewidth=2, label="Obstacle", fill=True, alpha=0.4))
