@@ -321,14 +321,14 @@ def main(mode="flat"):
         if obstacle_x:
             legend_elements.append(
                 Line2D([0], [0], color="#c0392b", linewidth=2, label="Obstacle", alpha=0.5))
-        ax.legend(handles=legend_elements, loc='lower right', fontsize=11,
+        ax.legend(handles=legend_elements, loc='lower left', fontsize=11,
                   framealpha=0.95, edgecolor='#ddd')
 
         # --- Step counter ---
         step_label = f"{frame} / {n_steps}" if frame > 0 else f"0 / {n_steps}"
-        ax.text(0.02, 0.98, f"Step {step_label}", transform=ax.transAxes,
+        ax.text(0.02, 0.02, f"Step {step_label}", transform=ax.transAxes,
                 fontsize=13, color='#7f8c8d', fontfamily='monospace',
-                ha='left', va='top')
+                ha='left', va='bottom')
 
         fname = f"{outDir}/frame_{frame:03d}.png"
         plt.savefig(fname, dpi=120, bbox_inches='tight', facecolor='white', pad_inches=0.05)
