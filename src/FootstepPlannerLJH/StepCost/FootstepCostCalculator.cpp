@@ -32,7 +32,10 @@ cost_t FootstepCostCalculator::computeEdgeCost(Location candidateNode, Location 
                     //+this->zOffset   * this->param.edgecost_w_h
                     +this->param.edgecost_w_static;
 
-    // Add body path deviation penalty to edge cost (always when weight > 0)
+    // Body path deviation penalty: penalizes footsteps that stray from the
+    // ellipsoid body path. Uses squared distance from getClosestdPointsYawfromPathToGivenPoint().
+    // Tuning: edgecost_w_pathdev ~3.0–15.0 for moderate guidance, higher for stronger tracking.
+    // @note pfp.distance is the squared Euclidean distance to the closest waypoint.
     if(this->param.edgecost_w_pathdev > 0.0)
     {
         PointFromPathInfo pfp;

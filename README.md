@@ -44,7 +44,7 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
   <img src="assets/flat_terrain.gif" alt="Flat terrain footstep planning" width="640">
 </p>
 
-> A* footstep planning from start (blue dot) to goal (red arrow). Red = left foot, orange = right foot. 19 discrete footsteps with body path (green dashed line).
+> A* footstep planning from start (blue dot) to goal (red diamond). Red = left foot, orange = right foot. 25 discrete footsteps evenly straddling the ellipsoid body path (blue line with direction arrows).
 
 - ✅ Flat terrain: start → goal footstep sequence
 - ⏳ Obstacle avoidance: navigating around forbidden regions

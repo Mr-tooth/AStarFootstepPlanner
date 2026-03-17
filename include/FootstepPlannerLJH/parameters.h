@@ -50,6 +50,9 @@ public:
     static CONST double edgecost_w_h;
     static CONST double edgecost_w_area;
     static CONST double edgecost_w_static;
+    /** @brief Weight for body path deviation penalty in edge cost.
+     *  Penalizes footsteps that stray from the ellipsoid body path.
+     *  Default: 0.0 (disabled). Typical tuning: 3.0–15.0. */
     static CONST double edgecost_w_pathdev;
 
     //StepNodeExpansionCheck
@@ -93,6 +96,11 @@ public:
 
     // constraints for stair alignment// load in the step expansion
     static CONST bool isStairAlignMode;
+    /** @brief Enable ellipsoid body path following heuristic in A* search.
+     *  When true, the planner uses computeFollowEllipsoidPath() to guide
+     *  footsteps along the body path from start to goal.
+     *  Independent of isStairAlignMode (no stair constraints applied).
+     *  @note Requires Simple2DBodyPathHolder to be initialized via HeuristicCalculator. */
     static CONST bool followBodyPath;
     static CONST ljh::heuclid::ConvexPolygon2D stairPolygon;
     static CONST double footPolygonExtendedLength;
@@ -107,6 +115,7 @@ public:
     double getEdgeCostHeight(const parameters& param);
     double getEdgeCostArea(const parameters& param);
     double getEdgeCostStaticPerStep(const parameters& param);
+    /** @brief Get body path deviation edge cost weight. */
     double getEdgeCostPathDev(const parameters& param);
     double getMaxStepReach(const parameters& param);
     double getMinStepLength(const parameters& param);
@@ -125,6 +134,7 @@ public:
     double getGoalYawProximity(const parameters& param);
     bool   getDebugFlag(const parameters& param);
     bool   getStairAlignMode(const parameters& param);
+    /** @brief Check if body path following heuristic is enabled. */
     bool   getFollowBodyPath(const parameters& param);
     ljh::heuclid::ConvexPolygon2D getStairPolygon(const parameters& param);
     double getFootPolygonExtendedLength(const parameters& param);
@@ -140,6 +150,7 @@ public:
     void SetEdgeCostHeight(parameters& param, const double& change);
     void SetEdgeCostArea(parameters& param, const double& change);
     void SetEdgeCostStaticPerStep(parameters& param, const double& change);
+    /** @brief Set body path deviation edge cost weight. @param change Weight value (0.0 to disable). */
     void SetEdgeCostPathDev(parameters& param, const double& change);
     void SetMaxStepReach(parameters& param, const double& change);
     void SetMinStepLength(parameters& param, const double& change);
@@ -158,6 +169,7 @@ public:
     void SetGoalYawProximity(parameters& param, const double& change);
     void SetDebugFlag(parameters& param, const bool& change);
     void SetStairAlignMode(parameters& param, const bool& change);
+    /** @brief Enable/disable body path following heuristic (independent of stair mode). */
     void SetFollowBodyPath(parameters& param, const bool& change);
     void SetStairPolygon(parameters& param, std::vector<Point2D<double> > stairBuffer, int numOfVertices, bool clockwiseOrdered);
     void SetFootPolygonExtendedLength(const parameters& param, const double& change);

@@ -96,7 +96,8 @@ void AStarFootstepPlanner::doAStarSearch()
                     this->costSoFarMap[next] = new_cost;
 
                     cost_t priority;
-                    if(this->param.isStairAlignMode)
+                    // Use body path following heuristic when enabled (separate from stair mode)
+                    if(this->param.getFollowBodyPath(this->param))
                         priority = new_cost + this->stepCostCalculator.computeHeuristicCostWithEllipsiodPath(next);
                     else
                         priority = new_cost + this->stepCostCalculator.computeHeuristicCost(next);
