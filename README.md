@@ -37,34 +37,19 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
 
 ## Demo
 
+<table>
+<tr>
+<td align="center" width="33%"><b>Flat Terrain</b><br><img src="assets/flat_terrain.gif" alt="Flat terrain" width="100%"></td>
+<td align="center" width="33%"><b>Obstacle Avoidance</b><br><img src="assets/obstacle_avoidance.gif" alt="Obstacle avoidance" width="100%"></td>
+<td align="center" width="33%"><b>Stepping Stones</b><br><img src="assets/stairs.gif" alt="Stepping stones" width="100%"></td>
+</tr>
+</table>
 
-### Flat Terrain
-
-<p align="center">
-  <img src="assets/flat_terrain.gif" alt="Flat terrain footstep planning" width="640">
-</p>
-
-> A* footstep planning from start (blue dot) to goal (red diamond). Red = left foot, orange = right foot. 25 discrete footsteps evenly straddling the ellipsoid body path (blue line with direction arrows).
-
-### Obstacle Avoidance
-
-<p align="center">
-  <img src="assets/obstacle_avoidance.gif" alt="Obstacle avoidance footstep planning" width="640">
-</p>
-
-> Footsteps navigate around a gray obstacle block placed on the body path. The planner rejects footsteps intersecting the obstacle polygon, producing a natural detour (24 steps).
-
-- ✅ Flat terrain: start → goal footstep sequence
-- ✅ Obstacle avoidance: navigating around forbidden regions
-- ✅ Stair climbing: constrained footstep planning on stairs (terrain patch landing zones)
-
-### Multi-Level Stair Climbing
-
-<p align="center">
-  <img src="assets/stairs.gif" alt="Multi-level stair climbing footstep planning" width="640">
-</p>
-
-> Landing zone constraint: each footstep must land fully inside a terrain patch (blue dashed squares). 22 steps navigate an L-shaped stair path from start to goal, demonstrating constrained planning with discrete terrain regions.
+| Demo | Description | Steps |
+|------|-------------|-------|
+| **Flat Terrain** | A* from start to goal with ellipsoid body path guidance. Red = left foot, orange = right foot. | 25 |
+| **Obstacle Avoidance** | Footsteps navigate around an obstacle polygon, producing a natural detour. | 24 |
+| **Stepping Stones** | Base plane (h=0) + elevated stepping stones (5–15 cm). Blue gradient = taller stones. Landing zone constraint keeps feet on valid terrain. | 11 |
 
 ## Quick Start
 
