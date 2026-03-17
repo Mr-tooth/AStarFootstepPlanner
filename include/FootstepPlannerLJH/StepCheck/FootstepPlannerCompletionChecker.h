@@ -8,7 +8,7 @@
 #include <FootstepPlannerLJH/Title.h>
 #include <FootstepPlannerLJH/StepCost/HeuristicCalculator.h>
 #include <Heuclid/euclid/tools/HeuclidCoreTool.h>
-using ljh::heuclid::HeuclidCoreTool;
+
 
 #define GOAL_REACHED_SPECIFIC 2
 #define GOAL_REACHED_PROXIMITY 1
@@ -57,7 +57,7 @@ public:
     
     void initilize(Pose2D<double> _goalMidFootPose,Location _startNode,double _goalDistanceProximity,double _goalYawProximity, HeuristicCalculator heuristic);
 
-    int checkIfGoalReached(Location current, std::vector<Location> neighbors, HeuclidCoreTool heuclidCoreTool, Location _goalL, Location _goalR);
+    int checkIfGoalReached(Location current, std::vector<Location> neighbors, Location _goalL, Location _goalR);
 
     bool isProximityModeEnabled();
     static bool compareNode(Location a, Location b);

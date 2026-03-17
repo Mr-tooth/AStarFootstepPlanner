@@ -56,7 +56,10 @@ int Block::run()
         this->DataOutput.FootholdNodeList = this->footstepPlanner.getFootstepSeries();
 
         if(this->plotFlag) 
+#ifdef HAS_MATPLOTLIB
             this->pltChecker.plotSearchOutcome2(this->DataOutput.FootholdNodeList,this->goalPose3D,this->startPose3D);
+#endif
+    (void)0;
     }
 
     if(*this->DataInput.KeyPress=='z'||*this->DataInput.KeyPress=='Z')

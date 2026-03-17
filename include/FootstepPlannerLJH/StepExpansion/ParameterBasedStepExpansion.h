@@ -56,7 +56,7 @@ private:
 public:
     ParameterBasedStepExpansion(/* args */)
         :latPoForFunc(),param(),xOffsets(),yOffsets(),yawOffsets(),fullExpansion(),partialExpansionEnabled(false),
-        Manager(),expansionManager(),stepConstraintChecker(),midStepLength(0.0),midStepWidth(0.0),midStepYaw(0.0),childStep(),midXY(),() {};
+        Manager(),expansionManager(),stepConstraintChecker(),midStepLength(0.0),midStepWidth(0.0),midStepYaw(0.0),childStep(),midXY() {};
     //~ParameterBasedStepExpansion();
 
     /**

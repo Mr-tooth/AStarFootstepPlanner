@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # --- Ubuntu: install Python for matplotlib ---
+      - name: "[Ubuntu] Install Python dependencies"
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-dev python3-matplotlib python3-numpy
+
+      # --- macOS: install Python for matplotlib ---
+      - name: "[macOS] Install Python dependencies"
+        if: runner.os == 'macOS'
+        run: |
+          brew install python3
+          pip3 install --break-system-packages matplotlib numpy
+          echo "Python3_ROOT_DIR=$(brew --prefix python3)" >> $GITHUB_ENV
+
+      # --- Windows: install Python for matplotlib ---
+      - name: "[Windows] Install Python dependencies"
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          pip install matplotlib numpy
+          # Find Python installation path
+          $pyPath = (python -c "import sys; print(sys.prefix)")
+          echo "Python3_ROOT_DIR=$pyPath" >> $env:GITHUB_ENV
+
+      # --- Configure ---
+      - name: Configure CMake
+        run: >
+          cmake -B build
+          -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+          -DBUILD_TESTING=ON
+          ${{ runner.os == 'Windows' && '-G "Visual Studio 17 2022"' || '' }}
+
+      # --- Build ---
+      - name: Build
+        run: cmake --build build --config ${{ env.BUILD_TYPE }} ${{ runner.os != 'Windows' && '-j$(nproc)' || '' }}
+
+      # --- Test ---
+      - name: Test
+        run: ctest --test-dir build --build-config ${{ env.BUILD_TYPE }} --output-on-failure
+
+  # --- Doxygen docs (Ubuntu only) ---
+  docs:
+    name: Documentation
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Doxygen
+        run: sudo apt-get install -y doxygen graphviz
+
+      - name: Configure
+        run: cmake -B build -DBUILD_DOCUMENTATION=ON
+
+      - name: Build docs
+        run: cmake --build build --target footstepplanner-doc || echo "Doxygen target not yet configured, skipping"
