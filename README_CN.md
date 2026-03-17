@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg)](https://en.cppreference.com/w/cpp/11)
 [![CMake](https://img.shields.io/badge/CMake-3.22%2B-blue.svg)](https://cmake.org/)
-[![Heuclid](https://img.shields.io/badge/Heuclid-v2.0-blue.svg)](https://github.com/Mr-tooth/Heuclid)
+[![Heuclid v2.2-blue.svg)](https://github.com/Mr-tooth/Heuclid)
 
 [English](README.md)
 
@@ -37,28 +37,19 @@
 
 ## 演示
 
+<table>
+<tr>
+<td align="center" width="33%"><b>平地行走</b><br><img src="assets/flat_terrain.gif" alt="平地" width="100%"></td>
+<td align="center" width="33%"><b>障碍物避让</b><br><img src="assets/obstacle_avoidance.gif" alt="障碍物避让" width="100%"></td>
+<td align="center" width="33%"><b>踏石行走</b><br><img src="assets/stairs.gif" alt="踏石行走" width="100%"></td>
+</tr>
+</table>
 
-### 平地场景
-
-<p align="center">
-  <img src="assets/flat_terrain.gif" alt="平地落脚点规划" width="640">
-</p>
-
-> A* 落脚点规划：从起点（蓝色方块）到目标点（红色菱形）。红色=左脚，橙色=右脚。25 个离散落脚点均匀分布在椭圆身体路径（蓝色曲线，带方向箭头）两侧。
-
-### 障碍物避障
-
-<p align="center">
-  <img src="assets/obstacle_avoidance.gif" alt="障碍物避落脚点规划" width="640">
-</p>
-
-> 落脚点绕过放置在身体路径上的灰色障碍物块。规划器会拒绝与障碍物多边形相交的落脚点，产生自然的绕行路径（24 步）。
-
-- ✅ 平地：起点 → 终点落脚点序列
-- ✅ 障碍物回避：绕开禁止区域
-- ⏳ 楼梯攀爬：楼梯约束下的落脚点规划
-> - 障碍物避让：绕过禁区的路径规划
-> - 楼梯场景：约束条件下的楼梯落脚点规划
+| 演示 | 说明 | 步数 |
+|------|------|------|
+| **平地行走** | A* 从起点到终点，椭圆身体路径引导。红=左脚，橙=右脚。 | 25 |
+| **障碍物避让** | 落脚点绕过障碍物多边形，产生自然绕行。 | 24 |
+| **踏石行走** | 底面平面 (h=0) + 高起踏石 (5–15 cm)。蓝色渐变=更高的石块。落地约束确保脚踩在有效地形上。 | 11 |
 
 ## 快速开始
 
@@ -135,7 +126,7 @@ int main()
 │              Simple2DBodyPathPlanner                        │
 │                 (身体路径引导)                                │
 ├─────────────────────────────────────────────────────────────┤
-│                      Heuclid v2.0                           │
+│                      Heuclid v2.2                           │
 │           (Pose, Vector, ConvexPolygon, Tools)              │
 ├─────────────────────────────────────────────────────────────┤
 │                   Eigen3 (线性代数)                          │
@@ -163,7 +154,7 @@ int main()
 
 | 依赖 | 版本 | 必需 | 自动获取 |
 |------|------|------|----------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ | ✅ (GitHub) |
+| [Heuclid v2.2+ | ✅ | ✅ (GitHub) |
 | [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ | ✅ (GitLab) |
 | [LBlocks](https://github.com/hexb66/LBlocks) | 最新 | ✅ | ✅ (submodule) |
 | [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ 可选 | ❌ (需 Python) |

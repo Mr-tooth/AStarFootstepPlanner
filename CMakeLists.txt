@@ -38,7 +38,7 @@ if(NOT Heuclid_FOUND)
   include(FetchContent)
   FetchContent_Declare(Heuclid
     GIT_REPOSITORY "https://github.com/Mr-tooth/Heuclid.git"
-    GIT_TAG "v2.2"
+    GIT_TAG "v2.4"
     GIT_SHALLOW TRUE)
   set(BUILD_TESTING_HEUCID OFF CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(Heuclid)
@@ -142,6 +142,8 @@ if(MATPLOTLIB_CPP_AVAILABLE)
     target_link_libraries(demo_export PRIVATE ${PROJECT_NAME})
     add_executable(demo_obstacle demo/demo_obstacle.cpp)
     target_link_libraries(demo_obstacle PRIVATE ${PROJECT_NAME})
+    add_executable(demo_stairs demo/demo_stairs.cpp)
+    target_link_libraries(demo_stairs PRIVATE ${PROJECT_NAME})
 else()
     message(STATUS "matplotlib_cpp not found — PlotCheck module disabled")
 endif()
