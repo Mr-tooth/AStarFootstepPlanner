@@ -17,6 +17,7 @@ CONST double parameters:: edgecost_w_yaw    = 4;
 CONST double parameters:: edgecost_w_h      = 1;
 CONST double parameters:: edgecost_w_area   = 1;
 CONST double parameters:: edgecost_w_static = 1;
+CONST double parameters:: edgecost_w_pathdev = 0.0;
 
 // NodeCheck
 CONST double parameters:: MaxStepReach = sqrt(0.26*0.26 + 0.2*0.2);//0.26;//(m)
@@ -58,6 +59,7 @@ CONST double parameters:: goalYawProximity = 5*pi/180;
 
 CONST bool parameters:: debugFlag = true;
 CONST bool parameters:: isStairAlignMode = false;
+CONST bool parameters:: followBodyPath = false;
 CONST ljh::heuclid::ConvexPolygon2D parameters:: stairPolygon;
 CONST double parameters:: footPolygonExtendedLength = 0.0;
 
@@ -70,6 +72,7 @@ double parameters:: getEdgeCostHeight(const parameters& param){ return param.edg
 double parameters:: getEdgeCostYaw(const parameters& param){ return param.edgecost_w_d;} 
 double parameters:: getEdgeCostArea(const parameters& param){ return param.edgecost_w_area; }
 double parameters:: getEdgeCostStaticPerStep(const parameters& param){ return param.edgecost_w_static; }
+double parameters:: getEdgeCostPathDev(const parameters& param){ return param.edgecost_w_pathdev; }
 double parameters:: getMaxStepReach(const parameters& param){ return param.MaxStepReach; }
 double parameters:: getMinStepLength(const parameters& param){ return param.MinStepLength; }
 double parameters:: getMaxStepLength(const parameters& param){ return param.MaxStepLength; }
@@ -87,6 +90,7 @@ double parameters:: getGoalDistanceProximity(const parameters& param){ return pa
 double parameters:: getGoalYawProximity(const parameters& param){ return param.goalYawProximity; }
 bool   parameters:: getDebugFlag(const parameters& param){ return param.debugFlag;}
 bool   parameters:: getStairAlignMode(const parameters& param){return param.isStairAlignMode; }
+bool   parameters:: getFollowBodyPath(const parameters& param){return param.followBodyPath; }
 ljh::heuclid::ConvexPolygon2D parameters:: getStairPolygon(const parameters& param){return param.stairPolygon;}
 double parameters:: getFootPolygonExtendedLength(const parameters& param){return param.footPolygonExtendedLength;}
 double parameters:: getHWPOfWalkDistacne(const parameters& param){return param.HWPOfWalkDistacne;}
@@ -102,6 +106,7 @@ void parameters::SetEdgeCostYaw(parameters& param, const double& change){ param.
 void parameters::SetEdgeCostHeight(parameters& param, const double& change){ param.edgecost_w_h = change;}
 void parameters::SetEdgeCostArea(parameters& param, const double& change){ param.edgecost_w_area = change;}
 void parameters::SetEdgeCostStaticPerStep(parameters& param, const double& change){ param.edgecost_w_static = change;}
+void parameters::SetEdgeCostPathDev(parameters& param, const double& change){ param.edgecost_w_pathdev = change;}
 void parameters::SetMaxStepReach(parameters& param, const double& change){ param.MaxStepReach = change;}
 void parameters::SetMinStepLength(parameters& param, const double& change){ param.MinStepLength = change;}
 void parameters::SetMaxStepLength(parameters& param, const double& change){ param.MaxStepLength = change;}
@@ -119,6 +124,7 @@ void parameters::SetGoalDistanceProximity(parameters& param, const double& chang
 void parameters::SetGoalYawProximity(parameters& param, const double& change){ param.goalYawProximity = change;}
 void parameters::SetDebugFlag(parameters& param, const bool& change){ param.debugFlag = change;}
 void parameters::SetStairAlignMode(parameters& param, const bool& change){param.isStairAlignMode = change;}
+void parameters::SetFollowBodyPath(parameters& param, const bool& change){param.followBodyPath = change;}
 void parameters::SetStairPolygon(parameters& param, std::vector<Point2D<double> > stairBuffer, int numOfVertices, bool clockwiseOrdered)
 {
     param.stairPolygon.setVertexBuffer(stairBuffer);
