@@ -36,7 +36,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install python3
-          pip3 install matplotlib numpy
+          pip3 install --break-system-packages matplotlib numpy
           echo "Python3_ROOT_DIR=$(brew --prefix python3)" >> $GITHUB_ENV
 
       # --- Windows: install Python for matplotlib ---

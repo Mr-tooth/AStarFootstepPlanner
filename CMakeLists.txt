@@ -38,7 +38,7 @@ if(NOT Heuclid_FOUND)
   include(FetchContent)
   FetchContent_Declare(Heuclid
     GIT_REPOSITORY "https://github.com/Mr-tooth/Heuclid.git"
-    GIT_TAG "main"
+    GIT_TAG "v2.1"
     GIT_SHALLOW TRUE)
   set(BUILD_TESTING_HEUCID OFF CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(Heuclid)
@@ -107,19 +107,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-# Heuclid sources (header-only transition — compile remaining .cpp files)
-set(HEUCLID_SOURCES
-    ${heuclid_SOURCE_DIR}/src/Heuclid/euclid/orientation/Orientation2D.cpp
-    ${heuclid_SOURCE_DIR}/src/Heuclid/euclid/tools/HeuclidCoreTool.cpp
-    ${heuclid_SOURCE_DIR}/src/Heuclid/geometry/ConvexPolygon2D.cpp
-    ${heuclid_SOURCE_DIR}/src/Heuclid/geometry/Line2D.cpp
-    ${heuclid_SOURCE_DIR}/src/Heuclid/geometry/tools/HeuclidGeometryTools.cpp
-    ${heuclid_SOURCE_DIR}/src/Heuclid/geometry/tools/HeuclidPolygonTools.cpp
-)
-target_sources(${PROJECT_NAME} PRIVATE ${HEUCLID_SOURCES})
-
 target_link_libraries(${PROJECT_NAME} PUBLIC heuclid Eigen3::Eigen)
-target_include_directories(${PROJECT_NAME} PUBLIC ${LBlocks_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${LBlocks_INCLUDE_DIR}>)
 
 # --- matplotlib_cpp: 条件启用 ---
 if(matplotlib_cpp_FOUND)
