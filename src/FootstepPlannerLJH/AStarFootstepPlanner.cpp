@@ -48,15 +48,13 @@ void AStarFootstepPlanner::initialize(Pose2D<double> _goalPose2D, Pose3D<double>
 
 void AStarFootstepPlanner::doAStarSearch()
 {
-    
+
     this->frontier.put(this->start,cost_t(0));
     this->cameFromMap[this->start] = this->start;
     this->costSoFarMap[this->start] = cost_t(0) + this->stepCostCalculator.heuristicCalculator.compute(this->start);
 
-    // plt::figure();
-    // plt::ion();
     while(!frontier.empty())
-    {   
+    {
         if(this->param.getDebugFlag(this->param))
             std::cout<<++countSearch<<std::endl;
 
