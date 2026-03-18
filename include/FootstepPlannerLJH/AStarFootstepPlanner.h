@@ -69,6 +69,9 @@ private:
     PlotChecker plotChecker;
 
 public:
+    /** @brief Access parameters for configuration (e.g. SetUseFastStairCheck). */
+    parameters& getParamRef() { return this->param; }
+
     AStarFootstepPlanner():goalPose2D(),goalPose(),startPose(),startL(),startR(),goalL(),goalR(),stepCostCalculator(),stepExpander(),frontier(),neighbors(),cameFromMap(),costSoFarMap(),wallMap(),param(),startFlag(false),
          start(),stepOverChecker(),solutionFoundFlag(GOAL_NO_REACHED),path(),accuratePath(),countSearch(0),plotChecker() {};
 

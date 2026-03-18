@@ -122,6 +122,12 @@ public:
     static CONST std::vector<ljh::heuclid::ConvexPolygon2D> landingZonePolygons;
     static CONST bool useLandingZoneCheck;
 
+    /** @brief When true, use fast vertex-inside check for stair/obstacle collision.
+     *  When false (default), use full polygon-polygon intersection with AABB fast-reject.
+     *  Set to true for speed-critical scenarios (e.g. CI tests) where approximate
+     *  collision detection is acceptable. */
+    static CONST bool useFastStairCheck;
+
     static CONST double footPolygonExtendedLength;
     
 
@@ -158,6 +164,7 @@ public:
     ljh::heuclid::ConvexPolygon2D getStairPolygon(const parameters& param);
     const std::vector<ljh::heuclid::ConvexPolygon2D>& getLandingZonePolygons(const parameters& param);
     bool   getUseLandingZoneCheck(const parameters& param);
+    bool   getUseFastStairCheck(const parameters& param);
     double getFootPolygonExtendedLength(const parameters& param);
     double getHWPOfWalkDistacne(const parameters& param);
     double getHWPOfInitialTurnDistacne(const parameters& param);
@@ -195,6 +202,7 @@ public:
     void SetStairPolygon(parameters& param, std::vector<Point2D<double> > stairBuffer, int numOfVertices, bool clockwiseOrdered);
     void SetLandingZonePolygons(parameters& param, const std::vector<ljh::heuclid::ConvexPolygon2D>& polygons);
     void SetUseLandingZoneCheck(parameters& param, const bool& change);
+    void SetUseFastStairCheck(parameters& param, const bool& change);
     void SetFootPolygonExtendedLength(const parameters& param, const double& change);
     void SetHWPOfWalkDistacne(const parameters& param, const double& change);
     void SetHWPOfInitialTurnDistacne(const parameters& param, const double& change);
