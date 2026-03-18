@@ -84,6 +84,7 @@ public:
     void setPlotFlag(const bool &_flag){this->plotFlag = _flag;};
     void setStepTime(const double &_stepTime){this->stepTime = _stepTime;};
     void setDoSearchFlag(const bool &_flag){this->doSearchFlag = _flag;};
+    void setUseFastStairCheck(const bool &use){auto& p = this->footstepPlanner.getParamRef(); p.SetUseFastStairCheck(p, use);};
 
     // for simulation first
     void getPlaneData(); 

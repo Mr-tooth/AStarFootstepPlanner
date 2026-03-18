@@ -121,10 +121,18 @@ void ParameterBasedStepExpansion::doFullExpansion(FootstepGraphNode nodeToExpand
         childStep = constructNodeInPreviousNodeFrame(midStepLength,midStepWidth,midStepYaw,nodeToExpand.getSecondStep());
 
         // Stair/obstacle region collision check
-        // Uses vertex-inside check (fast) — sufficient for stair region avoidance
+        // Default: full polygon-polygon intersection with AABB fast-reject (precise)
+        // For speed-critical scenarios (e.g. CI tests), use setUseFastStairCheck(true)
+        // to fall back to vertex-inside check.
         if(this->param.isStairAlignMode)
         {
-            if(this->stepConstraintChecker.isAnyVertexOfFootInsideStairRegion(childStep,this->param.stairPolygon))
+            bool collided;
+            if(this->param.getUseFastStairCheck(this->param))
+                collided = this->stepConstraintChecker.isAnyVertexOfFootInsideStairRegion(childStep, this->param.stairPolygon);
+            else
+                collided = this->stepConstraintChecker.isFootPolygonCollidedWithPolygon(childStep, this->param.stairPolygon);
+
+            if(collided)
                 continue;
         }
 

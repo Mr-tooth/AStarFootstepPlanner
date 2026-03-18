@@ -21,6 +21,12 @@ int main()
 
     ljh::path::footstep_planner::Block footplannerBlock;
 
+    // Initialize planeData to prevent garbage numOfVertices
+    planeData.numOfVertices = 0;
+    planeData.clockwiseOrdered = true;
+    planeData.alignEdgeEndpoints[0] = 0;
+    planeData.alignEdgeEndpoints[1] = 1;
+
     auto pBlockPlanner = &footplannerBlock;
     std::vector<Location> Outcome;
     pBlockPlanner->setInput({
@@ -39,7 +45,13 @@ int main()
 
 
     pBlockPlanner->init();
-    
+
+    // Use fast stair collision check for CI performance:
+    // block_test's stair polygon is a large simplified region (1m×1m), not a precise
+    // obstacle. Vertex-inside check is sufficient here and avoids the expensive
+    // polygon-polygon intersection. Demo/real scenarios use precise mode (default).
+    pBlockPlanner->setUseFastStairCheck(true);
+
     key = '3';
     pBlockPlanner->run();
     

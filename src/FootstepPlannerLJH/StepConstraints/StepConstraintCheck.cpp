@@ -203,13 +203,42 @@ bool StepConstraintCheck::isGoalPoseCollidedWithStairRegion(ljh::heuclid::Pose3D
 }
 
 // ============================================================================
-// New: Foot-obstacle collision (full polygon-polygon intersection)
+// AABB helper: compute axis-aligned bounding box of a convex polygon
+// ============================================================================
+static void computeAABB(const ljh::heuclid::ConvexPolygon2D& poly,
+                        double& minX, double& minY, double& maxX, double& maxY)
+{
+    const auto& verts = poly.getVertexBuffer();
+    minX = maxX = verts[0].getX();
+    minY = maxY = verts[0].getY();
+    for(size_t i = 1; i < verts.size(); i++)
+    {
+        double x = verts[i].getX(), y = verts[i].getY();
+        if(x < minX) minX = x; if(x > maxX) maxX = x;
+        if(y < minY) minY = y; if(y > maxY) maxY = y;
+    }
+}
+
+// ============================================================================
+// New: Foot-obstacle collision (full polygon-polygon intersection with AABB fast-reject)
 // ============================================================================
 
 bool StepConstraintCheck::isFootPolygonCollidedWithPolygon(double stepX, double stepY, double stepYaw, enum StepFlag stepFlag,
                                                            ljh::heuclid::ConvexPolygon2D obstaclePolygon)
 {
+    // Degenerate polygon: need at least 3 vertices for a valid polygon
+    if(obstaclePolygon.getNumOfVertices() < 3)
+        return false;
+
     auto footPoly = buildFootPolygon(stepX, stepY, stepYaw, stepFlag, this->param);
+
+    // AABB fast-reject: if bounding boxes don't overlap, polygons can't intersect
+    double fMinX, fMinY, fMaxX, fMaxY, oMinX, oMinY, oMaxX, oMaxY;
+    computeAABB(footPoly, fMinX, fMinY, fMaxX, fMaxY);
+    computeAABB(obstaclePolygon, oMinX, oMinY, oMaxX, oMaxY);
+    if(fMaxX < oMinX || oMaxX < fMinX || fMaxY < oMinY || oMaxY < fMinY)
+        return false;
+
     return this->polygonTools.isConvexPolygonIntersect(footPoly, obstaclePolygon);
 }
 
