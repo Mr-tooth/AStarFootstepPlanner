@@ -4,7 +4,7 @@
 
 # AStarFootstepPlanner
 
-**基于 A* 算法的人形机器人落脚点规划器（C++ 实现）**
+**基于 A\* 算法的人形机器人落脚点规划器（C++ 实现）**
 
 [![CI](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml/badge.svg)](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)

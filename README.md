@@ -4,7 +4,7 @@
 
 # AStarFootstepPlanner
 
-**A* algorithm-based footstep planner for humanoid robots in C++**
+**A\* algorithm-based footstep planner for humanoid robots in C++**
 
 [![CI](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml/badge.svg)](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
