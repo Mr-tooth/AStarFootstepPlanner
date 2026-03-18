@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg)](https://en.cppreference.com/w/cpp/11)
 [![CMake](https://img.shields.io/badge/CMake-3.22%2B-blue.svg)](https://cmake.org/)
-[![Heuclid v2.2-blue.svg)](https://github.com/Mr-tooth/Heuclid)
+[![Heuclid](https://img.shields.io/badge/Heuclid-v2.4-blue.svg)](https://github.com/Mr-tooth/Heuclid)
 
 [English](README.md)
 
@@ -133,8 +133,8 @@ int main()
 │              Simple2DBodyPathPlanner                        │
 │                 (身体路径引导)                                │
 ├─────────────────────────────────────────────────────────────┤
-│                      Heuclid v2.2                           │
-│           (Pose, Vector, ConvexPolygon, Tools)              │
+│                      Heuclid v2.4                           │
+│        (Pose, Vector, ConvexPolygon, PolygonTools)          │
 ├─────────────────────────────────────────────────────────────┤
 │                   Eigen3 (线性代数)                          │
 └─────────────────────────────────────────────────────────────┘
@@ -161,7 +161,7 @@ int main()
 
 | 依赖 | 版本 | 必需 | 自动获取 |
 |------|------|------|----------|
-| [Heuclid v2.2+ | ✅ | ✅ (GitHub) |
+| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.4+ | ✅ | ✅ (GitHub) |
 | [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ | ✅ (GitLab) |
 | [LBlocks](https://github.com/hexb66/LBlocks) | 最新 | ✅ | ✅ (submodule) |
 | [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ 可选 | ❌ (需 Python) |

@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg)](https://en.cppreference.com/w/cpp/11)
 [![CMake](https://img.shields.io/badge/CMake-3.22%2B-blue.svg)](https://cmake.org/)
-[![Heuclid](https://img.shields.io/badge/Heuclid-v2.2-blue.svg)](https://github.com/Mr-tooth/Heuclid)
+[![Heuclid](https://img.shields.io/badge/Heuclid-v2.4-blue.svg)](https://github.com/Mr-tooth/Heuclid)
 
 [中文](README_CN.md)
 
@@ -134,8 +134,8 @@ int main()
 │              Simple2DBodyPathPlanner                        │
 │               (Body Path Guidance)                          │
 ├─────────────────────────────────────────────────────────────┤
-│                      Heuclid v2.0                           │
-│          (Pose, Vector, ConvexPolygon, Tools)               │
+│                      Heuclid v2.4                           │
+│      (Pose, Vector, ConvexPolygon, PolygonTools)            │
 ├─────────────────────────────────────────────────────────────┤
 │                   Eigen3 (Linear Algebra)                   │
 └─────────────────────────────────────────────────────────────┘
@@ -162,7 +162,7 @@ All dependencies are **automatically fetched** if not found on your system. No m
 
 | Dependency | Version | Required | Auto-fetched |
 |------------|---------|----------|--------------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.0+ | ✅ Yes | ✅ (GitHub) |
+| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.4+ | ✅ Yes | ✅ (GitHub) |
 | [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ Yes | ✅ (GitLab) |
 | [LBlocks](https://github.com/hexb66/LBlocks) | latest | ✅ Yes | ✅ (submodule) |
 | [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ Optional | ❌ (needs Python) |
