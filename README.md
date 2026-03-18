@@ -150,7 +150,7 @@ Optional: matplotlib_cpp ──► PlotChecker (Visualization)
 |---------------|---------------------|-------------|
 | `AStarFootstepPlanner` | `AStarFootstepPlanner` | A* search main loop |
 | `ParameterBasedStepExpansion` | `ParameterBasedStepExpansion` | Step expansion strategy |
-| `IdealStepCalculator` | `IdealStepCalculator` | Nominal step position |
+| `IdealstepCalculator` | `IdealStepCalculator` | Nominal step position |
 | `FootstepCostCalculator` | `FootstepCostCalculator` | Step cost evaluation |
 | `HeuristicCalculator` | `FootstepPlannerHeuristicCalculator` | A* heuristic |
 | `StepConstraintCheck` | `HeightMapFootstepChecker` | Environmental constraints |

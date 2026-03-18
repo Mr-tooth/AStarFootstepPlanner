@@ -22,6 +22,7 @@
 #include <cmath>
 using ljh::heuclid::Point2D;
 using ljh::heuclid::Pose2D;
+using ljh::heuclid::Pose3D;
 _FOOTSTEP_PLANNER_BEGIN
 
 

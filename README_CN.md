@@ -149,7 +149,7 @@ int main()
 |----------|---------------|------|
 | `AStarFootstepPlanner` | `AStarFootstepPlanner` | A* 搜索主循环 |
 | `ParameterBasedStepExpansion` | `ParameterBasedStepExpansion` | 步扩展策略 |
-| `IdealStepCalculator` | `IdealStepCalculator` | 理想步位置计算 |
+| `IdealstepCalculator` | `IdealStepCalculator` | 理想步位置计算 |
 | `FootstepCostCalculator` | `FootstepCostCalculator` | 步代价评估 |
 | `HeuristicCalculator` | `FootstepPlannerHeuristicCalculator` | A* 启发式函数 |
 | `StepConstraintCheck` | `HeightMapFootstepChecker` | 环境约束检查 |
