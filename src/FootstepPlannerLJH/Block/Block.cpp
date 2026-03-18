@@ -43,12 +43,12 @@ int Block::run()
 {
     // only run once with doSearchFlag
     if(*this->DataInput.KeyPress== '3'&&this->simulateFlag&& !this->doSearchFlag)
-    {   
+    {
         this->doSearchFlag = true;
         this->getStartPose();
         this->getPlaneData();
         this->getGoalPosefromPlane(this->DataInput.planeData->alignEdgeEndpoints);
-        
+
         //this->transformWorldpose2Local();
         this->footstepPlanner.initialize(this->goalPose2D,this->goalPose3D,this->startPose3D);
         this->footstepPlanner.doAStarSearch();
