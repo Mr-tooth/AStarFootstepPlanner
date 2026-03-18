@@ -47,7 +47,7 @@ int main()
     param.SetEdgeCostDistance(param,4.0);
     param.SetEdgeCostYaw(param, 4.0);
     param.SetEdgeCostStaticPerStep(param,1.4);
-    param.SetDebugFlag(param,true);
+    param.SetDebugFlag(param,false);
     param.SetMaxStepYaw(param,pi/12);
     param.SetMinStepYaw(param,-pi/12);        
 
@@ -245,7 +245,9 @@ int main()
     pltChecker.plotSearchOutcome2(Out,goalPose,startPose);
     pltChecker.plotAccurateSearchOutcome(accurateOut,goalPose,startPose);
 #endif
+#ifdef HAS_MATPLOTLIB
     footstepPlanner.plotAccurateSearchOutcome();
+#endif
     // std::cout<<"Collide 1:"<<checker.isTwoFootCollidedAndPlot(Out.at(7))<<std::endl;
     // std::cout<<"Distance of last two: "<<
     // sqrt(pow(Out[Out.size()-1].getSecondStep().getX()-Out[Out.size()-2].getSecondStep().getX(),2)+
@@ -329,7 +331,7 @@ int main()
     param.SetStairPolygon(param,stairBuffer2,4,0);
 
     //param.SetFinalTurnProximity(param,0.3);
-    param.SetDebugFlag(param,true);
+    param.SetDebugFlag(param,false);
     footstepPlanner.initialize(goalPose2D,goalPose,startPose);
     footstepPlanner.doAStarSearch();
     footstepPlanner.calFootstepSeries();
@@ -339,7 +341,9 @@ int main()
     pltChecker.plotSearchOutcome2(Out2,goalPose,startPose);
 #endif
     //pltChecker.plotAccurateSearchOutcome(accurateOut2,goalPose,startPose);
+#ifdef HAS_MATPLOTLIB
     footstepPlanner.plotAccurateSearchOutcome();
+#endif
     //pltChecker.plotAccurateSearchOutcome2(accurateOut2,goalPose,startPose,);
     //Location test = Out2.at(7);
     std::vector<ljh::path::footstep_planner::FootstepGraphNode> Out3;
