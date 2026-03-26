@@ -1,4 +1,4 @@
-// Copyright 2026 Junhang Li
+// Copyright 2026 Junhang Lai
 // SPDX-License-Identifier: Apache-2.0
 //
 // Stepping-stone terrain demo — "base plane + elevated stones" approach.

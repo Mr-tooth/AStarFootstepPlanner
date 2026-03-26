@@ -39,3 +39,5 @@ test/build/
 demo/*.csv
 demo/frames_flat/external/matplotlib-cpp/
 demo/frames_*/
+build-asan/
+external/matplotlib-cpp/
