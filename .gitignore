@@ -39,5 +39,11 @@ test/build/
 demo/*.csv
 demo/frames_flat/external/matplotlib-cpp/
 demo/frames_*/
-build-asan/
+build-*/
+cmake-build-*/
 external/matplotlib-cpp/
+
+# System files
+.DS_Store
+Thumbs.db
+__pycache__/
