@@ -1,3 +1,6 @@
+# Copyright 2026 Junhang Lai
+# SPDX-License-Identifier: Apache-2.0
+
 #!/usr/bin/env python3
 """
 A* Footstep Planner demo visualization — supports flat terrain, obstacle, and stairs demos.

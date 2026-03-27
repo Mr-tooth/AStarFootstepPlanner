@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Lai
+// SPDX-License-Identifier: Apache-2.0
+
 /**
  * Demo: Flat terrain footstep planning with body path.
  * Uses test7 tuned parameters for optimal body path following.

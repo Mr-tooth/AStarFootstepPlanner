@@ -1,3 +1,6 @@
+// Copyright 2026 Junhang Lai
+// SPDX-License-Identifier: Apache-2.0
+
 /**
  * Demo: Obstacle avoidance footstep planning.
  * Body path provides directional guide; obstacle forces detour.
