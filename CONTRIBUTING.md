@@ -6,7 +6,7 @@ Thank you for your interest in contributing to AStarFootstepPlanner!
 
 ```bash
 # Clone with submodules
-git clone --recursive https://github.com/Mr-tooth/AStarFootstepPlanner.git
+git clone --recursive https://github.com/bitroboticslab/AStarFootstepPlanner.git
 cd AStarFootstepPlanner
 
 # Build
@@ -21,7 +21,7 @@ ctest --test-dir build
 
 - CMake 3.22+
 - C++11 compliant compiler (GCC 5+, Clang 3.8+, MSVC 2017+)
-- [Heuclid v2.0+](https://github.com/Mr-tooth/Heuclid) installed or available via `CMAKE_PREFIX_PATH`
+- [Heuclid v2.0+](https://github.com/bitroboticslab/Heuclid) installed or available via `CMAKE_PREFIX_PATH`
 - Eigen 3.3+
 
 ## Code Style

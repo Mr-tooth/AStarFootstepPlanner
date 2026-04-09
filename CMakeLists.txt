@@ -3,7 +3,7 @@ set(PROJECT_AUTO_RUN_FINALIZE FALSE)
 project(FootstepPlannerLJH VERSION 2.0.0 LANGUAGES CXX)
 
 # --- jrl-cmakemodules required variables ---
-set(PROJECT_URL "https://github.com/Mr-tooth/AStarFootstepPlanner")
+set(PROJECT_URL "https://github.com/bitroboticslab/AStarFootstepPlanner")
 set(PROJECT_DESCRIPTION "A* algorithm-based footstep planner for humanoid robots")
 
 # --- jrl-cmakemodules: three-tier lookup ---

@@ -6,11 +6,11 @@
 
 **A\* algorithm-based footstep planner for humanoid robots in C++**
 
-[![CI](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml/badge.svg)](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml)
+[![CI](https://github.com/bitroboticslab/AStarFootstepPlanner/actions/workflows/ci.yml/badge.svg)](https://github.com/bitroboticslab/AStarFootstepPlanner/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg)](https://en.cppreference.com/w/cpp/11)
 [![CMake](https://img.shields.io/badge/CMake-3.22%2B-blue.svg)](https://cmake.org/)
-[![Heuclid](https://img.shields.io/badge/Heuclid-v2.4-blue.svg)](https://github.com/Mr-tooth/Heuclid)
+[![Heuclid](https://img.shields.io/badge/Heuclid-v2.4-blue.svg)](https://github.com/bitroboticslab/Heuclid)
 
 [中文](README_CN.md)
 
@@ -62,7 +62,7 @@ This project is a C++ reimplementation of the core algorithms from the [IHMC Foo
 
 ```bash
 # Clone with submodules
-git clone --recursive https://github.com/Mr-tooth/AStarFootstepPlanner.git
+git clone --recursive https://github.com/bitroboticslab/AStarFootstepPlanner.git
 cd AStarFootstepPlanner
 
 # Build (all dependencies auto-fetched on first configure)
@@ -162,7 +162,7 @@ All dependencies are **automatically fetched** if not found on your system. No m
 
 | Dependency | Version | Required | Auto-fetched |
 |------------|---------|----------|--------------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.4+ | ✅ Yes | ✅ (GitHub) |
+| [Heuclid](https://github.com/bitroboticslab/Heuclid) | v2.4+ | ✅ Yes | ✅ (GitHub) |
 | [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ Yes | ✅ (GitLab) |
 | [LBlocks](https://github.com/hexb66/LBlocks) | latest | ✅ Yes | ✅ (submodule) |
 | [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ Optional | ❌ (needs Python) |
@@ -285,7 +285,7 @@ If you use this library in your research or projects, please cite:
   title = {AStarFootstepPlanner: A* Footstep Planner for Humanoid Robots},
   author = {Junhang Lai},
   year = {2026},
-  url = {https://github.com/Mr-tooth/AStarFootstepPlanner}
+  url = {https://github.com/bitroboticslab/AStarFootstepPlanner}
 }
 ```
 
@@ -306,7 +306,7 @@ The underlying algorithm is based on:
 
 | Project | Description |
 |---------|-------------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | C++ geometry library (IHMC Euclid port) |
+| [Heuclid](https://github.com/bitroboticslab/Heuclid) | C++ geometry library (IHMC Euclid port) |
 | [IHMC Euclid](https://github.com/ihmcrobotics/euclid) | Original Java geometry library |
 | [IHMC Footstep Planning](https://github.com/ihmcrobotics/ihmc-open-robotics-software) | Original Java footstep planner |
 
@@ -324,4 +324,4 @@ Licensed under the [Apache License 2.0](LICENSE).
 
 ---
 
-_This library's upstream dependency [Heuclid](https://github.com/Mr-tooth/Heuclid) provides the geometric primitives used throughout._
+_This library's upstream dependency [Heuclid](https://github.com/bitroboticslab/Heuclid) provides the geometric primitives used throughout._

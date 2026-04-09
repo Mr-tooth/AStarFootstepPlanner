@@ -6,11 +6,11 @@
 
 **基于 A\* 算法的人形机器人落脚点规划器（C++ 实现）**
 
-[![CI](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml/badge.svg)](https://github.com/Mr-tooth/AStarFootstepPlanner/actions/workflows/ci.yml)
+[![CI](https://github.com/bitroboticslab/AStarFootstepPlanner/actions/workflows/ci.yml/badge.svg)](https://github.com/bitroboticslab/AStarFootstepPlanner/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![C++](https://img.shields.io/badge/C%2B%2B-11%2B-blue.svg)](https://en.cppreference.com/w/cpp/11)
 [![CMake](https://img.shields.io/badge/CMake-3.22%2B-blue.svg)](https://cmake.org/)
-[![Heuclid](https://img.shields.io/badge/Heuclid-v2.4-blue.svg)](https://github.com/Mr-tooth/Heuclid)
+[![Heuclid](https://img.shields.io/badge/Heuclid-v2.4-blue.svg)](https://github.com/bitroboticslab/Heuclid)
 
 [English](README.md)
 
@@ -62,7 +62,7 @@
 
 ```bash
 # 克隆（含子模块）
-git clone --recursive https://github.com/Mr-tooth/AStarFootstepPlanner.git
+git clone --recursive https://github.com/bitroboticslab/AStarFootstepPlanner.git
 cd AStarFootstepPlanner
 
 # 构建（首次配置时自动获取所有依赖）
@@ -161,7 +161,7 @@ int main()
 
 | 依赖 | 版本 | 必需 | 自动获取 |
 |------|------|------|----------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | v2.4+ | ✅ | ✅ (GitHub) |
+| [Heuclid](https://github.com/bitroboticslab/Heuclid) | v2.4+ | ✅ | ✅ (GitHub) |
 | [Eigen3](https://eigen.tuxfamily.org/) | 3.3+ | ✅ | ✅ (GitLab) |
 | [LBlocks](https://github.com/hexb66/LBlocks) | 最新 | ✅ | ✅ (submodule) |
 | [matplotlib_cpp](https://github.com/hexb66/matplotlib-cpp) | — | ❌ 可选 | ❌ (需 Python) |
@@ -278,7 +278,7 @@ AStarFootstepPlanner/
   title = {AStarFootstepPlanner: A* Footstep Planner for Humanoid Robots},
   author = {Junhang Lai},
   year = {2026},
-  url = {https://github.com/Mr-tooth/AStarFootstepPlanner}
+  url = {https://github.com/bitroboticslab/AStarFootstepPlanner}
 }
 ```
 
@@ -299,7 +299,7 @@ AStarFootstepPlanner/
 
 | 项目 | 说明 |
 |------|------|
-| [Heuclid](https://github.com/Mr-tooth/Heuclid) | C++ 几何数学库（IHMC Euclid 移植） |
+| [Heuclid](https://github.com/bitroboticslab/Heuclid) | C++ 几何数学库（IHMC Euclid 移植） |
 | [IHMC Euclid](https://github.com/ihmcrobotics/euclid) | 原版 Java 几何库 |
 | [IHMC Footstep Planning](https://github.com/ihmcrobotics/ihmc-open-robotics-software) | 原版 Java 落脚点规划器 |
 
@@ -317,4 +317,4 @@ AStarFootstepPlanner/
 
 ---
 
-_本库的上游依赖 [Heuclid](https://github.com/Mr-tooth/Heuclid) 提供了全部几何基础类型。_
+_本库的上游依赖 [Heuclid](https://github.com/bitroboticslab/Heuclid) 提供了全部几何基础类型。_
